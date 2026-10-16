@@ -30,5 +30,3 @@ Joshua – Backend
 
 
 
-Amar
-- [ ] 
