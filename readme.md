@@ -4,4 +4,5 @@
 
 ## 23.10.
 
-Denken Sie daran, nun 4 AP *pro Mitglied* zu formulieren!
+Joshua
+- [ ] 
