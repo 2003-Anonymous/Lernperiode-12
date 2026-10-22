@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Casino Game – Login-Mockup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="seite">
+    <!-- Linke Seite: grober Platzhalter für den Casino-Bereich -->
+    <section class="casino-bereich" aria-labelledby="casino-titel">
+      <p class="logo">CASINO GAME</p>
+      <h1 id="casino-titel">Das Spiel beginnt hier.</h1>
+      <p>Roulette und Spielautomaten mit Spielgeld.</p>
+      <div class="bild-platzhalter">Platzhalter für das Casino-Bild</div>
+    </section>
+
+    <!-- Rechte Seite: Aufbau der späteren Login-Maske -->
+    <section class="login-bereich" aria-labelledby="login-titel">
+      <div class="login-box">
+        <h2 id="login-titel">Login</h2>
+        <p>Willkommen zurück.</p>
+
+        <form method="post">
+          <label for="benutzername">Benutzername</label>
+          <input type="text" id="benutzername" name="benutzername"
+            placeholder="Benutzername" autocomplete="username">
+
+          <label for="passwort">Passwort</label>
+          <input type="password" id="passwort" name="passwort"
+            placeholder="Passwort" autocomplete="current-password">
+
+          <!-- Im Mockup hat der Button noch keine Anmeldefunktion. -->
+          <button type="button">Einloggen</button>
+        </form>
+
+        <p class="hinweis">100 % Spielgeld</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

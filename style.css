@@ -1,0 +1,144 @@
+/* Grobes Mockup: einfache Flächen ohne fertiges Design */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background: #f0f0f0;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+
+/* Zwei gleich breite Bereiche für Bild und Anmeldung */
+.seite {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 1100px;
+  min-height: 620px;
+  margin: 0 auto;
+  border: 2px solid #777;
+}
+
+.casino-bereich {
+  padding: 36px;
+  background: #dedede;
+}
+
+.logo {
+  margin: 0 0 60px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 36px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.bild-platzhalter {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+  margin-top: 36px;
+  padding: 20px;
+  border: 2px dashed #888;
+  background: #c8c8c8;
+  text-align: center;
+}
+
+.login-bereich {
+  display: grid;
+  place-items: center;
+  padding: 36px;
+  border-left: 2px solid #777;
+  background: #fff;
+}
+
+.login-box {
+  width: 100%;
+  max-width: 320px;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 32px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+label {
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 24px;
+  padding: 12px;
+  border: 1px solid #777;
+  background: #f6f6f6;
+  color: #222;
+  font: inherit;
+}
+
+button {
+  padding: 14px;
+  border: 1px solid #555;
+  background: #555;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #222;
+  outline-offset: 3px;
+}
+
+.hinweis {
+  margin-top: 24px;
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Auf kleinen Bildschirmen stehen die Bereiche untereinander. */
+@media (max-width: 700px) {
+  body {
+    padding: 16px;
+  }
+
+  .seite {
+    grid-template-columns: 1fr;
+  }
+
+  .casino-bereich,
+  .login-bereich {
+    padding: 24px;
+  }
+
+  .logo {
+    margin-bottom: 24px;
+  }
+
+  .bild-platzhalter {
+    min-height: 140px;
+    margin-top: 24px;
+  }
+
+  .login-bereich {
+    border-top: 2px solid #777;
+    border-left: 0;
+  }
+}
