@@ -7,7 +7,7 @@
 
 
 Navid – Frontend	
-- [ ] 	Login-Seite mit HTML und CSS erstellen
+- [x] 	Login-Seite mit HTML und CSS erstellen
 - [ ] 	Eingabefelder für Benutzername und Passwort implementieren
 - [ ] 	Login-Button mit JavaScript programmieren
 - [ ] 	Eingabevalidierung und Fehlermeldungen umsetzen
