@@ -21,7 +21,7 @@ Amar – Frontend
 	
 Joshua – Backend
 
-- [ ]   ASP.NET-Core-Projekt in C# erstellen
+- [x]   ASP.NET-Core-Projekt in C# erstellen
 - [ ] 	Datenbank für die Benutzer erstellen (für das Login)
 - [ ] 	Datenbankverbindung zum Backend einrichten
 - [ ] 	GET-Endpunkt hinzufügen
