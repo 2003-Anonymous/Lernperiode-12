@@ -14,7 +14,7 @@ Navid – Frontend
 
         
 Amar – Frontend
-- [ ] 	Grundlayout der Casino-Homepage erstellen
+- [x] 	Grundlayout der Casino-Homepage erstellen
 - [ ] 	Navigationsmenü für die Spiele implementieren
 - [ ] 	Spielauswahl für Roulette und Spielautomaten gestalten
 - [ ] 	Guthabenanzeige auf der Homepage integrieren
