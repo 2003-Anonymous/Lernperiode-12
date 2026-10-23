@@ -25,6 +25,7 @@ Joshua – Backend
 - [ ] 	Datenbank für die Benutzer erstellen (für das Login)
 - [ ] 	Datenbankverbindung zum Backend einrichten
 - [ ] 	Endpunkte hinzufügen
+
 Heute habe ich ein neues ASP.NET-Core Projekt und die Struktur erstellt. Zudem habe ich bereits die Klasse für die Accounts und einen Controller mit einem GET-Endpunkt erstellt und in der See-Methode zwei Testaccounts eingefügt.
 
 
