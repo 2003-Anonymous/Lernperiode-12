@@ -3,40 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Casino Game – Login-Mockup</title>
+  <meta name="theme-color" content="#0c100e">
+  <meta name="description" content="Dein Casino mit Roulette, Spielautomaten und virtuellem Guthaben.">
+  <title>Casino Game – Dein nächster Spielzug</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="seite">
-    <!-- Linke Seite: grober Platzhalter für den Casino-Bereich -->
-    <section class="casino-bereich" aria-labelledby="casino-titel">
-      <p class="logo">CASINO GAME</p>
-      <h1 id="casino-titel">Das Spiel beginnt hier.</h1>
-      <p>Roulette und Spielautomaten mit Spielgeld.</p>
-      <div class="bild-platzhalter">Platzhalter für das Casino-Bild</div>
+  <main class="casino-layout">
+
+    <section class="casino-scene" aria-labelledby="scene-title">
+      <div class="scene-image" aria-hidden="true"></div>
+
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 2 38 20 20 38 2 20Z" />
+            <path d="m20 10 10 10-10 10-10-10Z" />
+          </svg>
+        </span>
+        <span class="brand-name">CASINO<span>GAME</span></span>
+      </header>
+
+      <div class="scene-copy">
+        <p class="eyebrow"><span aria-hidden="true"></span> Roulette &amp; Spielautomaten</p>
+        <h1 id="scene-title">Das Spiel<br><em>beginnt hier.</em></h1>
+        <p class="scene-description">Der Stil eines Casinos.<br> Die Freiheit von Spielgeld.</p>
+      </div>
+
+      <div class="scene-footer">
+        <div class="scene-caption">
+          <span class="caption-number">01</span>
+          <span class="caption-line" aria-hidden="true"></span>
+          <span>Roulette.<br><strong>Ein echter Klassiker.</strong></span>
+        </div>
+        <span class="scene-monogram" aria-hidden="true">CG</span>
+      </div>
     </section>
 
-    <!-- Rechte Seite: Aufbau der späteren Login-Maske -->
-    <section class="login-bereich" aria-labelledby="login-titel">
-      <div class="login-box">
-        <h2 id="login-titel">Login</h2>
-        <p>Willkommen zurück.</p>
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="panel-topline">
+        <span class="edition">THE DELUXE EDITION</span>
+        <span class="play-money"><span aria-hidden="true"></span> Spielgeld</span>
+      </div>
 
-        <form method="post">
-          <label for="benutzername">Benutzername</label>
-          <input type="text" id="benutzername" name="benutzername"
-            placeholder="Benutzername" autocomplete="username">
+      <div class="login-content">
+        <div class="welcome-mark" aria-hidden="true">✦</div>
+        <p class="eyebrow login-eyebrow">Dein nächster Spielzug</p>
+        <h2 id="login-title">Willkommen<br><em>zurück.</em></h2>
+        <p class="login-description">Dein Platz am Tisch wartet auf dich.</p>
 
-          <label for="passwort">Passwort</label>
-          <input type="password" id="passwort" name="passwort"
-            placeholder="Passwort" autocomplete="current-password">
+        <!-- Nur HTML und CSS. Die Anmeldung folgt in einem späteren Arbeitspaket. -->
+        <form class="login-form" method="post">
+          <div class="form-field">
+            <label for="username">Benutzername</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="8" r="3.25" />
+                <path d="M5 20v-1a7 7 0 0 1 14 0v1" />
+              </svg>
+              <input type="text" id="username" name="username" placeholder="Dein Benutzername"
+                autocomplete="username" autocapitalize="none" spellcheck="false">
+            </div>
+          </div>
 
-          <!-- Im Mockup hat der Button noch keine Anmeldefunktion. -->
-          <button type="button">Einloggen</button>
+          <div class="form-field">
+            <label for="password">Passwort</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                <rect x="5" y="10" width="14" height="11" rx="2" />
+                <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+              </svg>
+              <input type="password" id="password" name="password" placeholder="Dein Passwort"
+                autocomplete="current-password">
+            </div>
+          </div>
+
+         
+          <button class="login-button" type="button">
+            <span>Einloggen</span><span class="button-arrow" aria-hidden="true">↗</span>
+          </button>
         </form>
 
-        <p class="hinweis">100 % Spielgeld</p>
+        <div class="form-note">
+          <span class="note-line" aria-hidden="true"></span>
+          <span>Dein Spiel. Dein Moment.</span>
+          <span class="note-line" aria-hidden="true"></span>
+        </div>
       </div>
+
+      <footer class="panel-footer">
+        <span>ROULETTE <span class="footer-dot" aria-hidden="true">◆</span> SLOTS</span>
+        <span>100 % Spielgeld</span>
+      </footer>
     </section>
   </main>
 </body>
