@@ -7,8 +7,8 @@ namespace LP_12_API.Models
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().HasData(
-                new Account { Id = 1, Username = "admin", Password = "admin123", Role = "Admin" },
-                new Account { Id = 2, Username = "user", Password = "user123", Role = "User" }
+                new Account { Id = 1, Username = "admin", Password = "admin123", Role = "Admin", Balance = 1000.0 },
+                new Account { Id = 2, Username = "user", Password = "user123", Role = "User", Balance = 500.0 }
             );
         }
     }
