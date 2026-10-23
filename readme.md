@@ -12,7 +12,8 @@ Navid – Frontend
 - [x] 	Login-Button mit JavaScript programmieren
 - [ ] 	Eingabevalidierung und Fehlermeldungen umsetzen
 
-        
+Heute habe ich an der Login-Seite unseres Casino-Projekts gearbeitet. Zuerst habe ich mit HTML und CSS das Grundlayout der Login Seite erstellt und gestaltet. Anschliessend habe ich zwei Eingabefelder hinzugefügt, in die der Benutzer seinen Benutzernamen und sein Passwort eingeben kann. Danach habe ich den Login-Button  programmiert, damit dieser auf einen Klick reagiert. Dabei habe ich darauf geachtet, dass die Oberfläche übersichtlich und benutzerfreundlich gestaltet ist. Ausserdem habe ich die bisherigen Funktionen getestet und kleinere Anpassungen am Design vorgenommen. 
+    
 Amar – Frontend
 - [x] 	Grundlayout der Casino-Homepage erstellen
 - [ ] 	Navigationsmenü für die Spiele implementieren
@@ -28,7 +29,21 @@ Joshua – Backend
 
 Heute habe ich ein neues ASP.NET-Core Projekt und die Struktur erstellt. Zudem habe ich bereits die Klasse für die Accounts und einen Controller mit einem GET-Endpunkt erstellt und in der See-Methode zwei Testaccounts eingefügt.
 
-
+## 30.10.
+Navid – Frontend (Login & Roulette)
+- [ ] Login-Seite mit den Backend-Endpunkten verbinden
+- [ ] Altersbestätigung (18+) mit JavaScript implementieren
+- [ ] Grundlayout der Roulette-Spieloberfläche mit HTML und CSS erstellen
+      
+Amar – Frontend (Homepage & Spielautomaten)
+- [ ] Homepage mit Login und Altersbestätigung verknüpfen
+- [ ] Grundlayout des Spielautomaten mit HTML und CSS erstellen
+- [ ] Spin-Button und zufällige Symbole mit JavaScript implementieren
+      
+Joshua – Backend (C# & Datenbank)
+- [ ] Login-Endpunkt mit Datenbankabfrage implementieren
+- [ ] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
+- [ ] API-Endpunkte zum Abrufen und Aktualisieren des virtuellen Guthabens erstellen
 
 
 
