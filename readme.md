@@ -8,8 +8,8 @@
 
 Navid – Frontend	
 - [x] 	Login-Seite mit HTML und CSS erstellen
-- [ ] 	Eingabefelder für Benutzername und Passwort implementieren
-- [ ] 	Login-Button mit JavaScript programmieren
+- [x] 	Eingabefelder für Benutzername und Passwort implementieren
+- [x] 	Login-Button mit JavaScript programmieren
 - [ ] 	Eingabevalidierung und Fehlermeldungen umsetzen
 
         
