@@ -23,11 +23,11 @@ Amar – Frontend
 Joshua – Backend
 
 - [x]   ASP.NET-Core-Projekt in C# erstellen
-- [ ] 	Datenbank für die Benutzer erstellen (für das Login)
-- [ ] 	Datenbankverbindung zum Backend einrichten
-- [ ] 	Endpunkte hinzufügen
+- [x] 	Datenbank für die Benutzer erstellen (für das Login)
+- [x] 	Datenbankverbindung zum Backend einrichten
+- [x] 	Endpunkte hinzufügen
 
-Heute habe ich ein neues ASP.NET-Core Projekt und die Struktur erstellt. Zudem habe ich bereits die Klasse für die Accounts und einen Controller mit einem GET-Endpunkt erstellt und in der See-Methode zwei Testaccounts eingefügt.
+Heute habe ich ein neues ASP.NET-Core Projekt und die Struktur erstellt. Zudem habe ich bereits die Klasse für die Accounts und einen Controller mit einem GET-Endpunkt erstellt und in der See-Methode zwei Testaccounts eingefügt. Danach habe ich mein Backend mit meinem SQL Server verbunden und die restlichen Endpunkte erstellt und getestet.
 
 ## 30.10.
 Navid – Frontend (Login & Roulette)
@@ -41,9 +41,9 @@ Amar – Frontend (Homepage & Spielautomaten)
 - [ ] Spin-Button und zufällige Symbole mit JavaScript implementieren
       
 Joshua – Backend (C# & Datenbank)
-- [ ] Login-Endpunkt mit Datenbankabfrage implementieren
 - [ ] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
 - [ ] API-Endpunkte zum Abrufen und Aktualisieren des virtuellen Guthabens erstellen
+- [ ] JWT beginnen zu implementieren
 
 
 
