@@ -16,8 +16,8 @@ Heute habe ich an der Login-Seite unseres Casino-Projekts gearbeitet. Zuerst hab
     
 Amar – Frontend
 - [x] 	Grundlayout der Casino-Homepage erstellen
-- [ ] 	Navigationsmenü für die Spiele implementieren
-- [ ] 	Spielauswahl für Roulette und Spielautomaten gestalten
+- [x] 	Navigationsmenü für die Spiele implementieren
+- [x] 	Spielauswahl für Roulette und Spielautomaten gestalten
 - [ ] 	Guthabenanzeige auf der Homepage integrieren
 	
 Joshua – Backend
