@@ -41,9 +41,11 @@ Amar – Frontend (Homepage & Spielautomaten)
 - [ ] Spin-Button und zufällige Symbole mit JavaScript implementieren
       
 Joshua – Backend (C# & Datenbank)
-- [ ] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
+- [x] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
 - [ ] API-Endpunkte zum Abrufen und Aktualisieren des virtuellen Guthabens erstellen
 - [ ] JWT beginnen zu implementieren
+
+Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen oder Ändern eines Accounts verschlüsselt (gehasht) und nicht mehr im Klartext gespeichert. Ausserdem gibt es einen neuen Login-Endpoint, der prüft, ob das eingegebene Passwort zum gespeicherten Hash passt.
 
 
 
