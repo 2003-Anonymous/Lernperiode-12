@@ -4,39 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casino Homepage</title>
+    <title>Casino Royal</title>
     <link rel="stylesheet" href="A.style.css">
+    <script src="A.script.js" defer></script>
 </head>
 <body>
 
-    
     <header>
         <h1>Casino Royal</h1>
+
+        <div class="balance">
+            Guthaben: <span id="balance">1000</span> CHF
+        </div>
     </header>
 
-    
     <nav>
-        <p>Navigation</p>
+        <a href="#home">Home</a>
+        <a href="#roulette">Roulette</a>
+        <a href="#slots">Spielautomaten</a>
     </nav>
 
-    
-    <main>
+    <main id="home">
+
         <section class="welcome">
             <h2>Willkommen bei Casino Royal</h2>
-            <p>Entdecke unsere Casinospiele!</p>
+            <p>Wähle eines unserer Spiele aus!</p>
         </section>
 
-        
         <section class="games">
             <h2>Unsere Spiele</h2>
+
             <div class="game-container">
-                <div class="game-placeholder">Spiel 1</div>
-                <div class="game-placeholder">Spiel 2</div>
+
+              
+                <div class="game-card" id="roulette">
+                    <img
+                        src="images/roulette.png"
+                        alt="Roulette"
+                        class="game-image"
+                    >
+
+                    <p>Klassisches Casino-Erlebnis mit Spannung pur.</p>
+
+                    <button onclick="selectGame('Roulette')">
+                        Spiel auswählen
+                    </button>
+                </div>
+
+               
+                <div class="game-card" id="slots">
+                    <img
+                        src="images/wild_west_slots.png"
+                        alt="Wild West Slots"
+                        class="game-image"
+                    >
+
+                    <p>Erlebe den Wilden Westen!</p>
+
+                    <button onclick="selectGame('Wild West Slots')">
+                        Spiel auswählen
+                    </button>
+                </div>
+
             </div>
+
+            <p id="game-message"></p>
         </section>
+
     </main>
 
-    
     <footer>
         <p>Casino Royal - Schulprojekt</p>
     </footer>
