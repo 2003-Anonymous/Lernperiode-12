@@ -31,9 +31,9 @@ Heute habe ich ein neues ASP.NET-Core Projekt und die Struktur erstellt. Zudem h
 
 ## 30.10.
 Navid – Frontend (Login & Roulette)
-- [x] Login-Seite mit den Backend-Endpunkten verbinden
-- [ ] Altersbestätigung (18+) mit JavaScript implementieren
-- [ ] Grundlayout der Roulette-Spieloberfläche mit HTML und CSS erstellen
+- [x] Buttons Roulette
+- [x] Altersbestätigung (18+) mit JavaScript implementieren
+- [x] Grundlayout der Roulette-Spieloberfläche mit HTML und CSS erstellen
       
 Amar – Frontend (Homepage & Spielautomaten)
 - [ ] Homepage mit Login und Altersbestätigung verknüpfen
