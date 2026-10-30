@@ -1,5 +1,13 @@
 
 
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -10,8 +18,12 @@ body {
 
 header {
     background-color: #202020;
-    padding: 20px;
-    text-align: center;
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 header h1 {
@@ -20,10 +32,36 @@ header h1 {
 }
 
 
+.balance {
+    background-color: #333;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid gold;
+}
+
+#balance {
+    color: gold;
+    font-weight: bold;
+}
+
+
 nav {
     background-color: #303030;
-    padding: 10px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav a:hover {
+    color: gold;
 }
 
 
@@ -31,7 +69,7 @@ main {
     max-width: 1100px;
     margin: 0 auto;
     padding: 40px 20px;
-    min-height: 60vh;
+    min-height: 65vh;
 }
 
 
@@ -40,29 +78,73 @@ main {
     margin-bottom: 50px;
 }
 
+.welcome h2 {
+    font-size: 30px;
+}
 
-.games h2 {
+.welcome p {
+    color: #ccc;
+}
+
+
+.games {
     text-align: center;
 }
 
 .game-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
     flex-wrap: wrap;
+    gap: 25px;
+    margin-top: 30px;
 }
 
 
-.game-placeholder {
+.game-card {
     background-color: #292929;
-    border: 1px solid #555;
-    border-radius: 10px;
-    width: 220px;
-    height: 150px;
+    border: 1px solid #444;
+    border-radius: 12px;
+    padding: 30px;
+    width: 280px;
+    scroll-margin-top: 30px;
+}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.game-card:hover {
+    border-color: gold;
+}
+
+.game-icon {
+    font-size: 55px;
+}
+
+.game-card h3 {
+    margin-top: 20px;
+}
+
+.game-card p {
+    color: #ccc;
+    font-size: 14px;
+}
+
+
+button {
+    background-color: gold;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e0b800;
+}
+
+
+#game-message {
+    margin-top: 30px;
+    color: gold;
 }
 
 
@@ -70,4 +152,67 @@ footer {
     background-color: #202020;
     padding: 20px;
     text-align: center;
+    color: #aaa;
 }
+
+
+@media (max-width: 600px) {
+    header {
+        justify-content: center;
+        text-align: center;
+    }
+
+    nav {
+        gap: 15px;
+    }
+
+    .welcome h2 {
+        font-size: 24px;
+    }
+}
+
+
+
+/* Spielkarten */
+.game-card {
+    width: 300px;
+    padding: 0 0 25px;
+    background-color: #202020;
+    border: 1px solid #b89639;
+    border-radius: 12px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+
+.game-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
+}
+
+
+.game-card p {
+    color: #ddd;
+    padding: 0 15px;
+    margin-top: 20px;
+}
+
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 35px;
+    margin-top: 30px;
+}
+

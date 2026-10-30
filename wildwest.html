@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wild West Slots | Casino Royal</title>
+  <link rel="stylesheet" href="wildwest.css">
+  <script src="wildwest.js" defer></script>
+</head>
+<body>
+  <div class="scene">
+    <header class="topbar">
+      <a class="back" href="index.html">← Zur Homepage</a>
+      <span class="brand">
+        ◇ CASINO ROYAL
+        <small>GOLD RUSH EDITION</small>
+      </span>
+      <div class="balance">
+        SPIELGELD
+        <strong><span id="balance">1000</span> CHF</strong>
+      </div>
+    </header>
+
+    <main class="cabinet" aria-label="Wild West Slots Spielautomat">
+      <div class="cabinet-head">
+        <div class="title-area">
+          <div class="edition">✦ THE LEGEND OF THE WEST ✦</div>
+          <h1>WILD WEST <span>SLOTS</span></h1>
+          <p>Fünf Walzen. Eine Gewinnlinie. Dein nächster Goldrausch.</p>
+        </div>
+        <img class="cowboy-art" src="images/Cowboy.jpg" alt="Cowboy-Emblem">
+      </div>
+
+      <div class="jackpot-board">
+        <span>✦ GOLD RUSH JACKPOT ✦</span>
+        <strong id="jackpotValue">5'000 CHF</strong>
+        <small>Höchstmögliche Auszahlung bei 100 CHF Einsatz</small>
+      </div>
+
+      <div class="machine-frame">
+        <div class="frame-lights" aria-hidden="true"></div>
+        <div class="reels" id="reels" aria-label="Fünf Walzen mit je drei Symbolen">
+          <div class="reel"><div class="reel-track" id="reel0"></div></div>
+          <div class="reel"><div class="reel-track" id="reel1"></div></div>
+          <div class="reel"><div class="reel-track" id="reel2"></div></div>
+          <div class="reel"><div class="reel-track" id="reel3"></div></div>
+          <div class="reel"><div class="reel-track" id="reel4"></div></div>
+          <div class="payline" aria-hidden="true"></div>
+        </div>
+        <div class="machine-foot">
+          ★ ★ ★ &nbsp; WILD WEST GOLD RUSH &nbsp; ★ ★ ★
+        </div>
+      </div>
+
+      <div class="result-panel" aria-live="polite">
+        <div>
+          <small>LETZTER GEWINN</small>
+          <strong id="lastWin">0 CHF</strong>
+        </div>
+        <p id="message">
+          Wähle deinen Einsatz und starte den Goldrausch!
+        </p>
+        <div>
+          <small>GEWINNLINIE</small>
+          <strong>MITTLERE REIHE</strong>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="bet-control">
+          <span>EINSATZ</span>
+          <div class="bet-buttons">
+            <button id="betMinus" type="button"
+              aria-label="Einsatz verringern">−</button>
+            <strong id="betValue">10 CHF</strong>
+            <button id="betPlus" type="button"
+              aria-label="Einsatz erhöhen">+</button>
+          </div>
+        </div>
+
+        <button id="maxBet" class="secondary-button" type="button">
+          MAX BET
+        </button>
+
+        <button id="spinButton" class="spin-button" type="button">
+          ↻ SPIN
+        </button>
+
+        <button id="autoButton" class="secondary-button"
+          type="button" aria-pressed="false">
+          AUTO SPIN: AUS
+        </button>
+      </div>
+
+      <p class="notice">
+        Nur virtuelles Spielgeld · Keine Echtgeld-Gewinne
+      </p>
+
+      <details class="paytable">
+        <summary>Gewinntabelle anzeigen</summary>
+        <p>
+          Es zählt nur die <b>mittlere Reihe</b>.
+          Mindestens drei gleiche Symbole direkt von links
+          nach rechts gewinnen. Die Auszahlung ist der Einsatz
+          multipliziert mit dem Symbolwert.
+        </p>
+        <div id="payoutRows" class="payout-grid"></div>
+        <p>
+          4 gleiche Symbole: doppelter Symbolmultiplikator.
+          5 gleiche Symbole: fünffacher Symbolmultiplikator.
+        </p>
+      </details>
+    </main>
+  </div>
+</body>
+</html>
