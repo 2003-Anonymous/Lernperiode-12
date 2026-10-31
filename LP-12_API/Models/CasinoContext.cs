@@ -4,7 +4,7 @@ namespace LP_12_API.Models
 {
     public class CasinoContext : DbContext
     {
-        public CasinoContext(DbContextOptions<CasinoContext> options) :base(options) {  }
+        public CasinoContext(DbContextOptions<CasinoContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
