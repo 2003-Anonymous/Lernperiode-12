@@ -1,0 +1,25 @@
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: local
+    hooks:
+      - id: dotnet-format
+        name: Formatierung prüfen (dotnet format)
+        entry: dotnet format LP-12_API.slnx --verify-no-changes
+        language: system
+        pass_filenames: false
+        types: [c#]
+
+      - id: dotnet-test
+        name: Tests ausführen (dotnet test)
+        entry: dotnet test LP-12_API.slnx
+        language: system
+        pass_filenames: false
+        types: [c#]
+
+      - id: needs-issue-number
+        name: Commit-Message braucht eine #Nummer
+        language: pygrep
+        entry: '#\d+'
+        args: [--multiline, --negate]
+        stages: [commit-msg]
