@@ -10,6 +10,7 @@ namespace LP_12_API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly CasinoContext _context;
+        private static AccountDto ToDto(Account a) => new(a.Id, a.Username, a.Role, a.Balance);
 
         public AccountController(CasinoContext context)
         {
@@ -42,6 +43,7 @@ namespace LP_12_API.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAccount(Account account)
         {
+            account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
@@ -56,6 +58,7 @@ namespace LP_12_API.Controllers
                 return BadRequest();
             }
 
+            account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
             _context.Entry(account).State = EntityState.Modified;
 
             try
@@ -77,6 +80,20 @@ namespace LP_12_API.Controllers
             return NoContent();
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(string username, string password)
+        {
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Username == username);
+
+            if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(account);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
@@ -90,6 +107,20 @@ namespace LP_12_API.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(account);
+        }
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginRequest request)
+        {
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Username == request.Username);
+
+            if (account == null || !BCrypt.Net.BCrypt.Verify(request.Password, account.Password))
+            {
+                return Unauthorized();
+            }
+
+            return Ok(ToDto(account));
         }
     }
 }
