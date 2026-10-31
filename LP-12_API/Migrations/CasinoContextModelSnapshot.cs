@@ -53,7 +53,7 @@ namespace LP_12_API.Migrations
                         {
                             Id = 1,
                             Balance = 1000.0,
-                            Password = "admin123",
+                            Password = "$2a$11$R0BhPmNawBurV65kJ.ifcuplSmzBEhrOgbVw0tTy1fHSSkubuaaXe",
                             Role = "Admin",
                             Username = "admin"
                         },
@@ -61,7 +61,7 @@ namespace LP_12_API.Migrations
                         {
                             Id = 2,
                             Balance = 500.0,
-                            Password = "user123",
+                            Password = "$2a$11$CUwp5Twv7sUpLYDSrdy2ceUJ/yBWE1CoUjhCA6DzXxtkU.e5LvG7S",
                             Role = "User",
                             Username = "user"
                         });
