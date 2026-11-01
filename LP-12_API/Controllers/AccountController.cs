@@ -1,6 +1,10 @@
-﻿using LP_12_API.Models;
+﻿using System.Security.Claims;
 
-using Microsoft.AspNetCore.Http;
+using LP_12_API.Models;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,28 +14,101 @@ namespace LP_12_API.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
+        private const double StartBalance = 1000;
         private readonly CasinoContext _context;
-        private static AccountDto ToDto(Account a) => new(a.Id, a.Username, a.Role, a.Balance);
 
         public AccountController(CasinoContext context)
         {
             _context = context;
         }
 
+        private static AccountDto ToDto(Account a) => new(a.Id, a.Username, a.Role, a.Balance);
 
+
+
+
+        //Alle
+        [HttpPost("register")]
+        public async Task<ActionResult> Register([FromBody] RegisterRequest request)
+        {
+            if (await _context.Accounts.AnyAsync(a => a.Username == request.Username))
+            {
+                return Conflict("Username already exists.");
+            }
+
+            var account = new Account
+            {
+                Username = request.Username,
+                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Role = "User",
+                Balance = StartBalance
+            };
+
+            _context.Accounts.Add(account);
+            await _context.SaveChangesAsync();
+
+            await SignInAsync(account);
+            return Created("/Account/me", ToDto(account));
+        }
+
+
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] LoginRequest request)
+        {
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Username == request.Username);
+
+            if (account == null || !BCrypt.Net.BCrypt.Verify(request.Password, account.Password))
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            await SignInAsync(account);
+            return Ok(ToDto(account));
+        }
+
+        //Nur angemeldete Benutzer
+
+        [Authorize]
+        [HttpPost("logout")]
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("me")]
+        public async Task<ActionResult> Me()
+        {
+            var id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Unauthorized();
+            }
+
+            return Ok(ToDto(account));
+        }
+
+
+        //Nur Admins
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> GetAllAccounts()
         {
-            var accounts = await _context.Accounts
-                .ToListAsync();
-            return Ok(accounts);
+            var accounts = await _context.Accounts.ToListAsync();
+            return Ok(accounts.Select(ToDto));
         }
 
-        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult> GetAccount(int id)
         {
-            var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var account = await _context.Accounts.FindAsync(id);
 
             if (account == null)
             {
@@ -41,47 +118,8 @@ namespace LP_12_API.Controllers
             return Ok(ToDto(account));
         }
 
-        [HttpPost]
-        public async Task<ActionResult> PostAccount(Account account)
-        {
-            account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
-            _context.Accounts.Add(account);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
-
-        }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutAccount(int id, Account account)
-        {
-            if (id != account.Id)
-            {
-                return BadRequest();
-            }
-
-            account.Password = BCrypt.Net.BCrypt.HashPassword(account.Password);
-            _context.Entry(account).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Accounts.Any(a => a.Id == id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
             var account = await _context.Accounts.FindAsync(id);
@@ -93,21 +131,26 @@ namespace LP_12_API.Controllers
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
 
-            return Ok(ToDto(account));
+            return NoContent();
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] LoginRequest request)
+
+
+        private async Task SignInAsync(Account account)
         {
-            var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Username == request.Username);
-
-            if (account == null || !BCrypt.Net.BCrypt.Verify(request.Password, account.Password))
+            var claims = new List<Claim>
             {
-                return Unauthorized();
-            }
+                new(ClaimTypes.NameIdentifier, account.Id.ToString()),
+                new(ClaimTypes.Name, account.Username),
+                new(ClaimTypes.Role, account.Role)
+            };
 
-            return Ok(ToDto(account));
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity));
         }
+
+
     }
 }

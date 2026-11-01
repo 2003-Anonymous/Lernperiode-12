@@ -1,5 +1,6 @@
 using LP_12_API.Models;
 
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,25 @@ builder.Services.AddDbContext<CasinoContext>(options =>
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks().AddDbContextCheck<CasinoContext>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "casino.auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+
+        options.Events.OnRedirectToLogin = ctx => { ctx.Response.StatusCode = 401; return Task.CompletedTask; };
+        options.Events.OnRedirectToAccessDenied = ctx => { ctx.Response.StatusCode = 403; return Task.CompletedTask; };
+    });
+builder.Services.AddAuthorization();
+
+
+
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -24,11 +44,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
-app.UseDefaultFiles();
-app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
