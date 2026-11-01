@@ -27,6 +27,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
+app.UseDefaultFiles();
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();
