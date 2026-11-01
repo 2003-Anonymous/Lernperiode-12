@@ -1,0 +1,15 @@
+{
+  "name": "Casino API",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.devcontainer.yml"],
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "features": {
+    "ghcr.io/devcontainers/features/dotnet:2": { "version": "10.0" },
+    "ghcr.io/devcontainers/features/python:1": {}
+  },
+  "forwardPorts": [5241],
+  "postCreateCommand": "sudo chown -R vscode /workspace/LP-12_API/bin /workspace/LP-12_API/obj && dotnet tool restore && dotnet restore && pip install pre-commit && pre-commit install",
+  "customizations": {
+    "vscode": { "extensions": ["ms-dotnettools.csdevkit", "ms-mssql.mssql"] }
+  }
+}
