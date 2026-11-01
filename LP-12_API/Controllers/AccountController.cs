@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 
 using LP_12_API.Models;
+using LP_12_API.Services;
 
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -39,7 +40,7 @@ namespace LP_12_API.Controllers
             var account = new Account
             {
                 Username = request.Username,
-                Password = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                Password = Passwords.Hash(request.Password),
                 Role = "User",
                 Balance = StartBalance
             };
@@ -58,7 +59,7 @@ namespace LP_12_API.Controllers
             var account = await _context.Accounts
                 .FirstOrDefaultAsync(a => a.Username == request.Username);
 
-            if (account == null || !BCrypt.Net.BCrypt.Verify(request.Password, account.Password))
+            if (account == null || !Passwords.Verify(request.Password, account.Password))
             {
                 return Unauthorized("Invalid username or password.");
             }

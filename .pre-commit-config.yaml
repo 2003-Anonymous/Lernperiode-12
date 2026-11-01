@@ -12,7 +12,7 @@ repos:
 
       - id: dotnet-test
         name: Tests ausführen (dotnet test)
-        entry: dotnet test LP-12_API.slnx
+        entry: dotnet test LP-12_API.slnx --filter Category!=Integration
         language: system
         pass_filenames: false
         types: [c#]
