@@ -1,0 +1,8 @@
+**/bin
+**/obj
+.git
+.vs
+.env
+LP-12_API.Tests
+e2e
+*.md

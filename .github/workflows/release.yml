@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  push:
+    tags: [ '[0-9]+.[0-9]+.[0-9]+' ]
+
+permissions:
+  contents: write    # Release erstellen
+  packages: write    # Image auf ghcr.io hochladen
+
+jobs:
+  test:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Veröffentlichen
+        run: >
+          dotnet publish LP-12_API/LP-12_API.csproj -c Release -o publish
+          -p:Version=${{ github.ref_name }} -p:SourceRevisionId=${{ github.sha }}
+      - name: Zip erstellen
+        run: cd publish && zip -r ../casino-api-${{ github.ref_name }}.zip .
+      - name: GitHub Release erstellen
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create ${{ github.ref_name }} casino-api-${{ github.ref_name }}.zip
+          --title "Version ${{ github.ref_name }}" --generate-notes
+
+  docker:
+    needs: release
+    runs-on: ubuntu-latest
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Tags und Labels bestimmen
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=raw,value=latest
+      - name: Image bauen und hochladen
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VERSION=${{ github.ref_name }}
+            GIT_SHA=${{ github.sha }}
+      - name: Image und Digest im Release eintragen
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}"
+          BODY="$(gh release view "$TAG" --json body -q .body)"
+          printf '%s\n\n**Docker-Image:** `%s:%s`\n\n**Digest:** `%s`\n' "$BODY" "$IMAGE" "$TAG" "$DIGEST" > notes.md
+          gh release edit "$TAG" --notes-file notes.md
