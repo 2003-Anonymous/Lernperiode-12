@@ -9,6 +9,7 @@ builder.Services.AddDbContext<CasinoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CasinoContext")));
 
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks().AddDbContextCheck<CasinoContext>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -25,6 +26,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.MapHealthChecks("/health");
 app.MapControllers();
 
 app.Run();
