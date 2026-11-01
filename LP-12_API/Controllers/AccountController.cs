@@ -38,7 +38,7 @@ namespace LP_12_API.Controllers
                 return NotFound();
             }
 
-            return Ok(account);
+            return Ok(ToDto(account));
         }
 
         [HttpPost]
@@ -93,7 +93,7 @@ namespace LP_12_API.Controllers
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
 
-            return Ok(account);
+            return Ok(ToDto(account));
         }
 
         [HttpPost("login")]
