@@ -66,7 +66,7 @@ public class AccountApiTests : IClassFixture<CasinoApiFactory>
         var me = await client.GetFromJsonAsync<AccountDto>("/Account/me");
 
         Assert.Equal("user", me!.Username);
-        Assert.Equal(500, me.Balance);
+        Assert.Equal(600, me.Balance);
     }
 
     [Fact] // #16
