@@ -49,3 +49,20 @@ Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen 
 
 
 
+
+
+
+## Schnellstart
+
+Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
+
+1. `git clone https://github.com/2003-Anonymous/Lernperiode-12.git`
+2. `.env.example` nach `.env` kopieren und ein Passwort eintragen
+3. `docker compose up -d`
+4. `dotnet tool restore`
+5. `dotnet user-secrets set "ConnectionStrings:CasinoContext" "Server=localhost,1434;Database=Casino;User Id=sa;Password=<Passwort aus .env>;TrustServerCertificate=True" --project LP-12_API`
+6. `dotnet tool run dotnet-ef database update --project LP-12_API`
+7. `pip install pre-commit` und `pre-commit install`
+8. `dotnet run --project LP-12_API`, dann http://localhost:5241/health
+
+Alternativ: in VS Code «Reopen in Container» (Dev Container).
