@@ -1,0 +1,18 @@
+services:
+  dev:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    volumes:
+      # Pfad relativ zum Hauptordner (dort liegt die erste Compose-Datei), nicht zu .devcontainer
+      - .:/workspace:cached
+      # Eigene bin/obj-Ordner für den Container, getrennt von Windows/Visual Studio
+      - api-bin:/workspace/LP-12_API/bin
+      - api-obj:/workspace/LP-12_API/obj
+    command: sleep infinity
+    depends_on:
+      - db
+    environment:
+      ConnectionStrings__CasinoContext: "Server=db,1433;Database=Casino;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
+
+volumes:
+  api-bin:
+  api-obj:
