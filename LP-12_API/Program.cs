@@ -1,3 +1,5 @@
+using System.Reflection;
+
 using LP_12_API.Models;
 
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -51,6 +53,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHealthChecks("/health");
+
+app.MapGet("/version", () => new
+{
+    version = typeof(Program).Assembly
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+});
 app.MapControllers();
 
 app.Run();
