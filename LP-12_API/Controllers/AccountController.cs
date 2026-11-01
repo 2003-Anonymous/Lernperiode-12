@@ -81,20 +81,6 @@ namespace LP_12_API.Controllers
             return NoContent();
         }
 
-        [HttpPost("login")]
-        public async Task<ActionResult> Login(string username, string password)
-        {
-            var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Username == username);
-
-            if (account == null || !BCrypt.Net.BCrypt.Verify(password, account.Password))
-            {
-                return Unauthorized();
-            }
-
-            return Ok(account);
-        }
-
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
