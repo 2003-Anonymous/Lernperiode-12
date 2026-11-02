@@ -121,7 +121,10 @@ jobs:
           echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
 
       - name: Testdatenbank migrieren
-        run: "$HOME/.dotnet/tools/dotnet-ef" database update --project LP-12_API/LP-12_API.csproj --startup-project LP-12_API/LP-12_API.csproj
+        run: |
+          "$HOME/.dotnet/tools/dotnet-ef" database update \
+            --project LP-12_API/LP-12_API.csproj \
+            --startup-project LP-12_API/LP-12_API.csproj
 
       - name: Playwright-Abhängigkeiten laden
         working-directory: e2e
