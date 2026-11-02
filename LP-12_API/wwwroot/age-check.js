@@ -21,7 +21,7 @@ function allowAccess() {
   ageGate.hidden = true;
   casinoContent.hidden = false;
   casinoContent.inert = false;
-  document.getElementById("username").focus();
+  document.querySelector("#username, #casino-content h1")?.focus();
 }
 
 function denyAccess() {
