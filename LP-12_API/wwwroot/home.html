@@ -7,14 +7,27 @@
     <title>Casino Royal</title>
     <link rel="stylesheet" href="home.css">
     <script src="home.js" defer></script>
+    <script src="age-check.js" defer></script>
 </head>
 <body>
+    <section id="age-gate" role="region" aria-labelledby="age-title">
+        <div id="age-question">
+            <h2 id="age-title" tabindex="-1">Bist du mindestens 18 Jahre alt?</h2>
+            <button id="age-yes" type="button" disabled>Ja</button>
+            <button id="age-no" type="button" disabled>Nein</button>
+        </div>
+        <div id="age-denied" hidden>
+            <h2 id="age-denied-title" tabindex="-1">Zugang nicht möglich</h2>
+            <p>Dieses Schulprojekt ist ab 18 Jahren zugänglich.</p>
+        </div>
+    </section>
+    <div id="casino-content" hidden inert>
 
     <header>
-        <h1>Casino Royal</h1>
+        <h1 tabindex="-1">Casino Royal</h1>
 
         <div class="balance">
-            Guthaben: <span id="balance">1000</span> CHF
+            Guthaben: <span id="balance">…</span> CHF
         </div>
     </header>
 
@@ -36,7 +49,7 @@
 
             <div class="game-container">
 
-              
+
                 <div class="game-card" id="roulette">
                     <img
                         src="images/roulette.png"
@@ -51,7 +64,7 @@
                     </button>
                 </div>
 
-               
+
                 <div class="game-card" id="slots">
                     <img
                         src="images/wild_west_slots.png"
@@ -68,7 +81,7 @@
 
             </div>
 
-            <p id="game-message"></p>
+            <p id="game-message" role="status"></p>
         </section>
 
     </main>
@@ -77,5 +90,6 @@
         <p>Casino Royal - Schulprojekt</p>
     </footer>
 
+    </div>
 </body>
 </html>
