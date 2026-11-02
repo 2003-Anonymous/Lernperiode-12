@@ -42,12 +42,17 @@ Amar – Frontend (Homepage & Spielautomaten)
       
 Joshua – Backend (C# & Datenbank)
 - [x] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
-- [ ] API-Endpunkte zum Abrufen und Aktualisieren des virtuellen Guthabens erstellen
-- [ ] JWT beginnen zu implementieren
+- [x] Cookies implementieren
+- [x] Login, Logout, Register-Endpunkte hinzufügen und die anderen anpassen.
 
-Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen oder Ändern eines Accounts verschlüsselt (gehasht) und nicht mehr im Klartext gespeichert. Ausserdem gibt es einen neuen Login-Endpoint, der prüft, ob das eingegebene Passwort zum gespeicherten Hash passt.
+Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen oder Ändern eines Accounts verschlüsselt (gehasht) und nicht mehr im Klartext gespeichert. Ausserdem gibt es einen neuen Login-Endpoint, der prüft, ob das eingegebene Passwort zum gespeicherten Hash passt. Zudem habe ich Login, Logout und Register-Endpunkte hinzugefügt und diese mit einem Cookie verknüpft. Wenn sich ein Spieler also anmeldet, wird ein Cookie erstellt und gilt bei der API als angemeldet. So hat er Zugriff auf andere Endpunkte, wie z.B. Logout oder er kann seinen eigenen Account mit /me ansehen. Das Passwort wird aber nie in der Response mitgegeben. Ist der angemeldete Spieler Admin, hat er noch Zugriff auf GetAllAccounts, GetAccount und DeleteAccount.
 
+## 06.11.26
 
+Joshua
+- [ ] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
+- [ ] Evtl. Endpunkte für die Games hinzufügen.
+- [ ] 3. Game ausdenken und planen.
 
 ## Schnellstart
 
