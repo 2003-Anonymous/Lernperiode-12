@@ -56,3 +56,20 @@ jobs:
       - name: Coverage in der Zusammenfassung anzeigen
         if: always()
         run: cat coveragereport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - name: HTML prüfen
+        run: npm run lint:html
+
+      - name: CSS prüfen
+        run: npm run lint:css
