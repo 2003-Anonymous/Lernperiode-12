@@ -1,0 +1,96 @@
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Vorhandene Version, zum Beispiel 0.1.0"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bei Azure anmelden
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Gewählte Version ausrollen
+        id: deploy
+        shell: bash
+        env:
+          VERSION: ${{ inputs.version }}
+          RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          LOCATION: ${{ vars.AZURE_LOCATION }}
+          APP_NAME: ${{ vars.AZURE_APP_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Ungültige Version: $VERSION. Beispiel: 0.1.0"
+            exit 1
+          fi
+
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:$VERSION"
+          PARAMS="$RUNNER_TEMP/casino-parameters.json"
+          trap 'rm -f "$PARAMS"' EXIT
+
+          umask 077
+          jq -n --arg password "$DB_PASSWORD" \
+            '{dbPassword: {value: $password}}' > "$PARAMS"
+
+          URL=$(az deployment group create \
+            --resource-group "$RESOURCE_GROUP" \
+            --template-file infra/main.bicep \
+            --parameters "@$PARAMS" \
+              location="$LOCATION" \
+              appName="$APP_NAME" \
+              image="$IMAGE" \
+            --query properties.outputs.url.value \
+            --output tsv)
+
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Health-Check und Version prüfen
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          for attempt in {1..30}; do
+            if curl --connect-timeout 10 --max-time 20 -fsS \
+              "$URL/health" > /dev/null; then
+
+              if curl --connect-timeout 10 --max-time 20 -fsS \
+                "$URL/version" |
+                jq -e --arg prefix "$VERSION+" \
+                  '.version | startswith($prefix)' > /dev/null; then
+                echo "Version $VERSION läuft und ist gesund: $URL"
+                exit 0
+              fi
+            fi
+
+            echo "Warte auf Version $VERSION ($attempt/30) ..."
+            sleep 20
+          done
+
+          echo "Rollback fehlgeschlagen: Die Version antwortet nicht korrekt."
+          exit 1
