@@ -37,6 +37,15 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+// Auf Azure die Datenbank beim Start aktualisieren.
+if (app.Configuration.GetValue<bool>("MigrateOnStartup"))
+{
+    using var scope = app.Services.CreateScope();
+    scope.ServiceProvider
+        .GetRequiredService<CasinoContext>()
+        .Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

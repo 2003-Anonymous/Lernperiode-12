@@ -75,3 +75,63 @@ jobs:
           BODY="$(gh release view "$TAG" --json body -q .body)"
           printf '%s\n\n**Docker-Image:** `%s:%s`\n\n**Digest:** `%s`\n' "$BODY" "$IMAGE" "$TAG" "$DIGEST" > notes.md
           gh release edit "$TAG" --notes-file notes.md
+
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bei Azure anmelden
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Infrastruktur und Version ausrollen
+        id: deploy
+        env:
+          RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+          LOCATION: ${{ vars.AZURE_LOCATION }}
+          APP_NAME: ${{ vars.AZURE_APP_NAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:$TAG"
+          PARAMS="$RUNNER_TEMP/casino-parameters.json"
+          trap 'rm -f "$PARAMS"' EXIT
+          umask 077
+          jq -n '{dbPassword: {value: env.DB_PASSWORD}}' > "$PARAMS"
+          URL=$(az deployment group create \
+            --resource-group "$RESOURCE_GROUP" \
+            --template-file infra/main.bicep \
+            --parameters "@$PARAMS" location="$LOCATION" appName="$APP_NAME" image="$IMAGE" \
+            --query properties.outputs.url.value -o tsv)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      - name: Health-Check und Version prüfen
+        env:
+          URL: ${{ steps.deploy.outputs.url }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 30); do
+            if curl --connect-timeout 10 --max-time 20 -fsS "$URL/health" > /dev/null &&
+               curl --connect-timeout 10 --max-time 20 -fsS "$URL/version" |
+                 jq -e --arg prefix "$TAG+" '.version | startswith($prefix)' > /dev/null; then
+              echo "Version $TAG läuft und ist gesund: $URL"
+              exit 0
+            fi
+            echo "Warte auf neue Version ($i/30) ..."
+            sleep 20
+          done
+          echo "Die neue Version antwortet nicht korrekt"
+          exit 1
