@@ -54,6 +54,11 @@ Navid
 - [ ] Login Daten speichern
 - [ ] Mit dem Login anmelden
 
+Amar
+- [ ] Neue Bilder für Slot Maschiene
+- [ ] Slot Maschiene Programmieren
+- [ ] Neues Design
+      
 Joshua
 - [x] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
 - [ ] Evtl. Endpunkte für die Games hinzufügen.
