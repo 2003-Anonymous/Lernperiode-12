@@ -54,7 +54,7 @@ Joshua
 - [ ] Evtl. Endpunkte für die Games hinzufügen.
 - [ ] 3. Game ausdenken und planen.
 
-Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt. Die API ist also soweit fertig.
+Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt. Die API ist also soweit fertig. Dazu habe ich noch ein neues Issue für das Registrieren erstellt, da man sich bis jetzt nur anmelden kann. Dieses habe ich dem Milestone 0.3.0 (MVP) zugeordnet.
 
 ## Schnellstart
 
