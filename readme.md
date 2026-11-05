@@ -50,9 +50,11 @@ Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen 
 ## 06.11.26
 
 Joshua
-- [ ] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
+- [x] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
 - [ ] Evtl. Endpunkte für die Games hinzufügen.
 - [ ] 3. Game ausdenken und planen.
+
+Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt. Die API ist also soweit fertig.
 
 ## Schnellstart
 
