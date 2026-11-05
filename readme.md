@@ -49,6 +49,11 @@ Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen 
 
 ## 06.11.26
 
+Navid
+- [ ] Registrierungsseite erstellen
+- [ ] Login Daten speichern
+- [ ] Mit dem Login anmelden
+
 Joshua
 - [x] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
 - [ ] Evtl. Endpunkte für die Games hinzufügen.
