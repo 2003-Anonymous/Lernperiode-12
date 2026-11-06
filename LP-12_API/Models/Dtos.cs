@@ -33,5 +33,8 @@ namespace LP_12_API.Models
         }
     }
 
+    public record BalanceChangeRequest(
+        [Range(-1_000_000, 1_000_000)] double Amount);
+
     public record AccountDto(int Id, string Username, string Role, double Balance);
 }

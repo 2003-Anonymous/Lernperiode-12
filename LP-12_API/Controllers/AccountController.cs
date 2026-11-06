@@ -95,6 +95,39 @@ namespace LP_12_API.Controllers
         }
 
 
+        // Einsatz (negativ) oder Gewinn (positiv) zum Guthaben addieren.
+        // Die Spiellogik läuft im Frontend, die API speichert nur das Ergebnis.
+        [Authorize]
+        [HttpPost("me/balance")]
+        public async Task<ActionResult> ChangeBalance([FromBody] BalanceChangeRequest request)
+        {
+            if (request.Amount == 0)
+            {
+                return BadRequest("Amount must not be 0.");
+            }
+
+            var id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return Unauthorized();
+            }
+
+            var newBalance = Math.Round(account.Balance + request.Amount, 2);
+            if (newBalance < 0)
+            {
+                return BadRequest("Insufficient balance.");
+            }
+
+            account.Balance = newBalance;
+            await _context.SaveChangesAsync();
+
+            return Ok(ToDto(account));
+        }
+
+
         //Nur Admins
 
         [Authorize(Roles = "Admin")]
