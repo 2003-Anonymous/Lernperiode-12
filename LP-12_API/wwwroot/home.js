@@ -37,6 +37,10 @@ function selectGame(gameName) {
         location.href = 'wildwest.html';
         return;
     }
+    if (gameName === 'Pharaoh') {
+        location.href = 'pharaoh.html';
+        return;
+    }
     message.textContent = 'Roulette wird später integriert.';
 }
 

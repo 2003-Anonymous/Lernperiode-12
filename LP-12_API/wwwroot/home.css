@@ -86,64 +86,71 @@ main {
 .game-container {
     display: flex;
     justify-content: center;
+    align-items: stretch;
     flex-wrap: wrap;
-    gap: 35px;
+    gap: 25px;
     margin-top: 30px;
 }
 
 .game-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 0 1 300px;
+    min-width: 0;
     background-color: #202020;
     border: 1px solid #b89639;
     border-radius: 12px;
     padding: 0 0 25px;
-    width: 300px;
     overflow: hidden;
     text-align: center;
     scroll-margin-top: 30px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s,
+        border-color 0.3s;
 }
 
 .game-card:hover {
-    border-color: gold;
     transform: translateY(-8px);
+    border-color: gold;
     box-shadow: 0 0 25px rgba(255, 215, 0, 0.35);
-}
-
-.game-icon {
-    font-size: 55px;
-}
-
-.game-card h3 {
-    margin-top: 20px;
-}
-
-.game-card p {
-    color: #ddd;
-    font-size: 14px;
-    padding: 0 15px;
-    margin-top: 20px;
 }
 
 .game-image {
     width: 100%;
     height: 350px;
+    display: block;
     object-fit: cover;
     object-position: center;
-    display: block;
+}
+
+.game-card p {
+    color: #ddd;
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 0 15px;
+    margin: 20px 0;
 }
 
 button {
     background-color: gold;
     border: none;
-    padding: 12px 20px;
     border-radius: 6px;
+    padding: 12px 20px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 15px;
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
 }
 
 button:hover {
     background-color: #e0b800;
+}
+
+.game-card button {
+    margin-top: auto;
 }
 
 #game-message {
@@ -156,6 +163,23 @@ footer {
     padding: 20px;
     text-align: center;
     color: #aaa;
+}
+
+@media (max-width: 700px) {
+    .game-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .game-card {
+        width: 100%;
+        max-width: 350px;
+        flex: 0 1 auto;
+    }
+
+    .game-image {
+        height: 350px;
+    }
 }
 
 @media (max-width: 600px) {
