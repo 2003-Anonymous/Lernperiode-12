@@ -124,4 +124,58 @@ public class AccountApiTests : IClassFixture<CasinoApiFactory>
 
         Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
+
+    private async Task<HttpClient> RegisterNewAsync()
+    {
+        var client = _factory.CreateClient();
+        var name = "test_" + Guid.NewGuid().ToString("N")[..8];
+        var response = await client.PostAsJsonAsync("/Account/register", new RegisterRequest(name, "geheim123"));
+        response.EnsureSuccessStatusCode();
+        return client;
+    }
+
+    [Fact] // Guthaben speichern
+    public async Task Balance_Einsatz_ZiehtAbUndSpeichert()
+    {
+        var client = await RegisterNewAsync();
+
+        var response = await client.PostAsJsonAsync("/Account/me/balance", new BalanceChangeRequest(-5));
+        var me = await client.GetFromJsonAsync<AccountDto>("/Account/me");
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(995, me!.Balance);
+    }
+
+    [Fact] // Guthaben speichern
+    public async Task Balance_Gewinn_SchreibtGut()
+    {
+        var client = await RegisterNewAsync();
+
+        var response = await client.PostAsJsonAsync("/Account/me/balance", new BalanceChangeRequest(20));
+        var account = await response.Content.ReadFromJsonAsync<AccountDto>();
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(1020, account!.Balance);
+    }
+
+    [Fact] // Guthaben speichern
+    public async Task Balance_ZuWenigGuthaben_Gibt400UndBleibtGleich()
+    {
+        var client = await RegisterNewAsync();
+
+        var response = await client.PostAsJsonAsync("/Account/me/balance", new BalanceChangeRequest(-1001));
+        var me = await client.GetFromJsonAsync<AccountDto>("/Account/me");
+
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+        Assert.Equal(1000, me!.Balance);
+    }
+
+    [Fact] // Guthaben speichern
+    public async Task Balance_OhneLogin_Gibt401()
+    {
+        var response = await _factory.CreateClient()
+            .PostAsJsonAsync("/Account/me/balance", new BalanceChangeRequest(-5));
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
 }
