@@ -1,0 +1,150 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: black;
+}
+
+header {
+    background-color: #dddddd;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header a {
+    color: black;
+    text-decoration: none;
+}
+
+header h2 {
+    font-size: 20px;
+    margin: 0;
+}
+
+main {
+    text-align: center;
+    padding: 30px 15px;
+}
+
+h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+main p {
+    color: #555;
+}
+
+.slot-machine {
+    max-width: 750px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+.slot-machine h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.reels {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.reel {
+    width: 120px;
+    height: 240px;
+    border: 1px solid #999;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+.reel-track {
+    width: 100%;
+}
+
+.symbol {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+}
+
+.symbol img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.reel-track.rolling {
+    animation: roll 0.4s linear infinite;
+}
+
+@keyframes roll {
+    from {
+        transform: translateY(-50%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+button {
+    padding: 12px 40px;
+    font-size: 18px;
+    background-color: #dddddd;
+    border: 1px solid #888;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #cccccc;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+#message {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+@media (max-width: 700px) {
+    .slot-machine {
+        padding: 10px;
+    }
+
+    .reels {
+        gap: 4px;
+    }
+
+    .reel {
+        width: min(18vw, 120px);
+        height: 180px;
+    }
+
+    .symbol {
+        height: 60px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
