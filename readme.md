@@ -50,9 +50,12 @@ Ich habe das Paket BCrypt hinzugefügt. Damit werden Passwörter beim Erstellen 
 ## 06.11.26
 
 Navid
-- [ ] Registrierungsseite erstellen
-- [ ] Login Daten speichern
-- [ ] Mit dem Login anmelden
+- [x] Registrierungsseite erstellen: Eine Seite mit Eingabefeldern für die benötigten Benutzerdaten gestalten.
+- [x] Benutzerdaten speichern: Die bei der Registrierung eingegebenen Daten speichern, damit sie für die Anmeldung    verwendet werden können.
+- [x] Anmeldung umsetzen: Nutzerinnen und Nutzer können sich mit ihren gespeicherten Zugangsdaten anmelden.
+
+
+Ich habe an der Registrierung und am Login gearbeitet. Dazu gehören die Registrierungsseite mit Eingabeprüfung, das Speichern der Anmeldedaten und die Anmeldung mit einem bestehenden Konto. Beim Hochladen meiner Änderungen ist es jedoch noch nicht vollständig gelungen, den richtigen Branch beziehungsweise Pull Request zu aktualisieren. Ausserdem sind noch Prüfungen in der CI fehlgeschlagen. Deshalb sind die Arbeitspakete noch nicht abschliessend abgeschlossen. Als Nächstes müssen der Upload korrigiert, die Fehler behoben und die erfolgreichen Checks überprüft werden.
 
 Amar
 - [x] Neue Bilder für Slot Maschiene
@@ -66,6 +69,13 @@ Joshua
 
 Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt. Die API ist also soweit fertig. Dazu habe ich noch ein neues Issue für das Registrieren erstellt, da man sich bis jetzt nur anmelden kann. Dieses habe ich dem Milestone 0.3.0 (MVP) zugeordnet.
 
+
+## 13.11.26
+
+Navid
+- [ ] Fehler beheben Pull request
+- [ ] Login in Registrierung miteinander verbinden 
+- [ ] Test durchführen
 ## Schnellstart
 
 Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
