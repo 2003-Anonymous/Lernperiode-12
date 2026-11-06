@@ -55,8 +55,8 @@ Navid
 - [ ] Mit dem Login anmelden
 
 Amar
-- [ ] Neue Bilder für Slot Maschiene
-- [ ] Slot Maschiene Programmieren
+- [x] Neue Bilder für Slot Maschiene
+- [x] Slot Maschiene Programmieren
 - [ ] Neues Design
       
 Joshua
