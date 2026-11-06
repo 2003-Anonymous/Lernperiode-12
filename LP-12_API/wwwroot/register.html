@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c100e">
+  <meta name="description" content="Erstelle dein Casino-Game-Konto und spiele mit virtuellem Guthaben.">
+  <title>Registrieren – Casino Game</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="register.css">
+  <script src="assets/register.js" defer></script>
+</head>
+<body>
+  <main class="casino-layout registration-layout">
+    <section class="casino-scene" aria-labelledby="scene-title">
+      <div class="scene-image" aria-hidden="true"></div>
+
+      <header class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 2 38 20 20 38 2 20Z"></path>
+            <path d="m20 10 10 10-10 10-10-10Z"></path>
+          </svg>
+        </span>
+        <span class="brand-name">CASINO<span>GAME</span></span>
+      </header>
+
+      <div class="scene-copy">
+        <p class="eyebrow"><span aria-hidden="true"></span> Roulette &amp; Spielautomaten</p>
+        <h1 id="scene-title">Dein Platz.<br><em>Dein Spiel.</em></h1>
+        <p class="scene-description">
+          Ein Konto. Alle Möglichkeiten.<br>
+          Die Freiheit von Spielgeld.
+        </p>
+      </div>
+
+      <div class="scene-footer">
+        <div class="scene-caption">
+          <span class="caption-number">01</span>
+          <span class="caption-line" aria-hidden="true"></span>
+          <span>Roulette.<br><strong>Ein echter Klassiker.</strong></span>
+        </div>
+        <span class="scene-monogram" aria-hidden="true">CG</span>
+      </div>
+    </section>
+    <section class="login-panel" aria-labelledby="register-title">
+      <div class="panel-topline">
+        <span class="edition">THE DELUXE EDITION</span>
+        <span class="play-money"><span aria-hidden="true"></span> Spielgeld</span>
+      </div>
+      <div class="login-content registration-content">
+        <div class="welcome-mark" aria-hidden="true">✦</div>
+        <p class="eyebrow login-eyebrow">Ein neuer Anfang</p>
+        <h2 id="register-title">Das ist dein<br><em>Moment.</em></h2>
+        <p class="login-description">Erstelle dein Konto. Dein Platz am Tisch wartet.</p>
+
+        <form id="register-form" class="login-form registration-form" method="post" action="/Account/register" novalidate>
+          <div class="form-field">
+            <label for="username">Benutzername</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.25"></circle><path d="M5 20v-1a7 7 0 0 1 14 0v1"></path></svg>
+              <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="30" placeholder="Wie dürfen wir dich nennen?" aria-describedby="username-hint username-error" required>
+            </div>
+            <p class="field-hint" id="username-hint">3–30 Zeichen: Buchstaben, Zahlen, Punkt, _ oder -</p>
+            <p class="field-error" id="username-error" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="password">Passwort</label>
+            <div class="input-wrap password-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"></rect><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"></path></svg>
+              <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" maxlength="72" placeholder="Dein neues Passwort" aria-describedby="password-hint password-error" required>
+              <button class="password-toggle" type="button" aria-label="Passwort anzeigen" aria-pressed="false">Anzeigen</button>
+            </div>
+            <p class="field-hint" id="password-hint">Verwende mindestens 8 Zeichen für dein Passwort.</p>
+            <p class="field-error" id="password-error" hidden></p>
+          </div>
+          <div class="form-field">
+            <label for="confirm-password">Passwort bestätigen</label>
+            <div class="input-wrap">
+              <svg class="input-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m5 12 4 4L19 6"></path></svg>
+              <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" maxlength="72" placeholder="Noch einmal, zur Sicherheit" aria-describedby="confirm-password-error" required>
+            </div>
+            <p class="field-error" id="confirm-password-error" hidden></p>
+          </div>
+          <p id="register-error" class="request-error" role="alert" hidden></p>
+          <button class="login-button" type="submit"><span>Konto erstellen</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          <p class="money-note">100 % Spielgeld. Kein Einsatz von echtem Geld.</p>
+        </form>
+        <noscript><p>Bitte aktiviere JavaScript, um dein Konto zu erstellen.</p></noscript>
+        <section id="register-success" class="success-card" aria-labelledby="success-title" hidden>
+          <span class="success-symbol" aria-hidden="true">✓</span>
+          <h3 id="success-title" tabindex="-1">Dein Konto ist bereit.</h3>
+          <p>Du bist angemeldet. Viel Spass mit deinem virtuellen Guthaben!</p>
+          <a class="login-button" href="home.html"><span>Weiter ins Casino</span><span class="button-arrow" aria-hidden="true">↗</span></a>
+        </section>
+        <p class="account-switch">Schon dabei? <a href="index.html">Zum Login <span aria-hidden="true">↗</span></a></p>
+      </div>
+      <footer class="panel-footer"><span>ROULETTE <span class="footer-dot" aria-hidden="true">◆</span> SLOTS</span><span>100 % Spielgeld</span></footer>
+    </section>
+  </main>
+</body>
+</html>
