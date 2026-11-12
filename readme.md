@@ -76,6 +76,11 @@ Navid
 - [ ] Fehler beheben Pull request
 - [ ] Login in Registrierung miteinander verbinden 
 - [ ] Test durchführen
+
+Joshua
+- [ ] Layout für Game planen
+- [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
+- [ ] Grundgerüst für das Game programmieren, Klassen und Funktionen erstellen
 ## Schnellstart
 
 Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
