@@ -49,8 +49,9 @@
     <header class="top">
       <div class="brand"><div class="brand-mark" aria-hidden="true">CR</div><div><div class="brand-title">Casino Royal</div><div class="brand-sub">PREMIUM ROULETTE</div></div></div>
       <div class="top-right">
+        <a class="sound" href="home.html" style="text-decoration:none">← HOMEPAGE</a>
         <button class="sound" id="sound" aria-pressed="true" title="Sound ein- oder ausschalten">SOUND AN</button>
-        <div class="balance"><div class="mini-label">Guthaben</div><strong id="balance">1'000 <small>CHIPS</small></strong></div>
+        <div class="balance"><div class="mini-label">Guthaben</div><strong id="balance">… <small>CHF</small></strong></div>
       </div>
     </header>
     <div class="intro"><p class="eyebrow">PRIVATE TABLE · EUROPEAN ROULETTE</p><h1>Casino Royal</h1><p>Setze deine Chips. Vertraue deinem Instinkt. Erlebe den Moment.</p></div>
@@ -85,8 +86,9 @@
       </section>
     </main>
     <div class="history-block"><div><h3>LETZTE ERGEBNISSE</h3><p>Die zuletzt gefallenen Zahlen</p></div><div class="history" id="history"><span style="color:#718278;font-size:12px">Noch keine Ergebnisse</span></div></div>
-    <footer class="footer"><span>CASINO ROYAL · EINE VIRTUELLE SPIELSIMULATION</span><span>Kein Echtgeld · Nur zur Unterhaltung <span style="padding:0 8px">·</span> <button id="restart" title="Spiel zurücksetzen">Spiel zurücksetzen</button></span></footer>
+    <footer class="footer"><span>CASINO ROYAL · EINE VIRTUELLE SPIELSIMULATION</span><span>Kein Echtgeld · Nur zur Unterhaltung <span style="padding:0 8px">·</span> <button id="restart" title="Verlauf zurücksetzen">Verlauf zurücksetzen</button></span></footer>
   </div>
+  <script src="assets/balance.js?v=2"></script>
   <script>
     'use strict';
     const order = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
@@ -110,7 +112,7 @@
     for(let i=0;i<12;i++){const a=i*Math.PI/6;ctx.beginPath();ctx.moveTo(C+96*Math.cos(a),C+96*Math.sin(a));ctx.lineTo(C+253*Math.cos(a),C+253*Math.sin(a));ctx.strokeStyle=i%2?'#80673f':'#b59355';ctx.lineWidth=13;ctx.stroke();ctx.beginPath();ctx.moveTo(C+100*Math.cos(a),C+100*Math.sin(a));ctx.lineTo(C+250*Math.cos(a),C+250*Math.sin(a));ctx.strokeStyle='#223c30';ctx.lineWidth=7;ctx.stroke()}
     circle(196,'#13382b','#a48249',14);circle(170,'#0a1c17','#68502f',3);circle(110,'#254637','#bca069',7);circle(83,'#0e241b','#c4a16c',6);
     // Game state
-    let balance=1000,bet='red',rotation=0,spinning=false,history=[],soundOn=true,audio=null;
+    let balance=0,bet='red',rotation=0,spinning=false,history=[],soundOn=true,audio=null;
     const colorButtons=[...document.querySelectorAll('[data-bet]')], chipButtons=[...document.querySelectorAll('[data-chip]')];
     function audioContext(){if(!soundOn)return null;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();return audio}catch{return null}}
     function tone(frequency,duration,volume=.04,type='sine',offset=0){const ac=audioContext();if(!ac)return;const osc=ac.createOscillator(),gain=ac.createGain(),t=ac.currentTime+offset;osc.type=type;osc.frequency.setValueAtTime(frequency,t);gain.gain.setValueAtTime(.001,t);gain.gain.exponentialRampToValueAtTime(Math.max(.002,volume),t+.006);gain.gain.exponentialRampToValueAtTime(.001,t+duration);osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+duration+.012)}
@@ -118,7 +120,10 @@
     function tickSound(){tone(750,.028,.019,'triangle');tone(300,.045,.009,'sine')}
     function finishSound(win){if(win){[523,659,784,1046].forEach((n,i)=>tone(n,.27,.07,'sine',i*.105))}else{tone(310,.17,.035,'sine');tone(235,.25,.028,'sine',.15)}}
     function cash(n){return n.toLocaleString('de-CH').replace(/\u2019/g,"'")}
-    function updateBalance(){$('balance').innerHTML=`${cash(balance)} <small>CHIPS</small>`}
+    // Guthaben aus der API: Änderungen werden als Differenz gespeichert (assets/balance.js)
+    let syncedBalance=null;
+    function updateBalance(){$('balance').innerHTML=`${cash(balance)} <small>CHF</small>`;if(syncedBalance===null)return;const delta=balance-syncedBalance;if(delta===0)return;syncedBalance=balance;changeBalance(delta).then(b=>{if(b===null)reloadBalance()})}
+    async function reloadBalance(){const b=await loadServerBalance();if(b===null)return;balance=b;syncedBalance=b;updateBalance();updatePotential()}
     function updatePotential(){const stake=Number($('stake').value)||0;$('potential').textContent=`${cash(Math.max(0,stake)*(bet==='red'||bet==='black'?2:36))} CHIPS`;chipButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.chip)===stake))}
     function selectBet(value){if(spinning)return;bet=value;colorButtons.forEach(b=>{const active=b.dataset.bet===value;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});$('numberBtn').classList.toggle('active',value==='number');$('numberBtn').setAttribute('aria-pressed',String(value==='number'));updatePotential();clickSound()}
     colorButtons.forEach(b=>b.addEventListener('click',()=>selectBet(b.dataset.bet)));
@@ -133,7 +138,7 @@
     $('spin').addEventListener('click',()=>{
       if(spinning)return;
       const stake=Number($('stake').value),picked=Number($('number').value);
-      if(!Number.isSafeInteger(stake)||stake<1||stake>balance){setResult('UNGÜLTIGER EINSATZ',balance?`Bitte 1 bis ${cash(balance)} Chips setzen.`:'Keine Chips mehr. Setze das Spiel zurück.');return}
+      if(!Number.isSafeInteger(stake)||stake<1||stake>balance){setResult('UNGÜLTIGER EINSATZ',balance?`Bitte 1 bis ${cash(balance)} Chips setzen.`:'Nicht genügend Guthaben.');return}
       if(bet==='number'&&($('number').value.trim()===''||!Number.isInteger(picked)||picked<0||picked>36)){setResult('UNGÜLTIGE ZAHL','Bitte eine ganze Zahl zwischen 0 und 36 wählen.');return}
       audioContext();balance-=stake;updateBalance();setLocked(true);setResult('DAS RAD DREHT SICH','Das Ergebnis wird gleich enthüllt.');
       const winner=randomInt(37),index=order.indexOf(winner);
@@ -157,8 +162,8 @@
       }
       requestAnimationFrame(frame);
     });
-    $('restart').addEventListener('click',()=>{if(spinning)return;balance=1000;history=[];rotation=0;canvas.style.transform='rotate(0deg)';$('history').innerHTML='<span style="color:#718278;font-size:12px">Noch keine Ergebnisse</span>';updateBalance();setResult('BEREIT FÜR DEINEN EINSATZ','Wähle eine Wette und starte das Rad.');clickSound()});
-    updateBalance();updatePotential();
+    $('restart').addEventListener('click',()=>{if(spinning)return;history=[];rotation=0;canvas.style.transform='rotate(0deg)';$('history').innerHTML='<span style="color:#718278;font-size:12px">Noch keine Ergebnisse</span>';updateBalance();setResult('BEREIT FÜR DEINEN EINSATZ','Wähle eine Wette und starte das Rad.');clickSound()});
+    updateBalance();updatePotential();reloadBalance();
   </script>
 </body>
 </html>

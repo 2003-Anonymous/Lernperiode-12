@@ -41,7 +41,11 @@ function selectGame(gameName) {
         location.href = 'pharaoh.html';
         return;
     }
-    message.textContent = 'Roulette wird später integriert.';
+    if (gameName === 'Roulette') {
+        location.href = 'roulette.html';
+        return;
+    }
+    message.textContent = 'Dieses Spiel gibt es noch nicht.';
 }
 
 async function logout() {
