@@ -84,14 +84,34 @@ Navid
 - [ ] Test durchführen
 
 Amar
-- [ ] Design des Spielautomaten mit CSS verbessern
-- [ ] Einsatz-Auswahl mit JavaScript implementieren
-- [ ] Auto-Spin-Funktion programmieren und testen
+- [x] Design des Spielautomaten mit CSS verbessern
+- [x] Einsatz-Auswahl mit JavaScript implementieren
+- [x] Auto-Spin-Funktion programmieren und testen
 
 Joshua
 - [ ] Layout für Game planen
 - [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
 - [ ] Grundgerüst für das Game programmieren, Klassen und Funktionen erstellen
+
+## 20.11.26
+Navid
+- [ ]
+- [ ]
+- [ ]
+
+
+Amar
+- [ ] HTML-Datei erstellen und Grundstruktur des Mines-Spiels aufbauen
+- [ ] 5×5 Spielfeld mit 25 Feldern erstellen und anordnen
+- [ ] Grundlegendes Design des Spielfelds und Hintergrunds mit CSS gestalten
+
+
+Joshua
+- [ ]
+- [ ]
+- [ ]
+
+
 ## Schnellstart
 
 Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
