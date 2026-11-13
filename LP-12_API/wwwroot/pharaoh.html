@@ -45,16 +45,38 @@
                 </div>
             </div>
 
-            <button id="spinButton" type="button">
-                SPIN
-            </button>
+            <div class="controls">
+
+                <div class="bet-control">
+                    <p>EINSATZ</p>
+
+                    <div class="bet-buttons">
+                        <button id="betMinus" type="button">−</button>
+                        <span id="betValue">10 CHF</span>
+                        <button id="betPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <button id="spinButton" type="button">
+                    SPIN
+                </button>
+
+                <button id="autoButton" type="button"
+                        aria-pressed="false">
+                    AUTO PLAY: AUS
+                </button>
+
+            </div>
 
             <p id="message" aria-live="polite">
                 Drücke auf SPIN, um die Walzen zu drehen.
             </p>
 
-        </div>
+            <p class="notice">
+                Demo-Version Keine Einsätze oder Gewinne
+            </p>
 
+        </div>
     </main>
 
 </body>
