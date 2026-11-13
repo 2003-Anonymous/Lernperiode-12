@@ -160,10 +160,6 @@ button {
     transition: background-color 0.2s;
 }
 
-button:hover:not(:disabled) {
-    background-color: #f0ce82;
-}
-
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -172,6 +168,10 @@ button:disabled {
 .bet-control button {
     padding: 8px 15px;
     font-size: 18px;
+}
+
+button:hover:not(:disabled) {
+    background-color: #f0ce82;
 }
 
 #spinButton {
