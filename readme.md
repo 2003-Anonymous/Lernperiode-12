@@ -96,6 +96,14 @@ Joshua
 Heute habe ich das Design der Altersbestätigung und der Homepage verbessert und Mergeconflicts gelöst. Danach habe ich alle Dateien miteinander verbunden und an den richtigen Platz verschoben. Danach habe ich noch einem Benutzer viel Geld gegeben, damit man das Spiel beim Market Place testen kann, ohne dass das Geld ausgeht.
 
 ## 20.11.26
+
+
+
+Amar
+- [ ] HTML-Datei erstellen und Grundstruktur des Mines-Spiels aufbauen
+- [ ] 5×5 Spielfeld mit 25 Feldern erstellen und anordnen
+- [ ] Grundlegendes Design des Spielfelds und Hintergrunds mit CSS gestalten
+
 Joshua
 - [ ] Layout für Game planen
 - [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
