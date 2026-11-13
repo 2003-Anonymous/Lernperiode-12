@@ -73,14 +73,25 @@ Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt
 ## 13.11.26
 
 Navid
-- [x] Fehler beheben Pull request (Bin dabei das Problem zu beheben habe es aber noch nicht funktioniert)
-- [ ] Login in Registrierung miteinander verbinden 
-- [ ] Test durchführen
+- [x] Fehler beheben Pull request 
+- [x] Login in Registrierung miteinander verbinden 
+- [x] Roulett programmieren
+      
+Heute habe ich daran gearbeitet, die Fehler im Pull Request zu beheben. Ausserdem habe ich den Login mit der Registrierung verbunden und ein Roulette-Spiel mit HTML, CSS und JavaScript programmiert. Dabei habe ich auch das Design verbessert und Sounds eingebaut.
 
 Joshua
 - [ ] Layout für Game planen
 - [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
 - [ ] Grundgerüst für das Game programmieren, Klassen und Funktionen erstellen
+
+
+
+
+## 20.11.26
+[ ] Weitere Wettmöglichkeiten für das Roulette programmieren
+[ ] Roulette-Tisch mit Zahlen und Einsatzfeldern erstellen
+[ ] Design des Roulettes verbessern und Animationen überarbeiten
+
 ## Schnellstart
 
 Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
