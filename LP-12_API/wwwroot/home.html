@@ -1,109 +1,149 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Casino Royal – Amar und Navid</title>
-    <link rel="stylesheet" href="home.css">
-    <script src="home.js" defer></script>
+    <title>Casino Royal</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="home.css?v=2">
+    <script src="home.js?v=2" defer></script>
     <script src="age-check.js" defer></script>
 </head>
 <body>
     <section id="age-gate" role="region" aria-labelledby="age-title">
-        <div id="age-question">
-            <h2 id="age-title" tabindex="-1">Bist du mindestens 18 Jahre alt?</h2>
-            <button id="age-yes" type="button" disabled>Ja</button>
-            <button id="age-no" type="button" disabled>Nein</button>
-        </div>
-        <div id="age-denied" hidden>
-            <h2 id="age-denied-title" tabindex="-1">Zugang nicht möglich</h2>
-            <p>Dieses Schulprojekt ist ab 18 Jahren zugänglich.</p>
-        </div>
-    </section>
-    <div id="casino-content" hidden inert>
+        <div class="age-card">
+            <svg class="brand-mark age-mark" viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 5 43 24 24 43 5 24Z" />
+                <path d="m24 14 10 10-10 10-10-10Z" />
+            </svg>
+            <p class="eyebrow">Casino Royal</p>
 
-    <header>
-        <h1 tabindex="-1">Casino Royal</h1>
-
-        <div class="balance">
-            Guthaben: <span id="balance">…</span> CHF
-        </div>
-    </header>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#roulette">Roulette</a>
-        <a href="#slots">Spielautomaten</a>
-    </nav>
-
-    <main id="home">
-
-        <section class="welcome">
-            <h2>Willkommen bei Casino Royal</h2>
-            <p>Wähle eines unserer Spiele aus!</p>
-        </section>
-
-        <section class="games">
-            <h2>Unsere Spiele</h2>
-
-            <div class="game-container">
-
-
-                <div class="game-card" id="roulette">
-                    <img
-                        src="images/roulette.png"
-                        alt="Roulette"
-                        class="game-image"
-                    >
-
-                    <p>Klassisches Casino-Erlebnis mit Spannung pur.</p>
-
-                    <button onclick="selectGame('Roulette')">
-                        Spiel auswählen
+            <div id="age-question">
+                <span class="age-badge" aria-hidden="true">18+</span>
+                <h2 id="age-title" tabindex="-1">Bist du mindestens 18 Jahre alt?</h2>
+                <p class="age-text">
+                    Glücksspiel ist erst ab 18 Jahren erlaubt. Bitte bestätige dein Alter,
+                    um weiterzuspielen.
+                </p>
+                <div class="age-actions">
+                    <button id="age-yes" class="btn btn-primary" type="button" disabled>
+                        Ja, ich bin 18 oder älter
+                    </button>
+                    <button id="age-no" class="btn btn-ghost" type="button" disabled>
+                        Nein
                     </button>
                 </div>
-
-
-                <div class="game-card" id="slots">
-                    <img
-                        src="images/wild_west_slots.png"
-                        alt="Wild West Slots"
-                        class="game-image"
-                    >
-
-                    <p>Erlebe den Wilden Westen!</p>
-
-                    <button onclick="selectGame('Wild West Slots')">
-                        Spiel auswählen
-                    </button>
-                </div>
-
-
-                <div class="game-card" id="pharaoh">
-                    <img
-                        src="images/Pharao/pharaohs_treasure.png"
-                        alt="Pharaoh's Treasure"
-                        class="game-image"
-                    >
-
-                    <p>Entdecke die geheimnisvollen Schätze des alten Ägyptens!</p>
-
-                    <button onclick="selectGame('Pharaoh')">
-                        Spiel auswählen
-                    </button>
-                </div>
-
+                <p class="age-note">Alle Einsätze sind virtuell. Es wird kein echtes Geld verwendet.</p>
             </div>
 
-            <p id="game-message" role="status"></p>
-        </section>
+            <div id="age-denied" hidden>
+                <h2 id="age-denied-title" tabindex="-1">Zugang nicht möglich</h2>
+                <p class="age-text">
+                    Dieses Schulprojekt ist erst ab 18 Jahren zugänglich.
+                    Danke für dein Verständnis.
+                </p>
+            </div>
+        </div>
+    </section>
 
-    </main>
+    <div id="casino-content" hidden inert>
 
-    <footer>
-        <p>Casino Royal - Schulprojekt</p>
-    </footer>
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="#home">
+                    <svg class="brand-mark" viewBox="0 0 48 48" aria-hidden="true">
+                        <path d="M24 5 43 24 24 43 5 24Z" />
+                        <path d="m24 14 10 10-10 10-10-10Z" />
+                    </svg>
+                    <h1 tabindex="-1">Casino Royal</h1>
+                </a>
+
+                <nav aria-label="Hauptnavigation">
+                    <a href="#home">Home</a>
+                    <a href="#roulette">Roulette</a>
+                    <a href="#slots">Spielautomaten</a>
+                </nav>
+
+                <div class="account">
+                    <div class="balance">
+                        <span class="balance-label">Guthaben</span>
+                        <span><span id="balance">…</span> CHF</span>
+                    </div>
+                    <button id="logout" class="btn btn-ghost btn-small" type="button">Abmelden</button>
+                </div>
+            </div>
+        </header>
+
+        <main id="home">
+
+            <section class="welcome">
+                <p class="eyebrow">Willkommen zurück</p>
+                <h2>Dein Platz am Tisch wartet.</h2>
+                <p class="welcome-text">
+                    Wähle ein Spiel und setze dein virtuelles Guthaben. Viel Glück!
+                </p>
+            </section>
+
+            <section class="games" aria-labelledby="games-title">
+                <div class="section-head">
+                    <h2 id="games-title">Unsere Spiele</h2>
+                    <span class="section-line" aria-hidden="true"></span>
+                </div>
+
+                <div class="game-container">
+
+                    <article class="game-card" id="roulette">
+                        <div class="game-media">
+                            <img src="images/roulette.png" alt="Roulette" class="game-image">
+                            <span class="game-tag">Tischspiel</span>
+                        </div>
+                        <div class="game-body">
+                            <h3>Roulette</h3>
+                            <p>Klassisches Casino-Erlebnis mit Spannung pur.</p>
+                            <button class="btn btn-primary" type="button" onclick="selectGame('Roulette')">
+                                Spiel auswählen
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="game-card" id="slots">
+                        <div class="game-media">
+                            <img src="images/wild_west_slots.png" alt="Wild West Slots" class="game-image">
+                            <span class="game-tag">Spielautomat</span>
+                        </div>
+                        <div class="game-body">
+                            <h3>Wild West Slots</h3>
+                            <p>Erlebe den Wilden Westen!</p>
+                            <button class="btn btn-primary" type="button" onclick="selectGame('Wild West Slots')">
+                                Spiel auswählen
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="game-card" id="pharaoh">
+                        <div class="game-media">
+                            <img src="images/Pharao/pharaohs_treasure.png" alt="Pharaoh's Treasure" class="game-image">
+                            <span class="game-tag">Spielautomat</span>
+                        </div>
+                        <div class="game-body">
+                            <h3>Pharaoh's Treasure</h3>
+                            <p>Entdecke die geheimnisvollen Schätze des alten Ägyptens!</p>
+                            <button class="btn btn-primary" type="button" onclick="selectGame('Pharaoh')">
+                                Spiel auswählen
+                            </button>
+                        </div>
+                    </article>
+
+                </div>
+
+                <p id="game-message" role="status"></p>
+            </section>
+
+        </main>
+
+        <footer>
+            <p class="footer-text">Casino Royal · Schulprojekt Modul 324 · Nur virtuelles Guthaben</p>
+        </footer>
 
     </div>
 </body>

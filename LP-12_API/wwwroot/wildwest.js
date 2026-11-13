@@ -11,7 +11,6 @@ const SYMBOLS = [
   { file: "Sheriff.jpg", name: "Sheriffstern", multiplier: 10 }
 ];
 
-const STORAGE_KEY = "casinoRoyalBalance";
 const BETS = [10, 25, 50, 100];
 
 
@@ -34,26 +33,38 @@ const frame = document.querySelector(".machine-frame");
 let betIndex = 0;
 let spinning = false;
 let autoSpin = false;
-let balance = loadBalance();
+let balance = 0;
+let accountReady = false;
 
 
-function loadBalance() {
-  const raw = localStorage.getItem(STORAGE_KEY);
+// Das Guthaben kommt aus der API (Datenbank), nicht aus dem Browser.
+async function loadBalance() {
+  try {
+    const response = await fetch("/Account/me");
 
-  if (raw === null) {
-    return 1000;
+    if (response.status === 401) {
+      location.replace("index.html");
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Konto konnte nicht geladen werden");
+    }
+
+    const me = await response.json();
+    balance = me.balance;
+    accountReady = true;
+    renderBalance();
+  } catch {
+    messageEl.textContent =
+      "Das Guthaben konnte nicht geladen werden. Bitte lade die Seite neu.";
   }
 
-  const value = Number(raw);
-
-  return Number.isFinite(value) && value >= 0
-    ? Math.floor(value)
-    : 1000;
+  updateControls();
 }
 
 
-function saveBalance() {
-  localStorage.setItem(STORAGE_KEY, String(balance));
+function renderBalance() {
   balanceEl.textContent = balance.toLocaleString("de-CH");
 }
 
@@ -124,7 +135,7 @@ function updateControls() {
     spinning || betIndex === BETS.length - 1;
 
   maxButton.disabled = spinning;
-  spinButton.disabled = spinning;
+  spinButton.disabled = spinning || !accountReady;
 
   autoButton.textContent = autoSpin
     ? "AUTO SPIN: AN"
@@ -192,7 +203,7 @@ function calculateWin(columns, stake) {
 async function spin() {
 
   
-  if (spinning) {
+  if (spinning || !accountReady) {
     return;
   }
 
@@ -212,12 +223,22 @@ async function spin() {
   spinning = true;
 
   frame.classList.remove("winner");
-
-  
-  balance -= stake;
-  saveBalance();
-
   updateControls();
+
+  // Einsatz in der Datenbank abziehen
+  const afterStake = await changeBalance(-stake);
+
+  if (afterStake === null) {
+    autoSpin = false;
+    spinning = false;
+    messageEl.textContent =
+      "Der Einsatz konnte nicht gebucht werden. Bitte versuche es erneut.";
+    updateControls();
+    return;
+  }
+
+  balance = afterStake;
+  renderBalance();
 
   messageEl.textContent = "Die Walzen drehen sich ...";
   winEl.textContent = "0 CHF";
@@ -247,8 +268,13 @@ async function spin() {
     if (win.payout > 0) {
 
       
-      balance += win.payout;
-      saveBalance();
+      // Gewinn in der Datenbank gutschreiben
+      const afterWin = await changeBalance(win.payout);
+
+      if (afterWin !== null) {
+        balance = afterWin;
+        renderBalance();
+      }
 
       winEl.textContent =
         `${win.payout.toLocaleString("de-CH")} CHF`;
@@ -341,7 +367,5 @@ tracks.forEach(track => {
 });
 
 
-saveBalance();
-
-
 updateControls();
+loadBalance();
