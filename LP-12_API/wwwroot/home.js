@@ -44,4 +44,14 @@ function selectGame(gameName) {
     message.textContent = 'Roulette wird später integriert.';
 }
 
+async function logout() {
+    try {
+        await fetch('/Account/logout', { method: 'POST' });
+    } finally {
+        location.replace('index.html');
+    }
+}
+
+document.getElementById('logout').addEventListener('click', logout);
+
 loadBalance();
