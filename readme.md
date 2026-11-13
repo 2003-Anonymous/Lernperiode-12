@@ -70,8 +70,8 @@ Heute habe ich neue Bilder für den Spielautomaten hinzugefügt und die Slot-Mas
       
 Joshua
 - [x] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
-- [ ] Evtl. Endpunkte für die Games hinzufügen.
-- [ ] 3. Game ausdenken und planen.
+- [x] Evtl. Endpunkte für die Games hinzufügen.
+- [x] 3. Game ausdenken und planen.
 
 Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt. Die API ist also soweit fertig. Dazu habe ich noch ein neues Issue für das Registrieren erstellt, da man sich bis jetzt nur anmelden kann. Dieses habe ich dem Milestone 0.3.0 (MVP) zugeordnet.
 
@@ -88,6 +88,14 @@ Amar
 - [x] Einsatz-Auswahl mit JavaScript implementieren
 - [x] Auto-Spin-Funktion programmieren und testen
 
+Joshua
+- [x] Merge-Konflikte lösen
+- [x] Design der Homepage und Altersbestätigung verbessern
+- [x] Deployment vorbereiten und durchführen
+
+Heute habe ich das Design der Altersbestätigung und der Homepage verbessert und Mergeconflicts gelöst. Danach habe ich alle Dateien miteinander verbunden und an den richtigen Platz verschoben. Danach habe ich noch einem Benutzer viel Geld gegeben, damit man das Spiel beim Market Place testen kann, ohne dass das Geld ausgeht.
+
+## 20.11.26
 Joshua
 - [ ] Layout für Game planen
 - [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
