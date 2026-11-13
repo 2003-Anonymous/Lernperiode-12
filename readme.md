@@ -19,6 +19,8 @@ Amar – Frontend
 - [x] 	Navigationsmenü für die Spiele implementieren
 - [x] 	Spielauswahl für Roulette und Spielautomaten gestalten
 - [ ] 	Guthabenanzeige auf der Homepage integrieren
+
+Heute habe ich an der Homepage unseres Casino-Projekts gearbeitet. Zuerst habe ich mit HTML und CSS das Grundlayout erstellt. Danach habe ich ein Navigationsmenü hinzugefügt, damit man zwischen den verschiedenen Spielen wechseln kann. Ausserdem habe ich die Spielauswahl für Roulette und die Spielautomaten gestaltet und passende Buttons eingefügt. Zum Schluss habe ich die Homepage getestet und kleinere Anpassungen am Design vorgenommen.
 	
 Joshua – Backend
 
@@ -36,9 +38,11 @@ Navid – Frontend (Login & Roulette)
 - [x] Grundlayout der Roulette-Spieloberfläche mit HTML und CSS erstellen
       
 Amar – Frontend (Homepage & Spielautomaten)
-- [ ] Homepage mit Login und Altersbestätigung verknüpfen
-- [ ] Grundlayout des Spielautomaten mit HTML und CSS erstellen
-- [ ] Spin-Button und zufällige Symbole mit JavaScript implementieren
+- [x] Homepage mit Login und Altersbestätigung verknüpfen
+- [x] Grundlayout des Spielautomaten mit HTML und CSS erstellen
+- [x] Spin-Button und zufällige Symbole mit JavaScript implementieren
+
+Heute habe ich die Homepage mit der Login-Seite und der Altersbestätigung verknüpft. Danach habe ich mit HTML und CSS das Grundlayout des Spielautomaten erstellt und die ersten Symbole eingefügt. Anschliessend habe ich mit JavaScript den Spin-Button programmiert, damit sich die Walzen beim Klicken drehen und zufällige Symbole angezeigt werden. Zum Schluss habe ich die Funktionen getestet und kleinere Fehler behoben.
       
 Joshua – Backend (C# & Datenbank)
 - [x] Benutzerregistrierung mit sicherer Passwortspeicherung umsetzen
@@ -61,6 +65,8 @@ Amar
 - [x] Neue Bilder für Slot Maschiene
 - [x] Slot Maschiene Programmieren
 - [ ] Neues Design
+
+Heute habe ich neue Bilder für den Spielautomaten hinzugefügt und die Slot-Maschine programmiert. Dabei habe ich die Symbole eingebaut und dafür gesorgt, dass sich die Bilder beim Drücken des Spin-Buttons drehen. Als Nächstes werde ich das Design verbessern.
       
 Joshua
 - [x] Absprechen mit Amar und Navid, wer die Spiellogik übernimmt (Backend / Frontend)
@@ -76,6 +82,11 @@ Navid
 - [x] Fehler beheben Pull request (Bin dabei das Problem zu beheben habe es aber noch nicht funktioniert)
 - [ ] Login in Registrierung miteinander verbinden 
 - [ ] Test durchführen
+
+Amar
+- [ ] Design des Spielautomaten mit CSS verbessern
+- [ ] Einsatz-Auswahl mit JavaScript implementieren
+- [ ] Auto-Spin-Funktion programmieren und testen
 
 Joshua
 - [ ] Layout für Game planen
