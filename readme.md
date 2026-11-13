@@ -73,7 +73,7 @@ Die Endpunkte werden doch nicht benötigt, da die Gamelogik beim Frontend bleibt
 ## 13.11.26
 
 Navid
-- [ ] Fehler beheben Pull request
+- [x] Fehler beheben Pull request (Bin dabei das Problem zu beheben habe es aber noch nicht funktioniert)
 - [ ] Login in Registrierung miteinander verbinden 
 - [ ] Test durchführen
 
