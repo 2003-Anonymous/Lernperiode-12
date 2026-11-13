@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090e0d">
+  <title>Casino Royal — Premium Roulette</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090e0d;--card:#101a17;--gold:#d9bc79;--gold-dark:#a48348;--cream:#f4eee1;--muted:#8b9a93;--line:rgba(222,190,124,.16);--red:#a52f3c;--green:#176c51;--black:#1a2524}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;color:var(--cream);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(ellipse at 18% 15%,#19372b 0%,transparent 38%),radial-gradient(ellipse at 94% 86%,#252019 0%,transparent 30%),var(--bg)}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.2;background-image:linear-gradient(90deg,transparent 99.7%,#d2bb7930 100%),linear-gradient(transparent 99.7%,#d2bb7930 100%);background-size:66px 66px;mask-image:linear-gradient(to bottom,#0009,transparent 85%)}
+    button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+    .shell{width:min(1140px,calc(100% - 38px));margin:0 auto;padding:25px 0 24px}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 0 23px;border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:15px}.brand-mark{width:44px;height:44px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font:italic bold 27px Georgia,serif;box-shadow:inset 0 0 0 5px #d9bc7910}
+    .brand-title{font:700 30px/1 Georgia,"Times New Roman",serif;letter-spacing:.18em;text-transform:uppercase;background:linear-gradient(180deg,#fff4c6 0%,#f4da97 24%,#d8b66f 52%,#b8893d 74%,#f3dfac 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 18px rgba(217,188,121,.18),0 2px 10px rgba(0,0,0,.35)}.brand-sub{font-size:10px;letter-spacing:.34em;color:var(--gold);margin-top:7px}
+    .top-right{display:flex;align-items:center;gap:13px}.sound{background:transparent;border:1px solid var(--line);color:#c9d2c6;border-radius:8px;padding:12px 14px;font-size:12px;transition:border-color .2s}.sound:hover{border-color:var(--gold)}
+    .balance{background:linear-gradient(130deg,#1b2922,#111d18);border:1px solid #b69b5b47;border-radius:9px;padding:10px 20px;min-width:178px;text-align:right}.mini-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}.balance strong{display:block;margin-top:4px;font-size:23px;letter-spacing:.02em;color:#f1d597;font-weight:600}.balance small{font-size:11px;color:#bbaa85}
+    .intro{text-align:center;margin:30px 0 25px}.intro .eyebrow{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}.intro h1{font:normal clamp(38px,5.6vw,66px)/1.04 Georgia,serif;letter-spacing:.11em;margin:0;text-transform:uppercase;background:linear-gradient(180deg,#fff7d6 0%,#f5dfa4 22%,#d7b66d 48%,#a97834 74%,#f4dfaa 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 26px rgba(217,188,121,.18),0 6px 16px rgba(0,0,0,.42)}.intro p{color:var(--muted);font-size:13px;line-height:1.6;margin:12px 0 0}
+    .main-grid{display:grid;grid-template-columns:minmax(0,1.17fr) minmax(340px,.83fr);gap:18px;align-items:stretch}
+    .panel{background:linear-gradient(145deg,rgba(24,39,31,.94),rgba(10,18,16,.97));border:1px solid var(--line);box-shadow:0 20px 65px #0005, inset 0 1px #ffffff08;border-radius:16px;position:relative;overflow:hidden}
+    .panel:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:50%;height:1px;background:linear-gradient(90deg,transparent,#e5c47d8c,transparent)}
+    .wheel-panel{padding:25px 16px 20px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;min-height:570px}
+    .panel-heading{display:flex;justify-content:space-between;align-items:center;width:100%;padding:0 12px;gap:12px}.panel-heading span{font-size:10px;letter-spacing:.24em;color:#aeb8ab}.panel-heading .accent{color:var(--gold)}
+    .wheel-outer{width:min(450px,94%);aspect-ratio:1;position:relative;display:grid;place-items:center;filter:drop-shadow(0 18px 18px #0008);margin:8px 0}
+    #wheel{width:100%;height:100%;display:block;will-change:transform;border-radius:50%}
+    .pointer{position:absolute;top:-3px;left:50%;transform:translateX(-50%);z-index:5;width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;border-top:30px solid #f2d58c;filter:drop-shadow(0 3px 3px #000b)}
+    .hub{position:absolute;inset:42%;border-radius:50%;border:5px solid #d9b56a;background:radial-gradient(circle at 30% 24%,#fff0bd,#be944e 40%,#59401e 85%);box-shadow:0 0 0 6px #101811,0 5px 20px #000a;pointer-events:none;display:grid;place-items:center}.hub:after{content:"N";color:#493719;font:italic bold clamp(18px,4vw,35px) Georgia,serif}
+    .result{width:min(440px,100%);border:1px solid #d9bc7933;background:#090f0de8;padding:15px 14px;text-align:center;border-radius:10px;min-height:67px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px}.result b{color:#f1d593;font-weight:600;letter-spacing:.02em}.result small{font-size:12px;color:var(--muted)}.result.win{border-color:#a4cb9855;background:#12312399}.result.loss{border-color:#c2919150}
+    .bet-panel{padding:28px 28px 23px;display:flex;flex-direction:column;gap:0}
+    .step{font-size:10px;letter-spacing:.23em;color:var(--gold);font-weight:600}.bet-panel h2{font:normal 28px/1.25 Georgia,serif;margin:8px 0 7px}.desc{font-size:13px;color:var(--muted);line-height:1.65;margin:0 0 25px}
+    .section-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:11px}.section-row label,.section-row strong{font-size:12px;color:#cdd2ca;font-weight:600}.section-row span{font-size:11px;color:var(--muted)}
+    .colors{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.color-bet{height:89px;border:1px solid #ffffff18;border-radius:10px;background:#16201d;color:#f0eee7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:12px;transition:transform .18s,border .18s,background .18s}.color-bet:hover:not(:disabled){transform:translateY(-2px);background:#222c26}.color-bet.active{border:1px solid var(--gold);background:#d9bc7912;box-shadow:0 0 0 1px #d9bc7930,inset 0 0 22px #d9bc790b}.color-bet small{font-size:10px;letter-spacing:.09em;color:#b5bdb2}.dot{display:block;width:24px;height:24px;border-radius:50%;box-shadow:0 2px 8px #0008,inset 0 0 0 1px #fff4}.dot.red{background:linear-gradient(145deg,#dc5860,#821f2c)}.dot.black{background:linear-gradient(145deg,#4c5854,#0a0f0e);border:1px solid #86928a}.dot.green{background:linear-gradient(145deg,#3baf7b,#0c5a40)}
+    .number-line{display:grid;grid-template-columns:1fr 100px;gap:9px;margin:12px 0 24px}.number-btn{border:1px solid #ffffff26;background:#121e19;color:#bfc9bf;text-align:left;border-radius:8px;padding:12px 14px;font-size:12px}.number-btn.active{border-color:var(--gold);color:var(--gold);background:#d9bc7912}.number-btn span{float:right;color:#c4a966}input[type=number]{width:100%;height:43px;border-radius:8px;border:1px solid #ffffff2b;background:#08120f;color:#f2e8d1;padding:0 12px;outline:none;font-weight:600;appearance:textfield}input[type=number]:focus{border-color:var(--gold)}input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+    .divider{height:1px;background:var(--line);margin:0 0 22px}.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:13px 0 17px}.chip{position:relative;isolation:isolate;aspect-ratio:1;border-radius:50%;border:3px dashed #ead09e;box-shadow:0 0 0 3px #584d38,0 5px 9px #0008;background:radial-gradient(circle,#5e4c32 0 50%,#b3975d 51% 63%,#4e3b27 64%);color:#ffe5b0;font-weight:700;font-size:15px;transition:transform .18s,filter .18s}.chip:nth-child(2){background:radial-gradient(circle,#275346 0 50%,#6caa87 51% 63%,#17392d 64%);box-shadow:0 0 0 3px #225440,0 5px 9px #0008}.chip:nth-child(3){background:radial-gradient(circle,#4c2530 0 50%,#c27783 51% 63%,#48212a 64%);box-shadow:0 0 0 3px #623540,0 5px 9px #0008}.chip:nth-child(4){background:radial-gradient(circle,#263b51 0 50%,#839db4 51% 63%,#1c3044 64%);box-shadow:0 0 0 3px #344c5b,0 5px 9px #0008}.chip:hover:not(:disabled){transform:translateY(-4px);filter:brightness(1.15)}.chip.active{outline:2px solid #f2d28b;outline-offset:5px}
+    .amount-row{display:grid;grid-template-columns:1fr auto;gap:11px;align-items:center;margin-bottom:18px}.amount-row input{height:48px;font-size:16px}.amount-row .hint{font-size:11px;color:var(--muted);text-align:right;line-height:1.5}
+    .spin{width:100%;height:58px;border:1px solid #f5dda2;background:linear-gradient(115deg,#b58c4a 0%,#f6d997 44%,#c29b56 100%);color:#20190f;border-radius:10px;letter-spacing:.16em;font-size:13px;font-weight:800;box-shadow:0 8px 24px #b0873c24, inset 0 1px #fff8;transition:filter .15s,transform .15s}.spin:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px)}.spin:active:not(:disabled){transform:translateY(1px)}.spin:disabled{opacity:.75}
+    .payout{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:16px}.payout strong{color:var(--gold);font-weight:600}
+    .history-block{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 6px 10px;margin-top:17px;border-top:1px solid var(--line)}.history-block h3{font-size:11px;font-weight:600;letter-spacing:.2em;color:#b6bcb0;margin:0 0 7px}.history-block p{color:var(--muted);font-size:11px;margin:0}.history{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:7px;min-height:34px}.past{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;border:1px solid #ffffff29;font-weight:700;font-size:12px;background:#a52f3c}.past.black{background:#202b28}.past.green{background:#176c51}
+    .footer{display:flex;justify-content:space-between;gap:12px;margin-top:22px;color:#69786e;font-size:11px;letter-spacing:.04em}.footer button{border:0;background:none;padding:0;color:#a99b78;font-size:11px;cursor:pointer}.footer button:hover{text-decoration:underline}
+    @media(max-width:820px){.main-grid{grid-template-columns:1fr}.wheel-panel{min-height:unset;gap:18px}.wheel-outer{width:min(400px,90%)}.bet-panel{padding:24px}.intro{margin:27px 0 19px}}
+    @media(max-width:500px){.shell{width:min(100% - 22px,1140px);padding-top:15px}.brand{gap:9px}.brand-mark{width:36px;height:36px;font-size:22px}.brand-title{font-size:20px}.brand-sub{font-size:8px;letter-spacing:.25em}.top-right{gap:7px}.sound{padding:9px;font-size:11px}.balance{min-width:118px;padding:8px 10px}.balance strong{font-size:17px}.balance small{display:none}.mini-label{font-size:8px}.intro h1{font-size:36px}.wheel-panel{padding:18px 13px}.wheel-outer{width:95%}.bet-panel{padding:22px 17px}.chips{gap:12px;padding:0 4px}.history-block{align-items:flex-start;flex-direction:column}.history{justify-content:flex-start}.footer{flex-direction:column;text-align:center;align-items:center}}
+    @media(prefers-reduced-motion:reduce){.spin,.chip,.color-bet{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="brand"><div class="brand-mark" aria-hidden="true">CR</div><div><div class="brand-title">Casino Royal</div><div class="brand-sub">PREMIUM ROULETTE</div></div></div>
+      <div class="top-right">
+        <button class="sound" id="sound" aria-pressed="true" title="Sound ein- oder ausschalten">SOUND AN</button>
+        <div class="balance"><div class="mini-label">Guthaben</div><strong id="balance">1'000 <small>CHIPS</small></strong></div>
+      </div>
+    </header>
+    <div class="intro"><p class="eyebrow">PRIVATE TABLE · EUROPEAN ROULETTE</p><h1>Casino Royal</h1><p>Setze deine Chips. Vertraue deinem Instinkt. Erlebe den Moment.</p></div>
+    <main class="main-grid">
+      <section class="panel wheel-panel" aria-label="Roulette-Rad">
+        <div class="panel-heading"><span>TABLE NO. 01</span><span class="accent">EUROPEAN · 37 NUMBERS</span></div>
+        <div class="wheel-outer"><div class="pointer" aria-hidden="true"></div><canvas id="wheel" width="800" height="800" role="img" aria-label="Roulette-Rad mit den Zahlen 0 bis 36"></canvas><div class="hub" aria-hidden="true"></div></div>
+        <div class="result" id="result" aria-live="polite"><b>BEREIT FÜR DEINEN EINSATZ</b><small>Wähle eine Wette und starte das Rad.</small></div>
+      </section>
+      <section class="panel bet-panel" aria-label="Wettbereich">
+        <span class="step">01 / PLACE YOUR BET</span>
+        <h2>Dein nächster Zug.</h2>
+        <p class="desc">Wähle deine Gewinnchance und lege deinen Einsatz fest.</p>
+        <div class="section-row"><label>WETTART</label><span>Auszahlung inklusive Einsatz</span></div>
+        <div class="colors">
+          <button class="color-bet active" data-bet="red" aria-pressed="true"><span class="dot red"></span>ROT <small>2×</small></button>
+          <button class="color-bet" data-bet="black" aria-pressed="false"><span class="dot black"></span>SCHWARZ <small>2×</small></button>
+          <button class="color-bet" data-bet="green" aria-pressed="false"><span class="dot green"></span>NULL <small>36×</small></button>
+        </div>
+        <div class="number-line"><button id="numberBtn" class="number-btn" aria-pressed="false">AUF EINE ZAHL SETZEN <span>36×</span></button><input type="number" id="number" min="0" max="36" value="7" aria-label="Zahl 0 bis 36"></div>
+        <div class="divider"></div>
+        <div class="section-row"><label>EINSATZ WÄHLEN</label><span>In virtuellen Chips</span></div>
+        <div class="chips">
+          <button class="chip" data-chip="10" aria-label="10 Chips setzen">10</button>
+          <button class="chip active" data-chip="25" aria-label="25 Chips setzen">25</button>
+          <button class="chip" data-chip="50" aria-label="50 Chips setzen">50</button>
+          <button class="chip" data-chip="100" aria-label="100 Chips setzen">100</button>
+        </div>
+        <div class="amount-row"><input type="number" id="stake" min="1" step="1" value="25" aria-label="Einsatz in Chips"><span class="hint">CHIPS<br>EINSATZ</span></div>
+        <button class="spin" id="spin">ROULETTE STARTEN</button>
+        <div class="payout"><span>Potenzielle Auszahlung</span><strong id="potential">50 CHIPS</strong></div>
+      </section>
+    </main>
+    <div class="history-block"><div><h3>LETZTE ERGEBNISSE</h3><p>Die zuletzt gefallenen Zahlen</p></div><div class="history" id="history"><span style="color:#718278;font-size:12px">Noch keine Ergebnisse</span></div></div>
+    <footer class="footer"><span>CASINO ROYAL · EINE VIRTUELLE SPIELSIMULATION</span><span>Kein Echtgeld · Nur zur Unterhaltung <span style="padding:0 8px">·</span> <button id="restart" title="Spiel zurücksetzen">Spiel zurücksetzen</button></span></footer>
+  </div>
+  <script>
+    'use strict';
+    const order = [0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+    const reds = new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+    const colorOf = n => n === 0 ? 'green' : reds.has(n) ? 'red' : 'black';
+    const $ = id => document.getElementById(id);
+    const canvas = $('wheel'), ctx = canvas.getContext('2d');
+    const C=400, R=388, slot=2*Math.PI/37, slotDeg=360/37;
+    // Detailed roulette wheel: all graphics are drawn locally, no external images.
+    function circle(radius, fill, stroke, line=1){ctx.beginPath();ctx.arc(C,C,radius,0,Math.PI*2);ctx.fillStyle=fill;ctx.fill();if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=line;ctx.stroke()}}
+    const ring=ctx.createRadialGradient(335,320,40,C,C,395);ring.addColorStop(0,'#d1ad64');ring.addColorStop(.7,'#6d4c23');ring.addColorStop(.87,'#b98c4b');ring.addColorStop(1,'#332618');
+    circle(R,ring,'#e5c685',4);circle(371,'#09100d','#6c552e',3);circle(360,'#d2ae6b','#090d0b',3);
+    order.forEach((n,i)=>{
+      const a=-Math.PI/2+(i-.5)*slot,b=a+slot;
+      ctx.beginPath();ctx.arc(C,C,353,a,b);ctx.arc(C,C,278,b,a,true);ctx.closePath();
+      ctx.fillStyle=n===0?'#17684d':reds.has(n)?'#a3333c':'#14211e';ctx.fill();ctx.strokeStyle='#e4bd74';ctx.lineWidth=1.5;ctx.stroke();
+      ctx.save();ctx.translate(C,C);ctx.rotate(-Math.PI/2+i*slot);
+      ctx.fillStyle='#f8ebc9';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 23px Georgia,serif';ctx.fillText(n,318,0);ctx.restore();
+    });
+    circle(278,'#bd9855','#302717',5);circle(269,'#132820','#e3c383',5);
+    for(let i=0;i<12;i++){const a=i*Math.PI/6;ctx.beginPath();ctx.moveTo(C+96*Math.cos(a),C+96*Math.sin(a));ctx.lineTo(C+253*Math.cos(a),C+253*Math.sin(a));ctx.strokeStyle=i%2?'#80673f':'#b59355';ctx.lineWidth=13;ctx.stroke();ctx.beginPath();ctx.moveTo(C+100*Math.cos(a),C+100*Math.sin(a));ctx.lineTo(C+250*Math.cos(a),C+250*Math.sin(a));ctx.strokeStyle='#223c30';ctx.lineWidth=7;ctx.stroke()}
+    circle(196,'#13382b','#a48249',14);circle(170,'#0a1c17','#68502f',3);circle(110,'#254637','#bca069',7);circle(83,'#0e241b','#c4a16c',6);
+    // Game state
+    let balance=1000,bet='red',rotation=0,spinning=false,history=[],soundOn=true,audio=null;
+    const colorButtons=[...document.querySelectorAll('[data-bet]')], chipButtons=[...document.querySelectorAll('[data-chip]')];
+    function audioContext(){if(!soundOn)return null;try{audio=audio||new(window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();return audio}catch{return null}}
+    function tone(frequency,duration,volume=.04,type='sine',offset=0){const ac=audioContext();if(!ac)return;const osc=ac.createOscillator(),gain=ac.createGain(),t=ac.currentTime+offset;osc.type=type;osc.frequency.setValueAtTime(frequency,t);gain.gain.setValueAtTime(.001,t);gain.gain.exponentialRampToValueAtTime(Math.max(.002,volume),t+.006);gain.gain.exponentialRampToValueAtTime(.001,t+duration);osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+duration+.012)}
+    function clickSound(){tone(520,.042,.019,'triangle')}
+    function tickSound(){tone(750,.028,.019,'triangle');tone(300,.045,.009,'sine')}
+    function finishSound(win){if(win){[523,659,784,1046].forEach((n,i)=>tone(n,.27,.07,'sine',i*.105))}else{tone(310,.17,.035,'sine');tone(235,.25,.028,'sine',.15)}}
+    function cash(n){return n.toLocaleString('de-CH').replace(/\u2019/g,"'")}
+    function updateBalance(){$('balance').innerHTML=`${cash(balance)} <small>CHIPS</small>`}
+    function updatePotential(){const stake=Number($('stake').value)||0;$('potential').textContent=`${cash(Math.max(0,stake)*(bet==='red'||bet==='black'?2:36))} CHIPS`;chipButtons.forEach(b=>b.classList.toggle('active',Number(b.dataset.chip)===stake))}
+    function selectBet(value){if(spinning)return;bet=value;colorButtons.forEach(b=>{const active=b.dataset.bet===value;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});$('numberBtn').classList.toggle('active',value==='number');$('numberBtn').setAttribute('aria-pressed',String(value==='number'));updatePotential();clickSound()}
+    colorButtons.forEach(b=>b.addEventListener('click',()=>selectBet(b.dataset.bet)));
+    $('numberBtn').addEventListener('click',()=>selectBet('number'));
+    $('number').addEventListener('focus',()=>selectBet('number'));
+    chipButtons.forEach(b=>b.addEventListener('click',()=>{if(spinning)return;$('stake').value=b.dataset.chip;updatePotential();clickSound()}));
+    $('stake').addEventListener('input',updatePotential);
+    $('sound').addEventListener('click',()=>{soundOn=!soundOn;$('sound').textContent=soundOn?'SOUND AN':'SOUND AUS';$('sound').setAttribute('aria-pressed',String(soundOn));if(soundOn)clickSound()});
+    function setLocked(locked){spinning=locked;$('spin').disabled=locked;$('spin').textContent=locked?'RAD DREHT SICH ...':'ROULETTE STARTEN';[...colorButtons,...chipButtons,$('numberBtn'),$('number'),$('stake'),$('restart')].forEach(el=>el.disabled=locked)}
+    function setResult(title,message,state=''){$('result').className='result '+state;$('result').innerHTML='';const b=document.createElement('b'),s=document.createElement('small');b.textContent=title;s.textContent=message;$('result').append(b,s)}
+    function randomInt(max){if(window.crypto?.getRandomValues){const a=new Uint32Array(1);const range=4294967296,limit=range-(range%max);do{crypto.getRandomValues(a)}while(a[0]>=limit);return a[0]%max}return Math.floor(Math.random()*max)}
+    $('spin').addEventListener('click',()=>{
+      if(spinning)return;
+      const stake=Number($('stake').value),picked=Number($('number').value);
+      if(!Number.isSafeInteger(stake)||stake<1||stake>balance){setResult('UNGÜLTIGER EINSATZ',balance?`Bitte 1 bis ${cash(balance)} Chips setzen.`:'Keine Chips mehr. Setze das Spiel zurück.');return}
+      if(bet==='number'&&($('number').value.trim()===''||!Number.isInteger(picked)||picked<0||picked>36)){setResult('UNGÜLTIGE ZAHL','Bitte eine ganze Zahl zwischen 0 und 36 wählen.');return}
+      audioContext();balance-=stake;updateBalance();setLocked(true);setResult('DAS RAD DREHT SICH','Das Ergebnis wird gleich enthüllt.');
+      const winner=randomInt(37),index=order.indexOf(winner);
+      const correction=(360-((rotation+index*slotDeg)%360))%360;
+      const randomOffset=(randomInt(1001)/1000-.5)*slotDeg*.32;
+      const start=rotation,end=start+6*360+correction+randomOffset,duration=4900;
+      let startTime=null,lastTick=0,lastSector=Math.floor(start/slotDeg);
+      function frame(time){if(startTime===null)startTime=time;const progress=Math.min(1,(time-startTime)/duration);const eased=1-Math.pow(1-progress,4);const angle=start+(end-start)*eased;canvas.style.transform=`rotate(${angle}deg)`;
+        const sector=Math.floor(angle/slotDeg);if(sector!==lastSector && time-lastTick>46){tickSound();lastTick=time}lastSector=sector;
+        if(progress<1){requestAnimationFrame(frame);return}
+        rotation=end;
+        const won=bet==='number'?winner===picked:colorOf(winner)===bet;
+        const multiplier=bet==='red'||bet==='black'?2:36;
+        const payout=won?stake*multiplier:0;
+        balance+=payout;updateBalance();
+        const colorName=winner===0?'GRÜN':reds.has(winner)?'ROT':'SCHWARZ';
+        setResult(`${winner} · ${colorName}`,won?`GEWONNEN · +${cash(payout-stake)} CHIPS`:`NICHT GEWONNEN · −${cash(stake)} CHIPS`,won?'win':'loss');
+        finishSound(won);history.unshift(winner);history=history.slice(0,10);
+        $('history').innerHTML=history.map(n=>`<span class="past ${colorOf(n)}">${n}</span>`).join('');
+        setLocked(false);
+      }
+      requestAnimationFrame(frame);
+    });
+    $('restart').addEventListener('click',()=>{if(spinning)return;balance=1000;history=[];rotation=0;canvas.style.transform='rotate(0deg)';$('history').innerHTML='<span style="color:#718278;font-size:12px">Noch keine Ergebnisse</span>';updateBalance();setResult('BEREIT FÜR DEINEN EINSATZ','Wähle eine Wette und starte das Rad.');clickSound()});
+    updateBalance();updatePotential();
+  </script>
+</body>
+</html>
