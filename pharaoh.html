@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharaoh's Treasure</title>
+    <link rel="stylesheet" href="pharaoh.css">
+    <script src="pharaoh.js" defer></script>
+</head>
+<body>
+
+    <header>
+        <a href="index.html">← Zur Homepage</a>
+        <h2>Casino Royal</h2>
+    </header>
+
+    <main>
+        <h1>Pharaoh's Treasure</h1>
+        <p>Ägyptischer Spielautomat</p>
+
+        <div class="slot-machine">
+
+            <h2>Spielautomat</h2>
+
+            <div class="reels">
+                <div class="reel">
+                    <div class="reel-track" id="reel0"></div>
+                </div>
+
+                <div class="reel">
+                    <div class="reel-track" id="reel1"></div>
+                </div>
+
+                <div class="reel">
+                    <div class="reel-track" id="reel2"></div>
+                </div>
+
+                <div class="reel">
+                    <div class="reel-track" id="reel3"></div>
+                </div>
+
+                <div class="reel">
+                    <div class="reel-track" id="reel4"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+
+                <div class="bet-control">
+                    <p>EINSATZ</p>
+
+                    <div class="bet-buttons">
+                        <button id="betMinus" type="button">−</button>
+                        <span id="betValue">10 CHF</span>
+                        <button id="betPlus" type="button">+</button>
+                    </div>
+                </div>
+
+                <button id="spinButton" type="button">
+                    SPIN
+                </button>
+
+                <button id="autoButton" type="button"
+                        aria-pressed="false">
+                    AUTO PLAY: AUS
+                </button>
+
+            </div>
+
+            <p id="message" aria-live="polite">
+                Drücke auf SPIN, um die Walzen zu drehen.
+            </p>
+
+            <p class="notice">
+                Demo-Version Keine Einsätze oder Gewinne
+            </p>
+
+        </div>
+    </main>
+
+</body>
+</html>
