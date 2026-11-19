@@ -100,9 +100,9 @@ Heute habe ich das Design der Altersbestätigung und der Homepage verbessert und
 
 
 Amar
-- [ ] HTML-Datei erstellen und Grundstruktur des Mines-Spiels aufbauen
-- [ ] 5×5 Spielfeld mit 25 Feldern erstellen und anordnen
-- [ ] Grundlegendes Design des Spielfelds und Hintergrunds mit CSS gestalten
+- [ ] HTML-Grundstruktur des Mines-Spiels erstellen und das grundlegende Design mit CSS gestalten.
+- [ ] 5 × 5 Spielfeld mit 25 Feldern erstellen und übersichtlich anordnen.
+- [ ] Einsatzanzeige und Auswahl der Bombenanzahl in die Spieloberfläche integrieren.
 
 Joshua
 - [ ] Layout für Game planen
