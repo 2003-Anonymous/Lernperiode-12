@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubbellose | Casino Royal</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="rubbellos.css?v=1">
+    <script src="assets/balance.js?v=2" defer></script>
+    <script src="rubbellos.js?v=1" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a href="home.html">← Homepage</a>
+        <strong>Casino Royal</strong>
+        <span>Guthaben: <span id="balance">…</span> CHF</span>
+    </header>
+
+    <main>
+        <section id="shop" aria-labelledby="shop-title">
+            <h1 id="shop-title">Rubbellos-Shop</h1>
+            <p>Wähle ein Los und rubble es frei.</p>
+            <div id="ticket-list" class="ticket-list"></div>
+            <p id="shop-message" class="message" role="status"></p>
+        </section>
+
+        <section id="game" hidden aria-labelledby="ticket-title">
+            <div class="game-head">
+                <h1 id="ticket-title">Los</h1>
+                <button id="back-to-shop" type="button">← Zurück zum Shop</button>
+            </div>
+
+            <div class="game-layout">
+                <div>
+                    <div id="grid" class="grid"></div>
+                    <p id="progress">Aufgedeckt: 0 / 0</p>
+                    <p id="current-win"></p>
+                </div>
+
+                <aside class="sidebar">
+                    <h2>Spielregeln</h2>
+                    <div id="ticket-rules"></div>
+                    <button id="reveal-all" type="button">Alle aufdecken</button>
+                    <button id="buy-again" type="button">Nochmals kaufen</button>
+                    <p id="result" class="message" role="status"></p>
+                </aside>
+            </div>
+        </section>
+    </main>
+
+    <footer>Nur virtuelles Spielgeld · ab 18</footer>
+</body>
+</html>
