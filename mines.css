@@ -14,8 +14,8 @@ body {
 
 .topbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     padding: 25px 50px;
     background: #081323;
     border-bottom: 2px solid #d4af37;
@@ -100,13 +100,24 @@ body {
     font-size: 15px;
 }
 
+.setting select,
 .setting-value {
+    width: 100%;
     background: #142440;
     border: 1px solid #344767;
     padding: 16px;
     border-radius: 10px;
     color: #f0c75e;
+    font-size: 16px;
     font-weight: bold;
+}
+
+.setting select {
+    cursor: pointer;
+}
+
+.setting select:focus {
+    outline: 1px solid #d4af37;
 }
 
 .start-button {
@@ -124,23 +135,42 @@ body {
 }
 
 .game-area {
-    min-height: 520px;
     text-align: center;
 }
 
 .game-board {
-    height: 350px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 490px;
+    margin: 0 auto;
+    padding: 15px;
     background: #101e35;
-    border: 2px dashed #344767;
+    border: 2px solid #344767;
     border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
-.game-board p {
-    color: #8190a8;
-    font-size: 16px;
+.tile {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #243b5c;
+    border: 2px solid #39557b;
+    border-radius: 9px;
+    box-shadow: 0 4px 0 #091426;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.tile:hover {
+    background: #34547d;
+    border-color: #d4af37;
+    transform: translateY(-2px);
+}
+
+.tile:active {
+    transform: translateY(2px);
+    box-shadow: none;
 }
 
 .game-hint {
@@ -170,5 +200,34 @@ body {
 
     .game-title h1 {
         font-size: 40px;
+    }
+}
+
+@media (max-width: 450px) {
+    .topbar {
+        padding: 15px;
+    }
+
+    .brand {
+        font-size: 12px;
+    }
+
+    .back-button,
+    .game-name {
+        font-size: 11px;
+    }
+
+    .game-settings,
+    .game-area {
+        padding: 18px;
+    }
+
+    .game-board {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .tile {
+        border-radius: 5px;
     }
 }
