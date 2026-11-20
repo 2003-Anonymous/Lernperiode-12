@@ -41,6 +41,10 @@ function selectGame(gameName) {
         location.href = 'pharaoh.html';
         return;
     }
+    if (gameName === 'Rubbellos') {
+        location.href = 'rubbellos.html';
+        return;
+    }
     if (gameName === 'Roulette') {
         location.href = 'roulette.html';
         return;
