@@ -83,6 +83,8 @@ Navid
 - [ ] Login in Registrierung miteinander verbinden 
 - [ ] Test durchführen
 
+Heute habe ich daran gearbeitet, die Fehler im Pull Request zu beheben. Ausserdem habe ich den Login mit der Registrierung verbunden und ein Roulette-Spiel mit HTML, CSS und JavaScript programmiert. Dabei habe ich auch das Design verbessert und Sounds eingebaut.
+
 Amar
 - [ ] Design des Spielautomaten mit CSS verbessern
 - [ ] Einsatz-Auswahl mit JavaScript implementieren
@@ -96,13 +98,16 @@ Joshua
 Heute habe ich das Design der Altersbestätigung und der Homepage verbessert und Mergeconflicts gelöst. Danach habe ich alle Dateien miteinander verbunden und an den richtigen Platz verschoben. Danach habe ich noch einem Benutzer viel Geld gegeben, damit man das Spiel beim Market Place testen kann, ohne dass das Geld ausgeht.
 
 ## 20.11.26
+Navid
 
-
+- [ ] Weitere Wettmöglichkeiten für das Roulette programmieren
+- [ ] Roulette-Tisch mit Zahlen und Einsatzfeldern erstellen
+- [ ] Design des Roulettes verbessern und Animationen überarbeiten
 
 Amar
-- [ ] HTML-Datei erstellen und Grundstruktur des Mines-Spiels aufbauen
-- [ ] 5×5 Spielfeld mit 25 Feldern erstellen und anordnen
-- [ ] Grundlegendes Design des Spielfelds und Hintergrunds mit CSS gestalten
+- [ ] HTML-Grundstruktur des Mines-Spiels erstellen und das grundlegende Design mit CSS gestalten.
+- [ ] 5 × 5 Spielfeld mit 25 Feldern erstellen und übersichtlich anordnen.
+- [ ] Einsatzanzeige und Auswahl der Bombenanzahl in die Spieloberfläche integrieren.
 
 Joshua
 - [ ] Layout für Game planen
