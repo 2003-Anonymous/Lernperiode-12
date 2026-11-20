@@ -28,13 +28,23 @@
                 <h2>Spieleinstellungen</h2>
 
                 <div class="setting">
-                    <label>Einsatz</label>
-                    <div class="setting-value">10 CHF</div>
+                    <label for="bet">Einsatz</label>
+                    <select id="bet">
+                        <option value="10">10 CHF</option>
+                        <option value="25">25 CHF</option>
+                        <option value="50">50 CHF</option>
+                        <option value="100">100 CHF</option>
+                    </select>
                 </div>
 
                 <div class="setting">
-                    <label>Anzahl Bomben</label>
-                    <div class="setting-value">3 Bomben</div>
+                    <label for="bombs">Anzahl Bomben</label>
+                    <select id="bombs">
+                        <option value="1">1 Bombe</option>
+                        <option value="3" selected>3 Bomben</option>
+                        <option value="5">5 Bomben</option>
+                        <option value="10">10 Bomben</option>
+                    </select>
                 </div>
 
                 <div class="setting">
@@ -51,11 +61,39 @@
                 <h2>Spielfeld</h2>
 
                 <div class="game-board">
-                    <p>Hier entsteht das Mines-Spielfeld.</p>
+                    <button class="tile" type="button" aria-label="Feld 1"></button>
+                    <button class="tile" type="button" aria-label="Feld 2"></button>
+                    <button class="tile" type="button" aria-label="Feld 3"></button>
+                    <button class="tile" type="button" aria-label="Feld 4"></button>
+                    <button class="tile" type="button" aria-label="Feld 5"></button>
+
+                    <button class="tile" type="button" aria-label="Feld 6"></button>
+                    <button class="tile" type="button" aria-label="Feld 7"></button>
+                    <button class="tile" type="button" aria-label="Feld 8"></button>
+                    <button class="tile" type="button" aria-label="Feld 9"></button>
+                    <button class="tile" type="button" aria-label="Feld 10"></button>
+
+                    <button class="tile" type="button" aria-label="Feld 11"></button>
+                    <button class="tile" type="button" aria-label="Feld 12"></button>
+                    <button class="tile" type="button" aria-label="Feld 13"></button>
+                    <button class="tile" type="button" aria-label="Feld 14"></button>
+                    <button class="tile" type="button" aria-label="Feld 15"></button>
+
+                    <button class="tile" type="button" aria-label="Feld 16"></button>
+                    <button class="tile" type="button" aria-label="Feld 17"></button>
+                    <button class="tile" type="button" aria-label="Feld 18"></button>
+                    <button class="tile" type="button" aria-label="Feld 19"></button>
+                    <button class="tile" type="button" aria-label="Feld 20"></button>
+
+                    <button class="tile" type="button" aria-label="Feld 21"></button>
+                    <button class="tile" type="button" aria-label="Feld 22"></button>
+                    <button class="tile" type="button" aria-label="Feld 23"></button>
+                    <button class="tile" type="button" aria-label="Feld 24"></button>
+                    <button class="tile" type="button" aria-label="Feld 25"></button>
                 </div>
 
                 <p class="game-hint">
-                    Decke Diamanten auf und sichere deinen Gewinn.
+                    Das Spiel wird in der nächsten Lektion programmiert.
                 </p>
             </div>
 
