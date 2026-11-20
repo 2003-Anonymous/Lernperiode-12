@@ -110,9 +110,19 @@ Amar
 - [ ] Einsatzanzeige und Auswahl der Bombenanzahl in die Spieloberfläche integrieren.
 
 Joshua
-- [ ] Layout für Game planen
-- [ ] 3 Lose mit verschiedenen Themen und Feldern entwerfen
-- [ ] Grundgerüst für das Game programmieren, Klassen und Funktionen erstellen
+- [x] Layout für Game planen
+- [x] 3 Lose mit verschiedenen Themen und Feldern entwerfen
+- [x] Grundgerüst für das Game programmieren, Klassen und Funktionen erstellen
+
+Heute habe ich das Grundgerüst für das Rubbellosgame mit HTML, CSS und JS programmiert. Die Funktionen stehen auch schon, wurden aber noch nicht gründlich getestet. Das Design ist im Moment sehr simpel gehalten und wird später ergänzt. Es gibt 3 verschiedene Rubbellose mit verschiedenen Gewinnen. Die Rubbellfelder kann man dann freirubbeln und aufgrund der Symbole ergibt sich dann ein Gewinn, oder eben nicht. Bei einem z.B. hat es 9 Felder und man braucht 3 mal das gleiche. Je nach dem, welches Symbol man drei mal hat, ist der Gewinn höher. Man kann pro Los nur von einem Symbol drei Gleiche bekommen. Man kann also nicht 3-mal gewinnen.
+
+## 27.11.26
+
+Joshua
+- [ ] Alle Funktionen des Rubbelgames noch ausführlich testen.
+- [ ] Passendes Design erstellen.
+- [ ] Zwei weitere Lose ausdenken und designen.
+- [ ] Diese zwei Lose ins Game implementieren.
 
 ## Schnellstart
 
