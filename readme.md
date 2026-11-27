@@ -100,10 +100,10 @@ Heute habe ich das Design der Altersbestätigung und der Homepage verbessert und
 ## 20.11.26
 Navid
 
-- [ ] Weitere Wettmöglichkeiten für das Roulette programmieren
-- [ ] Roulette-Tisch mit Zahlen und Einsatzfeldern erstellen
-- [ ] Design des Roulettes verbessern und Animationen überarbeiten
-
+- [x] Weitere Wettmöglichkeiten für das Roulette programmieren
+- [x] Roulette-Tisch mit Zahlen und Einsatzfeldern erstellen
+- [x] Design des Roulettes verbessern und Animationen überarbeiten
+Heute habe ich mein Roulette-Spiel weiterentwickelt. Ich habe zusätzliche Wettmöglichkeiten programmiert, wie gerade und ungerade Zahlen sowie verschiedene Zahlenbereiche. Ausserdem habe ich einen Roulette-Tisch mit allen Zahlen und Einsatzfeldern erstellt. Zum Schluss habe ich das Design verbessert, die Animationen überarbeitet und die Benutzeroberfläche übersichtlicher gestaltet.
 Amar
 - [x] HTML-Grundstruktur des Mines-Spiels erstellen und das grundlegende Design mit CSS gestalten.
 - [x] 5 × 5 Spielfeld mit 25 Feldern erstellen und übersichtlich anordnen.
@@ -119,6 +119,10 @@ Joshua
 Heute habe ich das Grundgerüst für das Rubbellosgame mit HTML, CSS und JS programmiert. Die Funktionen stehen auch schon, wurden aber noch nicht gründlich getestet. Das Design ist im Moment sehr simpel gehalten und wird später ergänzt. Es gibt 3 verschiedene Rubbellose mit verschiedenen Gewinnen. Die Rubbellfelder kann man dann freirubbeln und aufgrund der Symbole ergibt sich dann ein Gewinn, oder eben nicht. Bei einem z.B. hat es 9 Felder und man braucht 3 mal das gleiche. Je nach dem, welches Symbol man drei mal hat, ist der Gewinn höher. Man kann pro Los nur von einem Symbol drei Gleiche bekommen. Man kann also nicht 3-mal gewinnen.
 
 ## 27.11.26
+Navid
+- [x]Layout und Spielkonzept für ein neues Auto-Zählspiel entwerfen
+- [ ] Vorbeifahrende Autos mit HTML, CSS und JavaScript animieren
+- [ ] Wettsystem programmieren, bei dem Spieler vorhersagen, ob mindestens eine bestimmte Anzahl Autos vorbeifährt
 
 Amar
 - [ ] Spiellogik mit JavaScript programmieren und Bomben sowie Diamanten zufällig auf dem Spielfeld verteilen.
@@ -130,6 +134,7 @@ Joshua
 - [ ] Passendes Design erstellen.
 - [ ] Zwei weitere Lose ausdenken und designen.
 - [ ] Diese zwei Lose ins Game implementieren.
+      
 
 Ich habe alle Lose durchgetestet und ca. so 40 mal gekauft und festgestellt, dass die Gewinnchancen deutlich zu gering sind. Es ist ja kein echtes Geld, man spielt also um Spass zu haben und nicht um Geld zu gewinnen. Deshalb müssten die Gewinnchancen erhöht werden, damit es überhaubt Spass macht. Bei den beiden Spielautomaten müssen wir sie auch noch erhöhen.
 
