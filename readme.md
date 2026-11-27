@@ -105,9 +105,11 @@ Navid
 - [ ] Design des Roulettes verbessern und Animationen überarbeiten
 
 Amar
-- [ ] HTML-Grundstruktur des Mines-Spiels erstellen und das grundlegende Design mit CSS gestalten.
-- [ ] 5 × 5 Spielfeld mit 25 Feldern erstellen und übersichtlich anordnen.
-- [ ] Einsatzanzeige und Auswahl der Bombenanzahl in die Spieloberfläche integrieren.
+- [x] HTML-Grundstruktur des Mines-Spiels erstellen und das grundlegende Design mit CSS gestalten.
+- [x] 5 × 5 Spielfeld mit 25 Feldern erstellen und übersichtlich anordnen.
+- [x] Einsatzanzeige und Auswahl der Bombenanzahl in die Spieloberfläche integrieren.
+
+Ich habe mit JavaScript die erste Spiellogik des Mines-Spiels programmiert. Beim Start einer Runde werden die Bomben zufällig auf dem Spielfeld verteilt und die restlichen Felder als Diamanten festgelegt.
 
 Joshua
 - [x] Layout für Game planen
@@ -117,6 +119,11 @@ Joshua
 Heute habe ich das Grundgerüst für das Rubbellosgame mit HTML, CSS und JS programmiert. Die Funktionen stehen auch schon, wurden aber noch nicht gründlich getestet. Das Design ist im Moment sehr simpel gehalten und wird später ergänzt. Es gibt 3 verschiedene Rubbellose mit verschiedenen Gewinnen. Die Rubbellfelder kann man dann freirubbeln und aufgrund der Symbole ergibt sich dann ein Gewinn, oder eben nicht. Bei einem z.B. hat es 9 Felder und man braucht 3 mal das gleiche. Je nach dem, welches Symbol man drei mal hat, ist der Gewinn höher. Man kann pro Los nur von einem Symbol drei Gleiche bekommen. Man kann also nicht 3-mal gewinnen.
 
 ## 27.11.26
+
+Amar
+- [ ] Spiellogik mit JavaScript programmieren und Bomben sowie Diamanten zufällig auf dem Spielfeld verteilen.
+- [ ] Aufdecken der Spielfelder, Multiplikator und Gewinnberechnung implementieren.
+- [ ] Cash-Out-Funktion und Spielgeld-Guthaben integrieren sowie das gesamte Spiel testen und mögliche Fehler beheben.
 
 Joshua
 - [x] Alle Funktionen des Rubbelgames noch ausführlich testen.
