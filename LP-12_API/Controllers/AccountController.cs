@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client.NativeInterop;
+
+using Account = LP_12_API.Models.Account;
 
 namespace LP_12_API.Controllers
 {
@@ -126,6 +129,63 @@ namespace LP_12_API.Controllers
 
             return Ok(ToDto(account));
         }
+
+        [Authorize]
+        [HttpPost("me/redeem")]
+        public async Task<ActionResult> Redeem([FromBody] RedeemRequest request)
+        {
+            var id = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var text = request.Code.Trim().ToUpperInvariant();
+
+            var code = await _context.RedeemCodes.FirstOrDefaultAsync(c => c.Code == text);
+
+            var invalid = code == null
+                || !code.IsActive
+                || code.ExpiresAt != null && code.ExpiresAt <= DateTime.UtcNow
+                || code.MaxUses != null && code.MaxUses <= code.UsedCount;
+
+            if (invalid)
+            {
+                return BadRequest("Code ungültig oder abgelaufen!");
+            }
+
+            var alreadyRedeemed = await _context.CodeRedemptions
+                .AnyAsync(r => r.AccountId == id && r.RedeemCodeId == code!.Id);
+
+            if (alreadyRedeemed)
+            {
+                return BadRequest("Code bereits eingelöst!");
+            }
+
+            await using var tx = await _context.Database.BeginTransactionAsync();
+
+            var counted = await _context.RedeemCodes
+                .Where(c => c.Id == code!.Id && (c.MaxUses == null || c.UsedCount < code.MaxUses))
+                .ExecuteUpdateAsync(s => s.SetProperty(c => c.UsedCount, c => c.UsedCount + 1));
+
+            if (counted == 0)
+            {
+                return BadRequest("Code ungültig oder abgelaufen");
+            }
+            _context.CodeRedemptions.Add(new CodeRedemption
+            {
+                AccountId = id,
+                RedeemCodeId = code!.Id,
+                RedeemedAt = DateTime.UtcNow
+            });
+
+            await _context.SaveChangesAsync();
+
+            await _context.Accounts
+                .Where(a => a.Id == id)
+                .ExecuteUpdateAsync(s => s.SetProperty(a => a.Balance, a => a.Balance + code.Amount));
+
+            await tx.CommitAsync();
+
+            var account = await _context.Accounts.AsNoTracking().FirstAsync(a => a.Id == id);
+            return Ok(ToDto(account));
+        }
+
 
 
         //Nur Admins
