@@ -155,6 +155,13 @@ Navid
 - [ ] Spielstatistiken und einen Verlauf der letzten Runden erstellen
 - [ ] Auto-Zählspiel mit der Casino-Homepage verbinden und Fehler beheben
 
+Amar
+- [ ] Gewinnwahrscheinlichkeiten der Slotmaschinen verbessern und Gewinnmultiplikatoren erhöhen.
+- [ ] Farben und Design der Mines-Spielfelder verbessern.
+- [ ] Den letzten Gewinn und Verlust anzeigen
+- [ ] Einen Neustart-Button für das Mines-Spiel hinzufügen.
+- [ ] Eine Anzeige für den persönlichen Höchstgewinn im Mines-Spiel erstellen und dauerhaft speichern.
+
 ## Schnellstart
 
 Voraussetzungen: Docker Desktop, .NET 10 SDK, Python
