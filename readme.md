@@ -64,7 +64,7 @@ Ich habe an der Registrierung und am Login gearbeitet. Dazu gehören die Registr
 Amar
 - [x] Neue Bilder für Slot Maschiene
 - [x] Slot Maschiene Programmieren
-- [ ] Neues Design
+- [x] Neues Design
 
 Heute habe ich neue Bilder für den Spielautomaten hinzugefügt und die Slot-Maschine programmiert. Dabei habe ich die Symbole eingebaut und dafür gesorgt, dass sich die Bilder beim Drücken des Spin-Buttons drehen. Als Nächstes werde ich das Design verbessern.
       
@@ -86,9 +86,11 @@ Navid
 Heute habe ich daran gearbeitet, die Fehler im Pull Request zu beheben. Ausserdem habe ich den Login mit der Registrierung verbunden und ein Roulette-Spiel mit HTML, CSS und JavaScript programmiert. Dabei habe ich auch das Design verbessert und Sounds eingebaut.
 
 Amar
-- [ ] Design des Spielautomaten mit CSS verbessern
-- [ ] Einsatz-Auswahl mit JavaScript implementieren
-- [ ] Auto-Spin-Funktion programmieren und testen
+- [x] Design des Spielautomaten mit CSS verbessern
+- [x] Einsatz-Auswahl mit JavaScript implementieren
+- [x] Auto-Spin-Funktion programmieren und testen
+
+Heute habe ich das Design des Spielautomaten mit CSS verbessert und die Auswahl des Einsatzes mit JavaScript umgesetzt. Danach habe ich die Auto-Spin-Funktion eingebaut und getestet, ob alles funktioniert.
 
 Joshua
 - [x] Merge-Konflikte lösen
@@ -125,9 +127,11 @@ Navid
 - [ ] Wettsystem programmieren, bei dem Spieler vorhersagen, ob mindestens eine bestimmte Anzahl Autos vorbeifährt
 
 Amar
-- [ ] Spiellogik mit JavaScript programmieren und Bomben sowie Diamanten zufällig auf dem Spielfeld verteilen.
-- [ ] Aufdecken der Spielfelder, Multiplikator und Gewinnberechnung implementieren.
-- [ ] Cash-Out-Funktion und Spielgeld-Guthaben integrieren sowie das gesamte Spiel testen und mögliche Fehler beheben.
+- [x] Spiellogik mit JavaScript programmieren und Bomben sowie Diamanten zufällig auf dem Spielfeld verteilen.
+- [x] Aufdecken der Spielfelder, Multiplikator und Gewinnberechnung implementieren.
+- [x] Cash-Out-Funktion und Spielgeld-Guthaben integrieren sowie das gesamte Spiel testen und mögliche Fehler beheben.
+
+Heute habe ich am Mines-Spiel weitergearbeitet. Ich habe die Spiellogik programmiert, die Gewinnberechnung umgesetzt und die Cash-Out-Funktion eingebaut. Zum Schluss habe ich das Spiel getestet und einige Fehler behoben.
 
 Joshua
 - [x] Alle Funktionen des Rubbelgames noch ausführlich testen.
@@ -137,6 +141,15 @@ Joshua
       
 
 Ich habe alle Lose durchgetestet und ca. so 40 mal gekauft und festgestellt, dass die Gewinnchancen deutlich zu gering sind. Es ist ja kein echtes Geld, man spielt also um Spass zu haben und nicht um Geld zu gewinnen. Deshalb müssten die Gewinnchancen erhöht werden, damit es überhaubt Spass macht. Bei den beiden Spielautomaten müssen wir sie auch noch erhöhen.
+
+## 4.12
+
+Amar
+- [ ] Gewinnwahrscheinlichkeiten der Slotmaschinen verbessern und Gewinnmultiplikatoren erhöhen.
+- [ ] Farben und Design der Mines-Spielfelder verbessern.
+- [ ] Den letzten Gewinn und Verlust anzeigen
+- [ ] Einen Neustart-Button für das Mines-Spiel hinzufügen.
+- [ ] Eine Anzeige für den persönlichen Höchstgewinn im Mines-Spiel erstellen und dauerhaft speichern.
 
 ## Schnellstart
 
