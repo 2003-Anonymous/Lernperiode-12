@@ -130,6 +130,19 @@ body {
     border-radius: 10px;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.start-button:hover {
+    background: #f0c75e;
+}
+
+.start-button:active {
+    transform: scale(0.98);
+}
+
+.start-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
@@ -149,6 +162,11 @@ body {
     background: #101e35;
     border: 2px solid #344767;
     border-radius: 12px;
+    transition: 0.2s;
+}
+
+.game-board.active {
+    border-color: #d4af37;
 }
 
 .tile {
@@ -162,7 +180,12 @@ body {
     transition: 0.2s;
 }
 
-.tile:hover {
+.game-board.active .tile {
+    border-color: #52739e;
+}
+
+.tile:hover,
+.game-board.active .tile:hover {
     background: #34547d;
     border-color: #d4af37;
     transform: translateY(-2px);
