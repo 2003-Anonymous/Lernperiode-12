@@ -131,14 +131,21 @@ Amar
 
 Joshua
 - [x] Alle Funktionen des Rubbelgames noch ausführlich testen.
-- [ ] Passendes Design erstellen.
-- [ ] Zwei weitere Lose ausdenken und designen.
-- [ ] Diese zwei Lose ins Game implementieren.
+- [x] Passendes Design erstellen.
+- [x] Zwei weitere Lose ausdenken und designen.
+- [x] Diese zwei Lose ins Game implementieren.
       
 
-Ich habe alle Lose durchgetestet und ca. so 40 mal gekauft und festgestellt, dass die Gewinnchancen deutlich zu gering sind. Es ist ja kein echtes Geld, man spielt also um Spass zu haben und nicht um Geld zu gewinnen. Deshalb müssten die Gewinnchancen erhöht werden, damit es überhaubt Spass macht. Bei den beiden Spielautomaten müssen wir sie auch noch erhöhen.
+Ich habe alle Lose durchgetestet und ca. so 40 mal gekauft und festgestellt, dass die Gewinnchancen deutlich zu gering sind. Es ist ja kein echtes Geld, man spielt also um Spass zu haben und nicht um Geld zu gewinnen. Deshalb müssten die Gewinnchancen erhöht werden, damit es überhaubt Spass macht. Bei den beiden Spielautomaten müssen wir sie auch noch erhöhen. Ich habe jetzt noch die Gewinnchancen angepasst, damit man öfters gewinnt. Zudem habe ich ein passendes Design erstellt. Jetzt kann man auch richtig mit dem Mauszeiger die Lose freirubbeln. Dann habe ich noch angefangen, einen neuen Endpunkt für die API zu programmieren, mit welchem man Guthabencodes einlösen kann.
 
+## 04.12.26
 
+Joshua
+- [ ] Endpunkt für die Codes fertig programmieren.
+- [ ] Testcodes erstellen und in die Datenbank einfügen, Migration
+- [ ] Ort für das Einlösen der Codes auf der Homepage einfügen
+- [ ] Einlösstelle mit dem Backend verbinden
+- [ ] Rangliste aller Spieler geordnet nach Geld
 
 Navid
 
