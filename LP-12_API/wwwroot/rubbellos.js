@@ -10,11 +10,11 @@ const TICKETS = [
         fields: 9,
         description: "3 gleiche Symbole gewinnen.",
         prizes: [
-            { symbol: "⭐", amount: 500, chance: 0.002 },
-            { symbol: "💎", amount: 200, chance: 0.005 },
-            { symbol: "🔔", amount: 100, chance: 0.01 },
-            { symbol: "🍒", amount: 50, chance: 0.04 },
-            { symbol: "🍋", amount: 20, chance: 0.08 }
+            { symbol: "⭐", amount: 500, chance: 0.003 },
+            { symbol: "💎", amount: 150, chance: 0.01 },
+            { symbol: "🔔", amount: 60, chance: 0.03 },
+            { symbol: "🍒", amount: 30, chance: 0.08 },
+            { symbol: "🍋", amount: 12, chance: 0.25 }
         ]
     },
     {
@@ -26,10 +26,10 @@ const TICKETS = [
         fields: 16,
         description: "16 Felder. Alle gefundenen Beträge werden zusammengezählt.",
         values: [
-            { label: "", amount: 0, weight: 92 },
-            { label: "5 CHF", amount: 5, weight: 5 },
-            { label: "10 CHF", amount: 10, weight: 2.5 },
-            { label: "50 CHF", amount: 50, weight: 0.35 }
+            { label: "", amount: 0, weight: 88 },
+            { label: "5 CHF", amount: 5, weight: 10 },
+            { label: "10 CHF", amount: 10, weight: 4 },
+            { label: "50 CHF", amount: 50, weight: 0.25 }
         ]
     },
     {
@@ -42,11 +42,11 @@ const TICKETS = [
         description: "Plusfelder erhöhen den Gewinn, Minusfelder ziehen davon ab. Der Gewinn fällt nie unter 0.",
         values: [
             { label: "", amount: 0, weight: 36 },
-            { label: "+5", amount: 5, weight: 22 },
-            { label: "+10", amount: 10, weight: 10 },
-            { label: "+30", amount: 30, weight: 2 },
-            { label: "−10", amount: -10, weight: 22 },
-            { label: "−25", amount: -25, weight: 8 }
+            { label: "+5", amount: 5, weight: 24 },
+            { label: "+10", amount: 10, weight: 14 },
+            { label: "+30", amount: 30, weight: 3 },
+            { label: "−10", amount: -10, weight: 23 },
+            { label: "−25", amount: -25, weight: 4 }
         ]
     }
 ];
@@ -143,6 +143,9 @@ if (typeof module !== "undefined") {
 if (typeof document !== "undefined") {
     const $ = id => document.getElementById(id);
 
+    const SCRATCH_THRESHOLD = 0.9;
+    const MODE_KEY = "casinoRoyalScratchMode";
+
     const view = {
         shop: $("shop"),
         game: $("game"),
@@ -150,6 +153,7 @@ if (typeof document !== "undefined") {
         shopMessage: $("shop-message"),
         balance: $("balance"),
         title: $("ticket-title"),
+        smallName: $("ticket-name-small"),
         rules: $("ticket-rules"),
         grid: $("grid"),
         progress: $("progress"),
@@ -157,7 +161,9 @@ if (typeof document !== "undefined") {
         result: $("result"),
         revealAll: $("reveal-all"),
         buyAgain: $("buy-again"),
-        backToShop: $("back-to-shop")
+        backToShop: $("back-to-shop"),
+        scratchMode: $("scratch-mode"),
+        modeHint: $("mode-hint")
     };
 
     let balance = null;
@@ -173,29 +179,58 @@ if (typeof document !== "undefined") {
         renderShop();
     }
 
+    // ---------- Shop ----------
+
+    function element(tag, className, text) {
+        const el = document.createElement(tag);
+        if (className) {
+            el.className = className;
+        }
+        if (text !== undefined) {
+            el.textContent = text;
+        }
+        return el;
+    }
+
+    function topPrize(ticket) {
+        if (ticket.type === "match3") {
+            return Math.max(...ticket.prizes.map(p => p.amount));
+        }
+        const best = Math.max(...ticket.values.map(v => v.amount));
+        return best * ticket.fields;
+    }
 
     function renderShop() {
         view.list.replaceChildren(...TICKETS.map(ticket => {
-            const card = document.createElement("article");
-            card.className = "ticket-card";
+            const card = element("article", "ticket-card");
+            card.dataset.ticket = ticket.id;
 
-            const title = document.createElement("h3");
-            title.textContent = ticket.name;
+            const face = element("div", "ticket-face");
+            face.append(
+                element("span", "ticket-face-name", ticket.name),
+                element("span", "ticket-face-price", chf(ticket.price))
+            );
 
-            const text = document.createElement("p");
-            text.textContent = ticket.description;
+            const body = element("div", "ticket-body");
+            const info = element("ul", "ticket-facts");
+            info.append(
+                element("li", "", `${ticket.fields} Felder`),
+                element("li", "", `bis ${chf(topPrize(ticket))}`)
+            );
 
-            const info = document.createElement("p");
-            info.className = "ticket-info";
-            info.textContent = `${ticket.fields} Felder · Preis ${chf(ticket.price)}`;
-
-            const button = document.createElement("button");
+            const button = element("button", "btn btn-primary", `Kaufen · ${chf(ticket.price)}`);
             button.type = "button";
-            button.textContent = "Kaufen";
             button.disabled = busy || balance === null || balance < ticket.price;
             button.addEventListener("click", () => buy(ticket));
 
-            card.append(title, text, info, button);
+            body.append(
+                element("h3", "", ticket.name),
+                element("p", "", ticket.description),
+                info,
+                button
+            );
+
+            card.append(face, body);
             return card;
         }));
     }
@@ -207,6 +242,7 @@ if (typeof document !== "undefined") {
         busy = true;
         view.shopMessage.textContent = "";
         view.result.textContent = "";
+        view.result.classList.remove("win");
         renderShop();
         updateGameButtons();
 
@@ -240,43 +276,218 @@ if (typeof document !== "undefined") {
             finished: false
         };
 
+        view.game.dataset.ticket = ticket.id;
         view.title.textContent = ticket.name;
+        view.smallName.textContent = `${ticket.name} · ${chf(ticket.price)}`;
         view.rules.replaceChildren(...rulesFor(ticket));
         view.grid.style.gridTemplateColumns = `repeat(${ticket.columns}, minmax(0, 1fr))`;
-        view.grid.replaceChildren(...game.cells.map((_, index) => {
-            const field = document.createElement("button");
-            field.type = "button";
-            field.className = "field covered";
-            field.textContent = "?";
-            field.setAttribute("aria-label", `Feld ${index + 1} aufdecken`);
-            field.addEventListener("click", () => reveal(index));
+
+        view.grid.replaceChildren(...game.cells.map((cell, index) => {
+            const field = element("div", "field");
+            const value = element("span", "field-value", cell.label || "–");
+            if (cell.amount < 0) {
+                field.classList.add("minus");
+            }
+            if (!cell.label) {
+                field.classList.add("empty");
+            }
+            field.append(value);
             return field;
         }));
 
         view.shop.hidden = true;
         view.game.hidden = false;
+        game.cells.forEach((_, index) => addCover(index));
+
         view.result.textContent = "";
+        view.result.classList.remove("win");
         updateProgress();
         updateGameButtons();
+        window.scrollTo({ top: 0 });
     }
 
     function rulesFor(ticket) {
-        const lines = ticket.type === "match3"
-            ? ticket.prizes.map(p => `3× ${p.symbol} = ${chf(p.amount)}`)
-            : ticket.values.filter(v => v.amount !== 0).map(v => `${v.label}`);
+        const intro = element("p", "", ticket.description);
+        const list = element("ul", "");
 
-        const intro = document.createElement("p");
-        intro.textContent = ticket.description;
-
-        const list = document.createElement("ul");
-        list.append(...lines.map(line => {
-            const item = document.createElement("li");
-            item.textContent = line;
-            return item;
-        }));
+        if (ticket.type === "match3") {
+            list.append(...ticket.prizes.map(p => {
+                const item = element("li");
+                item.append(element("span", "", `3× ${p.symbol}`), element("strong", "", chf(p.amount)));
+                return item;
+            }));
+        } else {
+            list.append(...ticket.values.filter(v => v.amount !== 0).map(v => {
+                const item = element("li");
+                item.append(
+                    element("span", "", v.amount < 0 ? "Minusfeld" : "Gewinnfeld"),
+                    element("strong", v.amount < 0 ? "minus-text" : "", v.label)
+                );
+                return item;
+            }));
+        }
 
         return [intro, list];
     }
+
+
+    function scratchModeOn() {
+        return view.scratchMode.checked;
+    }
+
+    function addCover(index) {
+        const field = view.grid.children[index];
+        field.querySelector(".cover")?.remove();
+
+        if (scratchModeOn()) {
+            field.append(createScratchCover(index, field));
+        } else {
+            const cover = element("button", "cover cover-click", "?");
+            cover.type = "button";
+            cover.setAttribute("aria-label", `Feld ${index + 1} aufdecken`);
+            cover.addEventListener("click", () => reveal(index));
+            field.append(cover);
+        }
+    }
+
+    function createScratchCover(index, field) {
+        const canvas = element("canvas", "cover cover-scratch");
+        canvas.setAttribute("aria-label", `Feld ${index + 1} freirubbeln`);
+        canvas.setAttribute("role", "img");
+
+        const ratio = window.devicePixelRatio || 1;
+        const width = field.clientWidth || 120;
+        const height = field.clientHeight || 90;
+        canvas.width = Math.round(width * ratio);
+        canvas.height = Math.round(height * ratio);
+
+        const ctx = canvas.getContext("2d");
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, "#d9dcdf");
+        gradient.addColorStop(0.5, "#a9afb4");
+        gradient.addColorStop(1, "#cfd3d6");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#6f767b";
+        ctx.font = `600 ${Math.round(12 * ratio)}px "Segoe UI", Arial, sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("RUBBELN", canvas.width / 2, canvas.height / 2);
+
+        const brush = Math.max(14, width * 0.2) * ratio;
+        let drawing = false;
+        let last = null;
+        let moves = 0;
+
+        function point(event) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (event.clientX - rect.left) * (canvas.width / rect.width),
+                y: (event.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function scratch(to) {
+            ctx.globalCompositeOperation = "destination-out";
+            ctx.lineWidth = brush;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            ctx.beginPath();
+            ctx.moveTo((last ?? to).x, (last ?? to).y);
+            ctx.lineTo(to.x, to.y);
+            ctx.stroke();
+            last = to;
+        }
+
+        function scratchedShare() {
+            // Rand von 8 % ignorieren, damit niemand die Ecken suchen muss
+            const marginX = Math.floor(canvas.width * 0.08);
+            const marginY = Math.floor(canvas.height * 0.08);
+            const w = canvas.width - 2 * marginX;
+            const h = canvas.height - 2 * marginY;
+            const data = ctx.getImageData(marginX, marginY, w, h).data;
+            let clear = 0;
+            let total = 0;
+            for (let i = 3; i < data.length; i += 4 * 8) {
+                total++;
+                if (data[i] < 40) {
+                    clear++;
+                }
+            }
+            return total === 0 ? 1 : clear / total;
+        }
+
+        function check() {
+            if (!game || game.revealed[index]) {
+                return;
+            }
+            if (scratchedShare() >= SCRATCH_THRESHOLD) {
+                reveal(index);
+            }
+        }
+
+        canvas.addEventListener("pointerdown", event => {
+            if (!game || game.finished) {
+                return;
+            }
+            drawing = true;
+            last = null;
+            canvas.setPointerCapture(event.pointerId);
+            scratch(point(event));
+        });
+
+        canvas.addEventListener("pointermove", event => {
+            if (!drawing) {
+                return;
+            }
+            scratch(point(event));
+            moves++;
+            if (moves % 6 === 0) {
+                check();
+            }
+        });
+
+        function stop() {
+            if (!drawing) {
+                return;
+            }
+            drawing = false;
+            last = null;
+            check();
+        }
+
+        canvas.addEventListener("pointerup", stop);
+        canvas.addEventListener("pointercancel", stop);
+
+        return canvas;
+    }
+
+    function updateModeHint() {
+        // Im Rubbelmodus muss wirklich gerubbelt werden
+        view.revealAll.hidden = scratchModeOn();
+        view.modeHint.textContent = scratchModeOn()
+            ? `Rubble mit gedrückter Maustaste (oder dem Finger). Ab ${Math.round(SCRATCH_THRESHOLD * 100)} % öffnet sich das Feld.`
+            : "Klicke auf ein Feld, um es aufzudecken.";
+    }
+
+    view.scratchMode.addEventListener("change", () => {
+        try {
+            localStorage.setItem(MODE_KEY, scratchModeOn() ? "1" : "0");
+        } catch {
+            // Speichern ist nur eine Bequemlichkeit
+        }
+        updateModeHint();
+        if (game && !game.finished) {
+            game.revealed.forEach((open, index) => {
+                if (!open) {
+                    addCover(index);
+                }
+            });
+        }
+    });
+
+    // ---------- Aufdecken und Auswerten ----------
 
     function reveal(index) {
         if (!game || game.finished || game.revealed[index]) {
@@ -288,10 +499,8 @@ if (typeof document !== "undefined") {
         game.win = applyReveal(game.ticket, game.win, cell);
 
         const field = view.grid.children[index];
-        field.classList.remove("covered");
-        field.classList.toggle("minus", cell.amount < 0);
-        field.textContent = cell.label || "–";
-        field.disabled = true;
+        field.querySelector(".cover")?.remove();
+        field.classList.add("open");
 
         updateProgress();
 
@@ -336,6 +545,7 @@ if (typeof document !== "undefined") {
                 balance = newBalance;
                 const how = game.winText ? `${game.winText} – ` : "";
                 view.result.textContent = `${how}${chf(win)} gewonnen!`;
+                view.result.classList.add("win");
             }
         } else {
             view.result.textContent = "Leider kein Gewinn.";
@@ -365,7 +575,14 @@ if (typeof document !== "undefined") {
     view.backToShop.addEventListener("click", backToShop);
 
     async function init() {
+        try {
+            view.scratchMode.checked = localStorage.getItem(MODE_KEY) === "1";
+        } catch {
+            view.scratchMode.checked = false;
+        }
+        updateModeHint();
         renderShop();
+
         balance = await loadServerBalance();
         if (balance === null) {
             view.shopMessage.textContent =
