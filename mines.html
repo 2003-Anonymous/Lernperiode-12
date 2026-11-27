@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mines | Casino Royal</title>
     <link rel="stylesheet" href="mines.css">
+    <script src="mines.js" defer></script>
 </head>
 <body>
 
@@ -28,7 +29,7 @@
                 <h2>Spieleinstellungen</h2>
 
                 <div class="setting">
-                    <label for="bet">Einsatz</label>
+                    <label for="bet">Einsatz (Spielgeld)</label>
                     <select id="bet">
                         <option value="10">10 CHF</option>
                         <option value="25">25 CHF</option>
@@ -49,10 +50,10 @@
 
                 <div class="setting">
                     <label>Multiplikator</label>
-                    <div class="setting-value">1.00×</div>
+                    <div class="setting-value" id="multiplier">1.00×</div>
                 </div>
 
-                <button class="start-button" disabled>
+                <button class="start-button" id="startButton" type="button">
                     SPIEL STARTEN
                 </button>
             </div>
@@ -92,8 +93,8 @@
                     <button class="tile" type="button" aria-label="Feld 25"></button>
                 </div>
 
-                <p class="game-hint">
-                    Das Spiel wird in der nächsten Lektion programmiert.
+                <p class="game-hint" id="gameHint">
+                    Wähle deinen Einsatz und starte das Spiel.
                 </p>
             </div>
 
