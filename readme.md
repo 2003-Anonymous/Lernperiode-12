@@ -123,9 +123,9 @@ Heute habe ich das Grundgerüst für das Rubbellosgame mit HTML, CSS und JS prog
 ## 27.11.26
 Navid
 - [x]Layout und Spielkonzept für ein neues Auto-Zählspiel entwerfen
-- [ ] Vorbeifahrende Autos mit HTML, CSS und JavaScript animieren
-- [ ] Wettsystem programmieren, bei dem Spieler vorhersagen, ob mindestens eine bestimmte Anzahl Autos vorbeifährt
-
+- [x] Vorbeifahrende Autos mit HTML, CSS und JavaScript animieren
+- [x] Wettsystem programmieren, bei dem Spieler vorhersagen, ob mindestens eine bestimmte Anzahl Autos vorbeifährt
+Heute habe ich mein neues Auto-Zählspiel programmiert. Zuerst habe ich das Layout und das Spielkonzept erstellt. Danach habe ich mit HTML, CSS und JavaScript eine Strasse mit animierten Autos entwickelt. Ausserdem habe ich ein Wettsystem eingebaut, bei dem Spieler vorhersagen können, wie viele Autos vorbeifahren. Abschliessend habe ich das Spiel getestet.
 Amar
 - [x] Spiellogik mit JavaScript programmieren und Bomben sowie Diamanten zufällig auf dem Spielfeld verteilen.
 - [x] Aufdecken der Spielfelder, Multiplikator und Gewinnberechnung implementieren.
@@ -150,6 +150,15 @@ Amar
 - [ ] Den letzten Gewinn und Verlust anzeigen
 - [ ] Einen Neustart-Button für das Mines-Spiel hinzufügen.
 - [ ] Eine Anzeige für den persönlichen Höchstgewinn im Mines-Spiel erstellen und dauerhaft speichern.
+
+
+Navid
+
+- [ ] Staus und unterschiedliche Geschwindigkeiten der Autos programmieren
+- [ ] Weitere Fahrzeugtypen wie Lastwagen und Motorräder hinzufügen
+- [ ] Wettereffekte und einen Tag-Nacht-Wechsel einbauen
+- [ ] Spielstatistiken und einen Verlauf der letzten Runden erstellen
+- [ ] Auto-Zählspiel mit der Casino-Homepage verbinden und Fehler beheben
 
 ## Schnellstart
 

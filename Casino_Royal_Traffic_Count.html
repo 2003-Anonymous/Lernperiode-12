@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#070c10">
+<meta name="description" content="Casino Royal Traffic Count – realistisches Auto-Zählspiel mit virtuellen Chips, animierten Autos und einer Nachtstrasse.">
+<title>Casino Royal · Traffic Count</title>
+<style>
+:root{color-scheme:dark;--bg:#070c10;--panel:#10191f;--ink:#f7f2e7;--gold:#eacb86;--gold-bright:#fff1c3;--muted:#879aa4;--line:#d9bb7830;--green:#39ddb0;--red:#fa7d83}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse 85% 45% at 52% -12%,#304239 0%,transparent 72%),radial-gradient(circle at 99% 69%,#152a2c,transparent 39%),#070c10;color:var(--ink);font-family:Inter,ui-sans-serif,"Segoe UI",Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.12;background-image:linear-gradient(#ffffff18 1px,transparent 1px),linear-gradient(90deg,#ffffff18 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(to bottom,#0008,transparent 75%)}
+button,input{font:inherit}button{cursor:pointer}button:disabled,input:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:4px}
+.app{position:relative;max-width:1500px;margin:0 auto;padding:20px clamp(15px,3vw,40px) 30px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:0 0 20px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:13px}.brand-seal{height:49px;width:49px;display:grid;place-items:center;position:relative;border:1px solid #d8bd7b;border-radius:50%;color:#efdca9;font:italic bold 19px Georgia,serif;background:radial-gradient(circle,#3a3322,#0e1818 75%);box-shadow:inset 0 0 0 4px #091215,inset 0 0 0 5px #b8a36d99,0 0 19px #b5975633}.brand-text{font:700 24px Georgia,serif;letter-spacing:.17em;text-transform:uppercase;background:linear-gradient(#fff8d5,#dcb876 62%,#9f753d 100%);background-clip:text;-webkit-background-clip:text;color:transparent}.brand-desc{font-size:9px;letter-spacing:.32em;color:#c9b583;margin-top:5px}
+.topright{display:flex;align-items:center;gap:10px}.pill{border:1px solid #ddc78b4b;background:#0f1b1e;padding:12px 15px;color:#dbc994;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:.12em;white-space:nowrap}.pill:hover{border-color:#f4d59c;background:#17282a}.account{min-width:168px;background:linear-gradient(125deg,#202d27,#141e1c);border:1px solid #dfc78b6a;border-radius:9px;padding:7px 16px 8px;text-align:right}.account span{display:block;font-size:9px;letter-spacing:.2em;color:#a1b0a6}.account strong{display:block;margin-top:1px;font-size:23px;font-weight:700;color:#ffe5a9;font-variant-numeric:tabular-nums}.account small{font-size:10px;color:#b5a782}
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding:29px 0 24px}.eyebrow{font-size:10px;letter-spacing:.3em;color:#c6ad76;font-weight:750}.hero h1{font:600 clamp(39px,5.7vw,71px)/1.08 Georgia,serif;letter-spacing:.005em;margin:10px 0 9px;background:linear-gradient(155deg,#fff9de,#dec184 56%,#af8445 84%,#ffe6a5);background-clip:text;-webkit-background-clip:text;color:transparent}.hero h1 em{font-weight:400}.hero p{margin:0;color:#a5b2ac;font-size:13px;line-height:1.5}.hero-side{display:flex;align-items:center;gap:10px;margin:0 0 4px;white-space:nowrap;color:#9eb1a9;font-size:11px;letter-spacing:.1em}.hero-side i,.live-state i{width:7px;height:7px;display:inline-block;background:#58e7ab;border-radius:50%;box-shadow:0 0 14px #5cf9b5;animation:blink 2.3s infinite}.hero-side strong{color:#edcf8e;font-weight:650}
+@keyframes blink{50%{opacity:.35}}
+.game-grid{display:grid;grid-template-columns:minmax(0,1.78fr) minmax(315px,.82fr);align-items:start;gap:19px}
+.panel{background:linear-gradient(140deg,rgba(22,33,36,.97),rgba(10,18,23,.99));border:1px solid var(--line);border-radius:15px;position:relative;box-shadow:0 20px 65px #0007,inset 0 1px #ffffff0b;overflow:hidden}.panel:before{content:"";position:absolute;top:0;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,#eac98494,transparent)}
+.world-panel{padding:21px 21px 18px}.panel-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:17px}.label{color:#c6a86f;font-size:10px;font-weight:750;letter-spacing:.23em}.panel h2{font:400 24px Georgia,serif;margin:6px 0 0}.panel-note{color:#96a7a3;font-size:11px;letter-spacing:.04em}
+.live-state{display:flex;align-items:center;gap:9px;border:1px solid #58e7ab36;border-radius:5px;padding:7px 11px;color:#c0dece;font-size:10px;letter-spacing:.11em;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:13px}.metric{border:1px solid #e5c27d24;background:#090f13aa;border-radius:8px;padding:12px 12px 10px;position:relative;overflow:hidden}.metric-label{font-size:9px;letter-spacing:.13em;color:#90a4a3;font-weight:700}.metric-value{font-size:31px;font-weight:750;color:#f9e6bd;margin-top:4px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.metric-value small{font-size:13px;color:#b7c2bb;font-weight:550}.metric-track{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#af8a4a,#ffe1a0);width:100%;transform-origin:left;transform:scaleX(1);transition:transform .13s linear}.metric-done .metric-value{color:#5de7b0}
+.scene-frame{border:1px solid #aa935b9c;border-radius:11px;background:#0a171a;box-shadow:0 8px 27px #000a,inset 0 0 0 3px #384339;overflow:hidden}
+.scene{position:relative;height:clamp(350px,34vw,500px);overflow:hidden;isolation:isolate;background:linear-gradient(180deg,#07151f 0%,#10232d 29%,#28404b 37%,#4e4a3e 39%,#1e2d2c 44%,#252e31 100%)}
+.sky-glow{position:absolute;top:-65%;left:29%;width:56%;height:116%;border-radius:50%;background:radial-gradient(ellipse,#ffbe6b44,transparent 61%);filter:blur(15px);z-index:-1}
+.sky-stars{position:absolute;inset:0 0 61%;opacity:.35;background-image:radial-gradient(circle,#fff 1px,transparent 1px),radial-gradient(circle,#ffc887 1px,transparent 1px);background-size:137px 71px,194px 93px;background-position:16px 22px,95px 8px}
+.moon{position:absolute;top:8%;right:17%;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 34% 34%,#fff8dc,#dcdece 62%,#a7b7ad);box-shadow:0 0 30px #efcfa344,0 0 78px #e5b16b15;opacity:.82}
+.city{position:absolute;bottom:66%;width:200%;height:31%;left:0;pointer-events:none}.city.far{background:repeating-linear-gradient(90deg,transparent 0 22px,#263a43 22px 57px,transparent 57px 62px,#27343d 62px 103px,transparent 103px 111px,#32444a 111px 125px,transparent 125px 153px);clip-path:polygon(0 90%,0 35%,3% 35%,3% 9%,5% 9%,5% 44%,8% 44%,8% 29%,10% 29%,10% 54%,13% 54%,13% 18%,15% 18%,15% 43%,19% 43%,19% 31%,22% 31%,22% 10%,24% 10%,24% 37%,27% 37%,27% 48%,29% 48%,29% 25%,32% 25%,32% 63%,36% 63%,36% 34%,39% 34%,39% 3%,41% 3%,41% 42%,44% 42%,44% 52%,47% 52%,47% 25%,49% 25%,49% 63%,53% 63%,53% 32%,56% 32%,56% 50%,58% 50%,58% 7%,61% 7%,61% 43%,65% 43%,65% 16%,68% 16%,68% 40%,72% 40%,72% 22%,75% 22%,75% 53%,79% 53%,79% 35%,82% 35%,82% 0,85% 0,85% 45%,88% 45%,88% 23%,92% 23%,92% 51%,96% 51%,96% 17%,100% 17%,100% 100%,0 100%);opacity:.9;filter:blur(1px)}
+.city.far:after,.city.near:after{content:"";position:absolute;inset:0;background-image:radial-gradient(#f6cb78 1.4px,transparent 1.6px),radial-gradient(#7db5cc 1.2px,transparent 1.5px);background-size:21px 22px,19px 18px;background-position:7px 14px,11px 4px;opacity:.5;mix-blend-mode:screen}.city.near{bottom:64.5%;height:14%;width:100%;background:repeating-linear-gradient(90deg,#091a20 0 42px,#0e2128 42px 87px,#0b1a21 87px 129px);clip-path:polygon(0 100%,0 37%,9% 37%,9% 15%,16% 15%,16% 41%,21% 41%,21% 0,27% 0,27% 36%,35% 36%,35% 20%,41% 20%,41% 36%,47% 36%,47% 10%,53% 10%,53% 40%,58% 40%,58% 5%,65% 5%,65% 26%,73% 26%,73% 15%,78% 15%,78% 37%,83% 37%,83% 5%,89% 5%,89% 35%,95% 35%,95% 11%,100% 11%,100% 100%)}
+.overpass{position:absolute;top:29%;left:-4%;width:108%;height:8%;background:linear-gradient(#0e1c23,#384548 24%,#142024 42%,#20292c 77%,#0b1418);box-shadow:0 4px 12px #02080c9e;z-index:1}.overpass:before{content:"";position:absolute;top:-2px;left:0;right:0;height:3px;background:#74807b88}.overpass:after{content:"";position:absolute;inset:4px 0 65% 0;background:repeating-linear-gradient(90deg,#657471a8 0 2px,transparent 2px 85px)}
+.road{position:absolute;inset:34% 0 0;z-index:2;overflow:hidden;background:repeating-linear-gradient(175deg,#293238 0,#242d32 17px,#2b353a 18px,#252e33 34px),#242e33;box-shadow:inset 0 20px 28px #101b1c,inset 0 -26px 34px #071115}
+.road:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 34px,#e3bd6a08 36px 37px,transparent 42px 81px),repeating-linear-gradient(178deg,transparent 0 11px,#ffffff06 12px,transparent 14px 28px);opacity:.8}
+.lane{position:absolute;left:0;right:0;height:1px;border-top:2px dashed #dadad0b9;filter:drop-shadow(0 0 2px #fff2);opacity:.76}.lane:nth-child(1){top:33.33%}.lane:nth-child(2){top:66.66%}.lane:before{content:"";position:absolute;top:-2px;left:0;right:0;border-top:2px dashed #b8bfc1bb;transform:translateX(26px)}
+.road-edge{position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(#c9b783a8,#5e6b61 36%,#152126);box-shadow:0 0 17px #d5b96966}.road-bottom{position:absolute;left:0;right:0;bottom:4px;height:3px;background:#f3f0d2a8;box-shadow:0 0 9px #e3be7180}
+.countline{position:absolute;top:34%;bottom:0;left:42%;width:2px;z-index:9;background:repeating-linear-gradient(180deg,#ffd988 0 14px,#ffffd800 14px 22px);filter:drop-shadow(0 0 8px #ffd37d);pointer-events:none}
+.countline:after{content:"";position:absolute;inset:0;width:15px;transform:translateX(-7px);background:linear-gradient(90deg,transparent,#f5ca6c1d,transparent)}
+.count-marker{position:absolute;top:34%;left:42%;z-index:17;transform:translate(-50%,-100%);background:#101b1ef2;border:1px solid #d7ba78;color:#ffe3ab;padding:8px 10px;font-size:9px;letter-spacing:.16em;font-weight:750;white-space:nowrap;border-radius:5px 5px 0 0;box-shadow:0 -6px 16px #b5933833;pointer-events:none}
+.count-marker:after{content:"";position:absolute;left:50%;bottom:-6px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #d7ba78;transform:translateX(-50%)}
+.streetlight{position:absolute;z-index:4;top:18%;height:20%;width:2px;background:#43575c;box-shadow:1px 0 #0b1515}.streetlight:before{content:"";position:absolute;top:0;left:0;width:45px;height:9px;border-radius:9px 20px 20px 0;background:#5d6f70;transform:translateX(-4px)}.streetlight:after{content:"";position:absolute;top:3px;left:22px;width:15px;height:7px;border-radius:50%;background:#f9d494;box-shadow:0 0 35px 12px #f8d3864a,0 0 80px 25px #ffdd8b24}.streetlight.s1{left:9%}.streetlight.s2{right:13%}
+.glow-horizon{position:absolute;z-index:1;top:31%;height:7%;left:0;right:0;background:linear-gradient(90deg,transparent,#d8ae6247,transparent);filter:blur(18px)}
+.cars-layer{position:absolute;inset:0;z-index:6;pointer-events:none}.vehicle{position:absolute;left:0;bottom:0;will-change:transform;filter:drop-shadow(0 7px 7px #01070bd9);transform:translate3d(0,0,0)}.vehicle svg{width:100%;height:100%;overflow:visible;display:block}.vehicle.moving .spin-wheel{transform-box:fill-box;transform-origin:center;animation:rotate-wheel .52s linear infinite}.vehicle.lane0{filter:drop-shadow(0 6px 4px #000b) brightness(.8)}.vehicle.lane1{filter:drop-shadow(0 7px 6px #000c) brightness(.93)}
+@keyframes rotate-wheel{to{transform:rotate(-360deg)}}
+.preview-car{position:absolute;z-index:6;pointer-events:none;filter:drop-shadow(0 7px 8px #000c)}
+.scene-hud{position:absolute;z-index:18;top:13px;left:14px;display:flex;align-items:center;gap:8px;color:#e6e4da;font-size:9px;font-weight:750;letter-spacing:.19em;text-shadow:0 2px 6px #000}.scene-hud .rec{height:8px;width:8px;background:#ff6767;border-radius:50%;box-shadow:0 0 9px #ff6464;animation:blink 1.2s infinite}
+.scene-coord{position:absolute;right:14px;top:13px;z-index:16;color:#d9d7c9aa;font-size:9px;letter-spacing:.14em}
+.speed-lines{position:absolute;inset:34% 0 0;z-index:5;pointer-events:none;opacity:0;transition:opacity .3s;background:repeating-linear-gradient(90deg,transparent 0 90px,#fff3 91px 93px,transparent 94px 167px);mask-image:linear-gradient(180deg,transparent,#0007,transparent)}.scene.is-running .speed-lines{opacity:.08;animation:speedstripe 2s linear infinite}@keyframes speedstripe{to{background-position:-500px 0}}
+.count-burst{position:absolute;z-index:20;color:#fff8cf;font-size:24px;font-weight:900;text-shadow:0 0 13px #e8be5f,0 2px 11px #000;pointer-events:none;animation:burst .7s ease forwards}.count-burst:before{content:"+1"}@keyframes burst{0%{opacity:0;transform:translate(-50%,10px) scale(.65)}30%{opacity:1;transform:translate(-50%,-18px) scale(1.28)}100%{opacity:0;transform:translate(-50%,-42px) scale(.82)}}
+.hitflash{position:absolute;left:42%;top:34%;bottom:0;width:2px;z-index:5;background:#fff4af;opacity:0;box-shadow:0 0 30px 9px #ffe18b;pointer-events:none}.hitflash.flash{animation:beam .33s ease}@keyframes beam{30%{opacity:.85}100%{opacity:0}}
+.scene-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 12px;font-size:10px;letter-spacing:.13em;color:#a0b2a9;flex-wrap:wrap;background:#0a181a}
+.scene-caption strong{color:#e7cb8e}.caption-live{color:#8fdfbd}.caption-live:before{content:"";display:inline-block;width:6px;height:6px;margin-right:7px;border-radius:50%;background:#59dfaa;box-shadow:0 0 8px #59dfaa}
+.result{margin-top:13px;border:1px solid #d9c28d40;background:#0b1517;padding:13px 17px;border-radius:8px;display:flex;flex-direction:column;justify-content:center;gap:5px;min-height:69px;transition:background .3s,border-color .3s}.result-title{font-size:13px;font-weight:800;letter-spacing:.065em;color:#f4d99d}.result-description{font-size:12px;color:#a8b6b0;line-height:1.5}.result.won{background:#112a21;border-color:#63d8a175;box-shadow:inset 0 0 24px #41b88717}.result.won .result-title{color:#78f4bf}.result.lost{border-color:#f47a7a68}.result.lost .result-title{color:#ff9ba4}
+.aside{display:flex;flex-direction:column;gap:17px}.bet-panel{padding:24px 23px 21px}.bet-panel h2{font-size:27px}.bet-intro{font-size:12px;color:#94a7a6;line-height:1.65;margin:10px 0 22px}.fieldlabel{color:#b6c2bc;font-size:10px;letter-spacing:.17em;font-weight:800;display:block;margin-bottom:12px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}.choice{border:1px solid #bda16c58;background:linear-gradient(125deg,#142423,#0f1a1c);color:#f1eee6;border-radius:8px;padding:16px 8px;text-align:center;position:relative;transition:border-color .16s,transform .16s,background .16s}.choice:hover:not(:disabled){border-color:#e6c789;transform:translateY(-2px)}.choice.active{color:#171a16;background:linear-gradient(125deg,#c29b52,#ffdfa0,#b88b46);border-color:#ffedbb;box-shadow:0 5px 22px #c69d5530}.choice b{display:block;font-size:26px;font-weight:800;line-height:1}.choice small{display:block;font-size:10px;font-weight:650;letter-spacing:.12em;margin-top:7px;opacity:.84}.choice em{position:absolute;top:6px;right:7px;font-size:9px;font-style:normal;opacity:.68}
+.stakechips{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:10px 0 15px}.chip{width:min(100%,64px);aspect-ratio:1;border-radius:50%;border:4px dashed #e8cca5;color:#fff0bd;font-weight:900;font-size:16px;box-shadow:0 5px 9px #0009,0 0 0 2px #514737;background:radial-gradient(circle,#554532 0 47%,#b89b63 48% 62%,#53402c 63%)}.chip:nth-child(2){background:radial-gradient(circle,#255847 0 47%,#6eb28b 48% 62%,#1c473b 63%);box-shadow:0 5px 9px #0009,0 0 0 2px #295c48}.chip:nth-child(3){background:radial-gradient(circle,#6b2c38 0 47%,#d48793 48% 62%,#5e2935 63%);box-shadow:0 5px 9px #0009,0 0 0 2px #6b3741}.chip:nth-child(4){background:radial-gradient(circle,#2e5068 0 47%,#8aaec5 48% 62%,#254159 63%);box-shadow:0 5px 9px #0009,0 0 0 2px #385874}.chip:hover:not(:disabled){filter:brightness(1.15);transform:translateY(-2px)}.chip.active{outline:2px solid #ffe6a9;outline-offset:4px;transform:translateY(-2px)}
+.amountline{display:flex;align-items:center;gap:10px}.amount{flex:1;min-width:0;height:50px;background:#080f12;border:1px solid #d2b37365;border-radius:7px;color:#f8e3b4;font-size:19px;font-weight:750;padding:0 13px}.amountunit{color:#9caf9f;font-size:10px;letter-spacing:.13em}
+.payout{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:23px 0 17px;padding:16px 0;gap:8px}.payout span{display:block;font-size:11px;color:#92a7a0}.payout strong{display:block;margin-top:4px;font-size:22px;color:#f3d99b;font-variant-numeric:tabular-nums}.payout-right{text-align:right}.payout small{color:#a8b6aa;font-size:11px}
+.start{height:59px;width:100%;font-size:13px;font-weight:900;letter-spacing:.17em;border:1px solid #fff0bd;border-radius:8px;background:linear-gradient(120deg,#c19953,#ffe5a6 48%,#c49b54);color:#1c1b15;box-shadow:0 9px 25px #d1ab6831,inset 0 1px #ffffffa5;transition:filter .18s,transform .18s}.start:hover:not(:disabled){filter:brightness(1.12);transform:translateY(-2px)}.start:active:not(:disabled){transform:translateY(0)}
+.risk{font-size:10px;color:#899d96;line-height:1.6;margin:13px 0 0;text-align:center}.help{padding:19px 22px}.help h3{font:normal 19px Georgia,serif;margin:6px 0 10px}.help p{color:#9db0a8;font-size:12px;line-height:1.8;margin:0}.help .rule-strong{color:#e9d39d}
+.history-wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:19px;border-top:1px solid var(--line);padding:17px 4px 6px;flex-wrap:wrap}.history-head{font-size:10px;color:#cdb781;font-weight:800;letter-spacing:.2em}.history-sub{color:#7b9392;font-size:11px;margin-top:5px}.history{display:flex;gap:9px;justify-content:flex-end;align-items:center;flex-wrap:wrap}.history-item{min-width:58px;text-align:center;border-radius:6px;padding:8px 11px;border:1px solid #e0c17d45;background:#152220;font-size:12px;font-weight:800;color:#f3dec1}.history-item.win{border-color:#6bd7a07b;color:#69eeb6;background:#143323}.history-item.lose{border-color:#e7808060;color:#f6afb3;background:#302127}.empty{font-size:12px;color:#77938d}
+.footer{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:21px;font-size:10px;color:#779087;letter-spacing:.05em;flex-wrap:wrap}.footer button{padding:0;background:none;border:0;color:#c9b480;text-decoration:underline;text-underline-offset:3px;font-size:11px}.footer button:hover{color:#ffebbc}
+@media(max-width:1120px){.game-grid{grid-template-columns:minmax(0,1.5fr) minmax(300px,.9fr)}.scene{height:clamp(355px,40vw,480px)}.bet-panel{padding:21px 16px}.world-panel{padding:17px 14px}}
+@media(max-width:870px){.game-grid{grid-template-columns:1fr}.scene{height:clamp(340px,53vw,520px)}.aside{display:grid;grid-template-columns:1fr 1fr;align-items:start}.help{padding:21px}.hero{padding-top:23px}}
+@media(max-width:630px){.app{padding:14px 10px 20px}.header{padding-bottom:14px}.brand{gap:7px}.brand-seal{height:36px;width:36px;font-size:14px}.brand-text{font-size:17px;letter-spacing:.075em}.brand-desc{font-size:8px;letter-spacing:.12em}.topright{gap:7px}.pill{font-size:9px;padding:10px 8px}.account{min-width:94px;padding:7px 8px}.account strong{font-size:16px}.account span{font-size:8px;letter-spacing:.08em}.account small{font-size:8px}.hero{display:block;padding:22px 2px 18px}.hero h1{font-size:43px}.hero p{font-size:11px}.hero-side{margin-top:13px}.world-panel{padding:15px 10px}.panel h2{font-size:22px}.metrics{gap:6px}.metric{padding:9px 7px}.metric-label{font-size:8px;letter-spacing:.07em}.metric-value{font-size:25px}.scene{height:330px}.scene-caption{font-size:9px;letter-spacing:.05em}.count-marker{font-size:8px;padding:7px}.aside{grid-template-columns:1fr}.bet-panel{padding:21px 17px}.history{justify-content:flex-start}}
+@media(prefers-reduced-motion:reduce){.vehicle.moving .spin-wheel,.hero-side i,.live-state i{animation:none}}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <div class="brand"><div class="brand-seal" aria-hidden="true">CR</div>
+    <div><div class="brand-text">Casino Royal</div><div class="brand-desc">THE PRIVATE GAMING CLUB</div></div>
+  </div>
+  <div class="topright">
+    <button class="pill" id="soundBtn" aria-pressed="true" title="Ton ein- oder ausschalten">SOUND AN</button>
+    <div class="account"><span>DEIN GUTHABEN</span><strong id="wallet">1'000 <small>CHIPS</small></strong></div>
+  </div>
+</header>
+<div class="hero">
+  <div>
+    <div class="eyebrow">EXCLUSIVE TABLE 02 &nbsp; / &nbsp; NIGHT CITY EDITION</div>
+    <h1>Traffic <em>Count.</em></h1>
+    <p>Eine Nacht. Drei Fahrspuren. Eine Vorhersage. Wie viele Autos passieren die Ziellinie?</p>
+  </div>
+  <div class="hero-side"><i></i> <strong>LIVE GAME</strong><span> · &nbsp; 15 SEKUNDEN</span></div>
+</div>
+<main class="game-grid">
+  <section class="panel world-panel" aria-label="Spielansicht mit Autoverkehr">
+    <div class="panel-top">
+      <div><div class="label">TRAFFIC CONTROL / TABLE 02</div><h2>Night City Highway</h2></div>
+      <div class="live-state"><i></i><span id="signalText">STRECKE BEREIT</span></div>
+    </div>
+    <div class="metrics">
+      <div class="metric" id="carsCountMetric"><div class="metric-label">GEZÄHLTE AUTOS</div><div class="metric-value" id="carsCount">0</div></div>
+      <div class="metric"><div class="metric-label">RESTZEIT</div><div class="metric-value"><span id="remaining">15</span> <small>SEK</small></div><div class="metric-track" id="timerTrack"></div></div>
+      <div class="metric"><div class="metric-label">AKTUELLE RUNDE</div><div class="metric-value" id="roundNumber">01</div></div>
+    </div>
+    <div class="scene-frame">
+      <div class="scene" id="scene" aria-label="Dreispurige Nachtstrasse. Autos fahren von rechts nach links über die goldene Zähllinie.">
+        <div class="sky-glow"></div><div class="sky-stars"></div><div class="moon"></div>
+        <div class="city far"></div><div class="city near"></div><div class="glow-horizon"></div>
+        <div class="overpass"></div>
+        <div class="streetlight s1"></div><div class="streetlight s2"></div>
+        <div class="road"><div class="lane"></div><div class="lane"></div><div class="road-edge"></div><div class="road-bottom"></div></div>
+        <div class="speed-lines"></div>
+        <div id="carsLayer" class="cars-layer" aria-hidden="true"></div>
+        <div class="countline"></div><div class="hitflash" id="hitflash"></div>
+        <div class="count-marker">ZÄHLLINIE</div>
+        <div class="scene-hud"><span class="rec"></span> CAM 01 / LIVE FEED</div>
+        <div class="scene-coord">CITY HIGHWAY · 03 LANES</div>
+      </div>
+      <div class="scene-caption"><span class="caption-live"><strong id="sceneStatus">STRECKE BEREIT</strong></span><span>AUTOS FAHREN VON RECHTS NACH LINKS</span><span>COUNT ZONE <strong>01</strong></span></div>
+    </div>
+    <div class="result" id="result" role="status" aria-live="polite"><div class="result-title" id="resultTitle">BEREIT FÜR DEINE VORHERSAGE</div><div class="result-description" id="resultDescription">Wähle eine Mindestanzahl, setze virtuelle Chips und starte die Runde.</div></div>
+  </section>
+  <aside class="aside">
+    <section class="panel bet-panel" aria-label="Wette und Einsatz festlegen">
+      <div class="label">MAKE YOUR PREDICTION</div>
+      <h2>Deine Vorhersage</h2>
+      <p class="bet-intro">Wie viele Autos überqueren die goldene Zähllinie in <strong>15 Sekunden</strong>? Setze auf die Mindestanzahl.</p>
+      <div class="fieldlabel">MINDESTENS ... AUTOS</div>
+      <div class="choices" role="group" aria-label="Mindestanzahl Autos">
+        <button type="button" class="choice" data-target="3" aria-pressed="false"><em>1.25×</em><b>03</b><small>LEICHT</small></button>
+        <button type="button" class="choice active" data-target="5" aria-pressed="true"><em>1.75×</em><b>05</b><small>NORMAL</small></button>
+        <button type="button" class="choice" data-target="7" aria-pressed="false"><em>2.80×</em><b>07</b><small>MUTIG</small></button>
+        <button type="button" class="choice" data-target="9" aria-pressed="false"><em>5.50×</em><b>09</b><small>EXTREM</small></button>
+      </div>
+      <label class="fieldlabel" for="stake">DEIN EINSATZ · VIRTUELLE CHIPS</label>
+      <div class="stakechips" role="group" aria-label="Einsatzschnellauswahl">
+        <button class="chip" data-stake="10" aria-label="10 Chips Einsatz">10</button>
+        <button class="chip active" data-stake="25" aria-label="25 Chips Einsatz">25</button>
+        <button class="chip" data-stake="50" aria-label="50 Chips Einsatz">50</button>
+        <button class="chip" data-stake="100" aria-label="100 Chips Einsatz">100</button>
+      </div>
+      <div class="amountline"><input type="number" class="amount" id="stake" min="1" step="1" value="25" inputmode="numeric" aria-label="Chip Einsatz"><div class="amountunit">CHIPS</div></div>
+      <div class="payout">
+        <div><span>Mögliche Auszahlung</span><strong id="payoutAmount">44</strong><small>virtuelle Chips, inkl. Einsatz</small></div>
+        <div class="payout-right"><span>Faktor</span><strong id="payoutOdds">1,75×</strong></div>
+      </div>
+      <button id="startBtn" class="start">RUNDE STARTEN</button>
+      <p class="risk">Fiktives Casinospiel · Kein Echtgeld · Ergebnisse sind zufällig</p>
+    </section>
+    <section class="panel help">
+      <div class="label">HOW TO PLAY</div>
+      <h3>So funktioniert's</h3>
+      <p>Wähle zum Beispiel <span class="rule-strong">mindestens 5 Autos</span> und setze deine Chips. Die Autos fahren über die Strasse, und jedes Auto wird beim Überqueren der <span class="rule-strong">goldenen Linie</span> gezählt. Erreichst du nach 15 Sekunden deine Vorhersage, bekommst du die angezeigte Auszahlung.</p>
+    </section>
+  </aside>
+</main>
+<section class="history-wrap" aria-label="Vergangene Runden">
+  <div><div class="history-head">LETZTE RUNDEN</div><div class="history-sub">Ergebnis / Mindestanzahl · Grün = gewonnen</div></div>
+  <div id="history" class="history"><span class="empty">Noch keine Runden gespielt</span></div>
+</section>
+<footer class="footer"><span>CASINO ROYAL · TRAFFIC COUNT · NIGHT CITY EDITION</span><span>Eine lokale HTML-Spielsimulation ohne Echtgeld&nbsp; · &nbsp; <button type="button" id="resetBtn">Spiel zurücksetzen</button></span></footer>
+</div>
+<script>
+"use strict";
+
+// CASINO ROYAL · TRAFFIC COUNT: A self-contained, playable browser game.
+// Vehicles are detailed original SVG drawings, generated locally; no downloads or APIs.
+const $=id=>document.getElementById(id);
+const ROUND_SECONDS=15;
+const checkpoints=[{target:3,mult:1.25,tag:"LEICHT"},{target:5,mult:1.75,tag:"NORMAL"},{target:7,mult:2.8,tag:"MUTIG"},{target:9,mult:5.5,tag:"EXTREM"}];
+const styles=[
+  {name:"night",base:"#345164",light:"#a9c9db",dark:"#16212c",shine:"#d8e9e9"},
+  {name:"ruby",base:"#9b313c",light:"#f3a0a0",dark:"#4e1724",shine:"#ffe0d0"},
+  {name:"silver",base:"#a1aeb1",light:"#f4f7ed",dark:"#526268",shine:"#ffffff"},
+  {name:"emerald",base:"#245c4a",light:"#8fc8a8",dark:"#102a28",shine:"#c4e6d3"},
+  {name:"champagne",base:"#ba965c",light:"#f6dc9e",dark:"#624b32",shine:"#fff1d1"},
+  {name:"graphite",base:"#404750",light:"#bfcbd1",dark:"#141b22",shine:"#e1e7e8"},
+  {name:"sapphire",base:"#34509e",light:"#a7bffc",dark:"#152650",shine:"#e6f4ff"},
+  {name:"taxi",base:"#e2a32a",light:"#ffe39c",dark:"#916019",shine:"#fff8d4"}
+];
+const bodyTypes=[
+  {type:"sedan",body:"M19 77 Q19 67 40 65 L108 60 L136 31 Q146 20 162 20 L215 20 Q235 19 247 36 L269 62 L310 71 Q327 75 327 88 L326 102 Q324 116 308 117 L35 117 Q19 114 17 100 Z",front:"M137 56 L155 29 L170 28 L169 56 Z",rear:"M177 28 L213 28 Q228 28 246 57 L177 57 Z",fender:"M111 114 Q88 73 64 114 M288 114 Q266 72 241 114",wheels:[86,264],roof:20},
+  {type:"suv",body:"M18 78 Q18 65 39 64 L101 60 L121 27 Q131 16 149 16 L233 16 Q250 16 268 43 L289 63 L315 70 Q329 75 329 91 L327 105 Q322 120 310 120 L31 120 Q16 115 17 99 Z",front:"M127 58 L143 26 L169 26 L169 58 Z",rear:"M177 26 L230 26 Q246 27 264 57 L177 57 Z",fender:"M111 117 Q85 72 62 117 M289 117 Q264 73 239 117",wheels:[86,264],roof:16},
+  {type:"coupe",body:"M16 79 Q17 68 42 66 L111 62 L139 41 Q153 28 172 28 L215 28 Q237 29 250 48 L270 66 L306 74 Q325 76 327 91 L327 103 Q323 117 306 117 L34 117 Q19 113 15 100 Z",front:"M143 60 L165 36 L179 36 L177 60 Z",rear:"M185 36 L216 36 Q232 39 251 61 L185 61 Z",fender:"M111 114 Q86 75 61 114 M288 114 Q263 77 239 114",wheels:[85,263],roof:28},
+  {type:"hatch",body:"M18 79 Q17 68 44 65 L107 61 L127 30 Q136 20 154 20 L220 20 Q242 21 256 44 L280 67 L311 73 Q328 78 328 92 L326 104 Q320 117 305 117 L34 117 Q16 115 16 101 Z",front:"M132 57 L148 29 L169 29 L169 57 Z",rear:"M177 29 L218 29 Q233 32 250 57 L177 57 Z",fender:"M113 115 Q87 77 64 115 M289 115 Q264 76 241 115",wheels:[88,265],roof:20},
+  {type:"van",body:"M18 80 Q18 67 45 67 L91 62 L109 28 Q117 16 135 16 L262 16 Q281 17 293 48 L314 66 Q328 76 328 91 L325 108 Q321 120 303 120 L32 120 Q18 116 17 102 Z",front:"M113 59 L133 27 L161 27 L161 59 Z",rear:"M171 27 L249 27 Q271 31 286 60 L171 60 Z",fender:"M112 117 Q85 72 64 117 M290 117 Q265 72 241 117",wheels:[87,264],roof:16}
+];
+const state={wallet:1000,target:5,stake:25,round:1,active:false,time:0,count:0,lastTime:null,
+  cars:[],schedule:[],spawnIndex:0,history:[],modelId:0,soundOn:true,audio:null,raf:null,preview:true};
+const game=$('scene');
+const carsLayer=$('carsLayer');
+const fmt=n=>Math.round(n).toLocaleString('de-CH').replace(/\u2019/g,"'");
+const choiceButtons=[...document.querySelectorAll('.choice')];
+const chips=[...document.querySelectorAll('.chip')];
+const rand=()=>Math.random();
+const randomPick=arr=>arr[Math.floor(rand()*arr.length)];
+const escapeText=s=>String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+
+function carSvg(type,palette,id){
+  const m=bodyTypes.find(o=>o.type===type)||bodyTypes[0];
+  const uid='c'+id;
+  const windowRear=type==='van'
+    ?`<path d="M174 33 H258 L278 60 H174Z" fill="#192c35" opacity=".72"/><path d="M181 38 H252" stroke="#adccd5" stroke-opacity=".18" stroke-width="2"/>`
+    :`<path d="${m.rear}" fill="url(#${uid}-glass)" stroke="#1c2527" stroke-width="3"/>`;
+  const windowFront=`<path d="${m.front}" fill="url(#${uid}-glass)" stroke="#18282d" stroke-width="2.5"/>`;
+  const roofExtra=type==='suv'?`<path d="M141 14H241" stroke="#1e2b30" stroke-width="5" stroke-linecap="round"/><path d="M151 12V17 M230 12V17" stroke="#c4c4ba" stroke-width="4"/>`:type==='coupe'?`<path d="M277 65 L293 61 L307 63" stroke="#283438" stroke-width="5"/>`:type==='van'?`<path d="M174 19 L174 65 M257 20 L257 65" stroke="#12232a" stroke-width="2" opacity=".6"/>`:'';
+  const taxi=palette.name==='taxi'?`<g><rect x="180" y="10" width="49" height="17" rx="4" fill="#e6d89b" stroke="#20272a" stroke-width="3"/><text x="204" y="22" text-anchor="middle" fill="#1a2225" font-size="11" font-family="Arial" font-weight="900">TAXI</text></g>`:'';
+  function wheel(cx){return `<g transform="translate(${cx} 110)">
+    <circle r="28" fill="#0d1113" stroke="#3a4042" stroke-width="2"/>
+    <circle r="25" fill="none" stroke="#060909" stroke-width="7"/>
+    <circle r="22" fill="none" stroke="#526066" stroke-opacity=".7" stroke-width="1"/>
+    <g class="spin-wheel"><circle r="18" fill="url(#${uid}-alloy)" stroke="#b5c3c4" stroke-width="1.5"/>
+    ${Array.from({length:7},(_,i)=>`<path d="M -4 -13 L -2 -5 L 2 -5 L 4 -13 Z" transform="rotate(${i*360/7})" fill="#111b22" stroke="#83969e" stroke-width=".8"/>`).join('')}
+    <circle r="7" fill="#2d3841" stroke="#b4c8cf" stroke-width="1.5"/><circle r="3.7" fill="#b9cbd2"/></g>
+    <path d="M-22 3 Q-26 13 -15 23" fill="none" stroke="#ffffff" stroke-opacity=".18" stroke-width="2"/>
+   </g>`}
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344 143" role="img" aria-label="Detailliertes Auto, ${escapeText(type)}" preserveAspectRatio="xMidYMid meet">
+    <defs>
+      <linearGradient id="${uid}-paint" x1=".24" x2=".65" y1="0" y2="1" gradientUnits="objectBoundingBox">
+       <stop offset="0" stop-color="${palette.shine}"/><stop offset=".23" stop-color="${palette.light}"/>
+       <stop offset=".43" stop-color="${palette.base}"/><stop offset=".76" stop-color="${palette.base}"/><stop offset=".96" stop-color="${palette.dark}"/>
+      </linearGradient>
+      <linearGradient id="${uid}-glass" x1="0" y1="0" x2=".9" y2="1">
+       <stop offset="0" stop-color="#adcad3"/><stop offset=".15" stop-color="#486c7d"/><stop offset=".48" stop-color="#172d40"/><stop offset=".85" stop-color="#121d28"/><stop offset="1" stop-color="#7296a5"/>
+      </linearGradient>
+      <radialGradient id="${uid}-alloy" cx=".29" cy=".27" r=".79"><stop stop-color="#f2f4ed"/><stop offset=".35" stop-color="#919fa8"/><stop offset=".68" stop-color="#44535a"/><stop offset="1" stop-color="#d1d8d6"/></radialGradient>
+      <linearGradient id="${uid}-chrome" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9e2d9"/><stop offset=".5" stop-color="#6c777a"/><stop offset="1" stop-color="#e1dbc7"/></linearGradient>
+      <filter id="${uid}-blur" x="-40%" y="-100%" width="200%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+      <filter id="${uid}-shine"><feGaussianBlur stdDeviation="2"/></filter>
+    </defs>
+    <ellipse cx="174" cy="129" rx="150" ry="10" fill="#010507" opacity=".68" filter="url(#${uid}-blur)"/>
+    <path d="${m.body}" fill="#080e10" stroke="#060a0c" stroke-width="7" stroke-linejoin="round" transform="translate(0 3)"/>
+    <path d="${m.body}" fill="url(#${uid}-paint)" stroke="#222a2a" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M24 84 Q101 79 159 76 L313 83" fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="3"/>
+    <path d="M31 106 L306 107" fill="none" stroke="#121b1c" stroke-opacity=".66" stroke-width="9"/>
+    <path d="M36 112 L305 112" fill="none" stroke="url(#${uid}-chrome)" stroke-width="1.7" stroke-opacity=".62"/>
+    <path d="M101 64 L132 30 Q142 20 163 ${m.roof} L218 ${m.roof} Q232 20 251 52" fill="none" stroke="#ffffff" stroke-opacity=".38" stroke-width="2"/>
+    ${windowFront}${windowRear}
+    <path d="M147 31 L160 29 L140 55 L135 55 Z" fill="#e5eff0" opacity=".25"/>
+    ${type==='van'?'':`<path d="M185 31 L205 31 L190 54 L180 54 Z" fill="#c9e2e2" opacity=".10"/>`}
+    <path d="M170 58 V101" stroke="#0b1d25" stroke-width="2" opacity=".7"/>
+    <path d="M170 61 V96" stroke="#ffffff" stroke-width="1" opacity=".25"/>
+    <path d="M252 65 V98" stroke="#0b1d25" stroke-width="2" opacity=".35"/>
+    <path d="M100 67 L121 56 L130 61 L114 71 Z" fill="${palette.dark}" stroke="#cbd9d1" stroke-opacity=".65" stroke-width="1"/>
+    <path d="M107 68 L125 60" stroke="#f3f5e6" stroke-opacity=".4" stroke-width="1.5"/>
+    <rect x="154" y="76" width="16" height="3.5" rx="2" fill="url(#${uid}-chrome)" stroke="#1e262a" stroke-width=".7"/>
+    ${type==='van'?'<rect x="220" y="76" width="16" height="3.5" rx="2" fill="#bcc8c4"/>':'<rect x="229" y="76" width="16" height="3.5" rx="2" fill="url(#'+uid+'-chrome)" stroke="#1e262a" stroke-width=".7"/>'}
+    <path d="M20 80 Q31 74 45 75 L42 84 L21 89 Z" fill="#fff0b6" stroke="#ffffe5" stroke-width="1.5"/>
+    <path d="M22 80 L42 82" stroke="#ffffff" stroke-width="2.3" opacity=".8"/>
+    <path d="M19 91 L36 90" stroke="#162020" stroke-width="4"/>
+    <path d="M305 74 L325 80 L324 91 L305 88 Z" fill="#b02836" stroke="#f8a0a1" stroke-width="1.4"/>
+    <path d="M314 78 L325 80" stroke="#ffe0db" stroke-width="2"/>
+    <path d="M19 99 L31 101" stroke="#13191a" stroke-width="4"/>
+    <path d="M312 103 L324 101" stroke="#151919" stroke-width="4"/>
+    <path d="M${m.wheels[0]-30} 110 Q${m.wheels[0]} 67 ${m.wheels[0]+30} 110 M${m.wheels[1]-30} 110 Q${m.wheels[1]} 67 ${m.wheels[1]+30} 110" fill="none" stroke="${palette.dark}" stroke-width="5" opacity=".88"/>
+    <path d="${m.fender}" fill="none" stroke="#b6c9bd" stroke-opacity=".3" stroke-width="2"/>
+    <g>${wheel(m.wheels[0])}${wheel(m.wheels[1])}</g>
+    <path d="M36 69 L106 65" fill="none" stroke="#fff" stroke-opacity=".26" stroke-width="2"/>
+    <path d="M285 68 L311 72" fill="none" stroke="#ffffff" stroke-opacity=".32" stroke-width="2"/>
+    ${roofExtra}${taxi}
+    <path d="M62 83 H277" stroke="#fff" stroke-opacity=".10" stroke-width="1"/>
+  </svg>`;
+}
+
+function audioContext(){
+  if(!state.soundOn)return null;
+  try{
+    const C=window.AudioContext||window.webkitAudioContext;
+    if(!C)return null;
+    state.audio=state.audio||new C();
+    if(state.audio.state==='suspended')state.audio.resume();
+    return state.audio;
+  }catch{return null;}
+}
+function sound(frequency,length=.1,volume=.03,type='sine',delay=0,to=null){
+  const ac=audioContext();if(!ac)return;
+  const t=ac.currentTime+delay;
+  const osc=ac.createOscillator(),gain=ac.createGain();
+  osc.type=type;osc.frequency.setValueAtTime(Math.max(20,frequency),t);
+  if(to)osc.frequency.exponentialRampToValueAtTime(Math.max(20,to),t+length);
+  gain.gain.setValueAtTime(.0001,t);
+  gain.gain.exponentialRampToValueAtTime(Math.max(.002,volume),t+.015);
+  gain.gain.exponentialRampToValueAtTime(.0001,t+length);
+  osc.connect(gain);gain.connect(ac.destination);osc.start(t);osc.stop(t+length+.02);
+}
+function soundSelect(){sound(750,.07,.022,'triangle')}
+function soundStart(){sound(180,.25,.039,'sawtooth',0,330);sound(415,.12,.024,'sine',.15)}
+function soundPass(){sound(155,.19,.022,'sawtooth',0,85);sound(800,.09,.028,'triangle',.07,490)}
+function soundFinish(won){if(won){[523,659,784,1047,1175].forEach((note,i)=>sound(note,.32,.045,'sine',i*.115));}else{sound(310,.25,.035,'sine');sound(235,.37,.025,'triangle',.16)}}
+
+function updateDisplay(){
+  $('wallet').innerHTML=fmt(state.wallet)+' <small>CHIPS</small>';
+  $('carsCount').textContent=state.count;
+  $('roundNumber').textContent=String(state.round).padStart(2,'0');
+  $('remaining').textContent=Math.max(0,Math.ceil(ROUND_SECONDS-state.time));
+  $('timerTrack').style.transform='scaleX('+Math.max(0,(ROUND_SECONDS-state.time)/ROUND_SECONDS)+')';
+  $('payoutAmount').textContent=fmt(state.stake*checkpoints.find(o=>o.target===state.target).mult);
+  $('payoutOdds').textContent=checkpoints.find(o=>o.target===state.target).mult.toLocaleString('de-CH',{minimumFractionDigits:2,maximumFractionDigits:2})+'×';
+  chips.forEach(el=>el.classList.toggle('active',Number(el.dataset.stake)===state.stake));
+  choiceButtons.forEach(el=>{
+    const active=Number(el.dataset.target)===state.target;
+    el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active));
+  });
+}
+function setMessage(title,desc,status=''){
+  $('result').className='result '+status;
+  $('resultTitle').textContent=title;
+  $('resultDescription').textContent=desc;
+}
+function setBusy(busy){
+  state.active=busy;
+  [...choiceButtons,...chips,$('stake'),$('resetBtn')].forEach(el=>el.disabled=busy);
+  $('startBtn').disabled=busy;
+  $('startBtn').textContent=busy?'RUNDE LÄUFT ...':'NÄCHSTE RUNDE STARTEN';
+  game.classList.toggle('is-running',busy);
+  $('signalText').textContent=busy?'VERKEHR LÄUFT':'STRECKE BEREIT';
+  $('sceneStatus').textContent=busy?'LIVE TRAFFIC':'STRECKE BEREIT';
+}
+function selectTarget(target){
+  if(state.active)return;
+  state.target=target;updateDisplay();soundSelect();
+}
+choiceButtons.forEach(el=>el.addEventListener('click',()=>selectTarget(Number(el.dataset.target))));
+chips.forEach(el=>el.addEventListener('click',()=>{
+  if(state.active)return;
+  const amount=Number(el.dataset.stake);
+  state.stake=amount;$('stake').value=amount;
+  updateDisplay();soundSelect();
+}));
+$('stake').addEventListener('input',()=>{
+  state.stake=Number($('stake').value)||0;updateDisplay();
+});
+$('soundBtn').addEventListener('click',()=>{
+  state.soundOn=!state.soundOn;
+  $('soundBtn').textContent=state.soundOn?'SOUND AN':'SOUND AUS';
+  $('soundBtn').setAttribute('aria-pressed',String(state.soundOn));
+  if(state.soundOn)soundSelect();
+});
+
+// Derive sizes from the current road view so cars look correct on desktop and phones.
+function dimensions(lane,kind){
+  const roadH=game.clientHeight*.66;
+  const laneH=roadH/3;
+  const sizes=[.84,.94,1.03];
+  const width=laneH*2.7*sizes[lane];
+  return {width,height:width*143/344,bottom:laneH*(2-lane)+Math.max(0,laneH*.025)};
+}
+function makeCar(type,paint,lane,x,preview=false){
+  const el=document.createElement('div');
+  const dim=dimensions(lane,type);
+  el.className='vehicle lane'+lane+(preview?' preview':' moving');
+  el.style.width=dim.width+'px';el.style.height=dim.height+'px';el.style.bottom=dim.bottom+'px';
+  el.innerHTML=carSvg(type,paint,++state.modelId);
+  el.style.transform='translate3d('+x+'px,0,0)';
+  carsLayer.append(el);
+  return {el,kind:type,paint,lane,x,width:dim.width,speed:0,passed:false};
+}
+function renderPreview(){
+  clearCars();state.preview=true;
+  const presets=[
+    {type:'suv',color:styles[5],lane:0,x:.67},
+    {type:'sedan',color:styles[1],lane:1,x:.24},
+    {type:'coupe',color:styles[4],lane:2,x:.75}
+  ];
+  presets.forEach(p=>{
+    const o=makeCar(p.type,p.color,p.lane,game.clientWidth*p.x,true);
+    state.cars.push(o);
+  });
+}
+function clearCars(){
+  state.cars.forEach(c=>c.el.remove());state.cars=[];
+  document.querySelectorAll('.count-burst').forEach(e=>e.remove());
+}
+function planTraffic(){
+  const events=[];
+  let t=.32+rand()*.5;
+  const density=.84+rand()*.52;
+  while(t<11.85){
+    events.push(t);
+    // Traffic density varies each round, without depending on the chosen bet.
+    t+=(.83+rand()*1.3)*density;
+  }
+  state.schedule=events;state.spawnIndex=0;
+}
+function spawnCar(){
+  const types=['sedan','sedan','coupe','suv','hatch','hatch','van'];
+  const type=randomPick(types),paint=randomPick(styles);
+  const last=state.cars.filter(c=>c.lane!==undefined).map(c=>c.lane);
+  const possible=[0,1,2].filter(lane=>!state.cars.some(c=>c.lane===lane&&c.x>game.clientWidth-180));
+  const lane=randomPick(possible.length?possible:[0,1,2]);
+  const o=makeCar(type,paint,lane,game.clientWidth+14);
+  const base=Math.max(185,game.clientWidth*.34);
+  o.speed=base*(.88+rand()*.43)*(lane===0?.95:lane===2?1.12:1.02);
+  state.cars.push(o);
+}
+function onCross(car){
+  if(car.passed)return;
+  car.passed=true;state.count++;
+  $('carsCount').textContent=state.count;
+  const burst=document.createElement('div');burst.className='count-burst';
+  burst.style.left='42%';
+  const centerY=game.clientHeight-car.el.offsetHeight*.56-parseFloat(car.el.style.bottom||0);
+  burst.style.top=Math.max(game.clientHeight*.4,centerY)+'px';
+  game.append(burst);setTimeout(()=>burst.remove(),800);
+  const hit=$('hitflash');hit.classList.remove('flash');void hit.offsetWidth;hit.classList.add('flash');
+  soundPass();
+  if(state.count>=state.target)$('carsCountMetric').classList.add('metric-done');
+}
+function renderHistory(){
+  const holder=$('history');holder.replaceChildren();
+  if(!state.history.length){const e=document.createElement('span');e.className='empty';e.textContent='Noch keine Runden gespielt';holder.append(e);return}
+  state.history.slice(0,5).forEach(o=>{
+    const el=document.createElement('span');el.className='history-item '+(o.win?'win':'lose');
+    el.textContent=String(o.count).padStart(2,'0')+' / '+String(o.target).padStart(2,'0');
+    el.title='Runde '+o.round+': '+o.count+' Autos, Ziel '+o.target+(o.win?' – gewonnen':' – verloren');
+    holder.append(el);
+  });
+}
+function finish(){
+  if(!state.active)return;
+  cancelAnimationFrame(state.raf);state.raf=null;
+  state.time=ROUND_SECONDS;
+  state.cars.forEach(c=>c.el.classList.remove('moving'));
+  const won=state.count>=state.target;
+  const mult=checkpoints.find(o=>o.target===state.target).mult;
+  const payout=won?Math.round(state.stake*mult):0;
+  state.wallet+=payout;
+  state.history.unshift({round:state.round,count:state.count,target:state.target,win:won});
+  renderHistory();
+  updateDisplay();
+  setBusy(false);
+  const diff=payout-state.stake;
+  setMessage(won?'WETTE GEWONNEN':'RUNDE VERLOREN',
+    `Es sind ${state.count} Autos vorbeigefahren. Dein Tipp: mindestens ${state.target}. ${won?'+'+fmt(diff)+' Chips gewonnen.':'−'+fmt(state.stake)+' Chips verloren.'}`,
+    won?'won':'lost');
+  $('sceneStatus').textContent='RUNDE BEENDET';
+  $('signalText').textContent=won?'WETTE GEWONNEN':'RUNDE BEENDET';
+  $('startBtn').textContent=state.wallet>0?'NÄCHSTE RUNDE STARTEN':'GUTHABEN AUFGEBRAUCHT';
+  if(state.wallet===0)$('startBtn').disabled=true;
+  soundFinish(won);
+  state.round++;
+}
+function tick(now){
+  if(!state.active)return;
+  if(state.lastTime===null)state.lastTime=now;
+  const dt=Math.min(.055,Math.max(0,(now-state.lastTime)/1000));
+  state.lastTime=now;
+  state.time=Math.min(ROUND_SECONDS,state.time+dt);
+  while(state.spawnIndex<state.schedule.length && state.schedule[state.spawnIndex]<=state.time){
+    spawnCar();state.spawnIndex++;
+  }
+  const line=game.clientWidth*.42;
+  for(let i=state.cars.length-1;i>=0;i--){
+    const car=state.cars[i];
+    car.x-=car.speed*dt;
+    car.el.style.transform='translate3d('+car.x.toFixed(1)+'px,0,0)';
+    if(!car.passed && car.x+car.width*.085<=line)onCross(car);
+    if(car.x+car.width<-30){car.el.remove();state.cars.splice(i,1)}
+  }
+  $('remaining').textContent=Math.max(0,Math.ceil(ROUND_SECONDS-state.time));
+  $('timerTrack').style.transform='scaleX('+Math.max(0,1-state.time/ROUND_SECONDS)+')';
+  if(state.time>=ROUND_SECONDS){finish();return}
+  state.raf=requestAnimationFrame(tick);
+}
+function startRound(){
+  if(state.active)return;
+  const wager=Number($('stake').value);
+  if(!Number.isSafeInteger(wager)||wager<1){setMessage('EINSATZ UNGÜLTIG','Gib eine positive ganze Zahl als Einsatz ein.','lost');return}
+  if(wager>state.wallet){setMessage('NICHT GENUG CHIPS',`Du hast nur ${fmt(state.wallet)} Chips. Reduziere deinen Einsatz.`,'lost');return}
+  state.stake=wager;
+  audioContext();soundStart();
+  state.wallet-=wager;
+  state.count=0;state.time=0;state.lastTime=null;
+  $('carsCountMetric').classList.remove('metric-done');
+  clearCars();state.preview=false;
+  planTraffic();
+  setBusy(true);updateDisplay();
+  setMessage('VERKEHR LÄUFT','Beobachte die goldene Zähllinie – jedes vorbeifahrende Auto wird automatisch gezählt.');
+  state.raf=requestAnimationFrame(tick);
+}
+$('startBtn').addEventListener('click',startRound);
+$('resetBtn').addEventListener('click',()=>{
+  if(state.active)return;
+  state.wallet=1000;state.round=1;state.count=0;state.time=0;
+  state.history=[];state.target=5;state.stake=25;$('stake').value='25';
+  $('carsCountMetric').classList.remove('metric-done');
+  renderPreview();updateDisplay();renderHistory();
+  $('startBtn').disabled=false;$('startBtn').textContent='RUNDE STARTEN';
+  $('sceneStatus').textContent='STRECKE BEREIT';$('signalText').textContent='STRECKE BEREIT';
+  setMessage('BEREIT FÜR DEINE VORHERSAGE','Wähle eine Mindestanzahl, setze virtuelle Chips und starte die Runde.');
+  soundSelect();
+});
+window.addEventListener('resize',()=>{
+  for(const car of state.cars){
+    const dim=dimensions(car.lane,car.kind);
+    const oldWidth=car.width;
+    car.el.style.width=dim.width+'px';car.el.style.height=dim.height+'px';car.el.style.bottom=dim.bottom+'px';
+    car.width=dim.width;
+    if(state.preview){
+      const sceneWidth=game.clientWidth;
+      car.x=Math.min(sceneWidth+20,car.x/Math.max(1,oldWidth)*dim.width);
+      car.el.style.transform='translate3d('+car.x+'px,0,0)';
+    }
+  }
+});
+
+renderPreview();updateDisplay();renderHistory();
+
+</script>
+</body>
+</html>
