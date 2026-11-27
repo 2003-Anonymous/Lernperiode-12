@@ -37,4 +37,7 @@ namespace LP_12_API.Models
         [Range(-1_000_000, 1_000_000)] double Amount);
 
     public record AccountDto(int Id, string Username, string Role, double Balance);
+
+    public record RedeemRequest(
+    [Required, StringLength(32, MinimumLength = 3)] string Code);
 }
